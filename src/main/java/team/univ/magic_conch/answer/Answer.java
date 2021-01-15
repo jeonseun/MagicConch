@@ -1,4 +1,4 @@
-package team.univ.magic_conch.Answer;
+package team.univ.magic_conch.answer;
 
 import lombok.Getter;
 

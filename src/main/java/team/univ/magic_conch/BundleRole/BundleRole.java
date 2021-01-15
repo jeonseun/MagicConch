@@ -1,7 +1,7 @@
 package team.univ.magic_conch.BundleRole;
 
 import lombok.Getter;
-import team.univ.magic_conch.Bundle.Bundle;
+import team.univ.magic_conch.bundle.Bundle;
 
 import javax.persistence.*;
 

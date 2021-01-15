@@ -1,4 +1,4 @@
-package team.univ.magic_conch.Tag;
+package team.univ.magic_conch.tag;
 
 import lombok.Getter;
 

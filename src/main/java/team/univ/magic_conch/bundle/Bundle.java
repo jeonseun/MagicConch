@@ -1,4 +1,4 @@
-package team.univ.magic_conch.Bundle;
+package team.univ.magic_conch.bundle;
 
 import lombok.Getter;
 
