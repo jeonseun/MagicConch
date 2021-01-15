@@ -30,7 +30,7 @@ public class Question {
     @JoinColumn(name = "bundle_id")
     private Bundle bundle;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer) {
