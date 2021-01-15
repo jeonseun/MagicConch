@@ -21,11 +21,11 @@ public class Question {
     private LocalDateTime createdTime;
     private LocalDateTime lastModifiedTime;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bundle_id")
     private Bundle bundle;
 }
