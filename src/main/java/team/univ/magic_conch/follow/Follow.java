@@ -14,7 +14,7 @@ public class Follow {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "follow_id")
     private Long id;
-    private LocalDate createdDate;
+    private LocalDate createDate;
 
     // 팔로우를 요청하는 회원
     @ManyToOne(fetch = FetchType.LAZY)

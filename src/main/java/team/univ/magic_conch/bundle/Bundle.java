@@ -1,9 +1,13 @@
 package team.univ.magic_conch.bundle;
 
 import lombok.Getter;
+import team.univ.magic_conch.question.Question;
+import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -17,15 +21,19 @@ public class Bundle {
     private String visibility;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
     private Tag tag;
-    @OneToMany(mappedBy = "question_id")
+
+    @OneToMany(mappedBy = "bundle")
     private List<Question> questions = new ArrayList<>();
 
     public void addQuestion(Question question){
         this.questions.add(question);
-        if (question.getQuestion() != this) {
+        if (question.getBundle() != this) {
             question.changeBundle(this);
         }
     }

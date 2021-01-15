@@ -20,5 +20,5 @@ public class User {
     private UserRole role;
     private String name;
     private String profileImg;
-    private LocalDate createdDate;
+    private LocalDate createDate;
 }
