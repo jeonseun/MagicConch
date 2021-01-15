@@ -5,6 +5,7 @@ import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Getter
 @Entity
@@ -28,4 +29,12 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bundle_id")
     private Bundle bundle;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<Answer> answers = new ArrayList<>();
+
+    public void addAnswer(Answer answer) {
+        this.answers.add(answer);
+        answer.changeQuestion(this);
+    }
 }
