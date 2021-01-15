@@ -12,7 +12,7 @@ spring:
     ignore-default-model-on-redirect: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/magic_conch?serverTimezone=Asia/Seoul
+    url: jdbc:mysql://localhost:13306/magic_conch?serverTimezone=Asia/Seoul
     # url: 사용할 DB URL ex)jdbc:mysql://host:port/db_name?options...
     username: dev01 # DB username
     password: 1234 # DB user pwd
