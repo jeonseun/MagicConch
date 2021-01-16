@@ -2,6 +2,7 @@ package team.univ.magic_conch.question;
 
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import team.univ.magic_conch.utils.page.PageRequestDTO;
 
 import java.util.Optional;
 
@@ -29,19 +30,14 @@ public class QuestionController {
     }
 
     @GetMapping("question/list")
-    public String questionList(Model model,
-                               @RequestParam(value = "page", defaultValue = "1") int pageNo,
+    public String questionList(Model model, PageRequestDTO pageRequestDTO,
                                @RequestParam(value = "user") Optional<String> userName,
-                               @RequestParam(value = "question") Optional<String> questionName,
-                               @RequestParam(value = "bundle") Optional<String> bundleName){
+                               @RequestParam(value = "question") Optional<String> questionName){
 
         if(userName.isPresent()){
 
         }
         else if(questionName.isPresent()){
-
-        }
-        else if(bundleName.isPresent()){
 
         }
 
