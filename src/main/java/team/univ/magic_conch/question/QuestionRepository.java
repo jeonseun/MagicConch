@@ -10,7 +10,10 @@ import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long> {
     Optional<Question> findById(Long questionNo);
-    Page<Question> findAllByTitle(String title, Pageable pageable);
-    @Query("select q from Question q where q.user.name = :name")
+
+    @Query("select q from Question q where lower(q.title) like lower(concat('%', concat(:title, '%')))")
+    Page<Question> findAllByTitle(@Param("title") String title, Pageable pageable);
+
+    @Query("select q from Question q where lower(q.user.username) like lower(concat('%', concat(:name, '%')))")
     Page<Question> findAllByUsername(@Param("name") String username, Pageable pageable);
 }
