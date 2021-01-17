@@ -1,6 +1,9 @@
 package team.univ.magic_conch.question;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.tag.Tag;
@@ -11,6 +14,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Entity
 public class Question {

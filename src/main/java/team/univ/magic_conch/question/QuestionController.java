@@ -32,16 +32,16 @@ public class QuestionController {
     @GetMapping("question/list")
     public String questionList(Model model, PageRequestDTO pageRequestDTO,
                                @RequestParam(value = "user") Optional<String> userName,
-                               @RequestParam(value = "question") Optional<String> questionName){
+                               @RequestParam(value = "title") Optional<String> title){
 
         if(userName.isPresent()){
 
         }
-        else if(questionName.isPresent()){
+        else if(title.isPresent()){
 
         }
 
-        return "/question/" + pageNo;
+        return "/question/";
     }
 
 }
