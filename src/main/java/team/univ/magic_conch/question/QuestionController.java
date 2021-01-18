@@ -16,7 +16,7 @@ public class QuestionController {
     }
 
     @PostMapping("/question")
-    public String createQuestion(Model model){
+    public String questionForm(Model model){
 
         return "/question";
     }

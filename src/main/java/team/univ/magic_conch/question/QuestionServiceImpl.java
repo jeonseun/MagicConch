@@ -34,7 +34,7 @@ public class QuestionServiceImpl implements QuestionService{
      */
     @Override
     @Transactional(readOnly = false)
-    public void createQuestion(Question question){
+    public void questionForm(Question question){
         questionRepository.save(question);
     }
 

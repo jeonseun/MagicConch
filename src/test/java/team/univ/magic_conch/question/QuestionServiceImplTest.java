@@ -46,7 +46,7 @@ class QuestionServiceImplTest {
                 .createTime(LocalDateTime.now())
                 .build();
         //when
-        questionService.createQuestion(question);
+        questionService.questionForm(question);
         //then
         Assertions.assertThat(questionRepository.findAll().size()).as("질문 생성 X").isEqualTo(1);
         Assertions.assertThat(questionRepository.findAll().get(0)).as("생성된 질문과 다릅니다").extracting("title").isEqualTo("제목");

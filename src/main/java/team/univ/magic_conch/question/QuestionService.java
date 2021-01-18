@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface QuestionService {
 
     public void question();
-    public void createQuestion(Question question);
+    public void questionForm(Question question);
     public QuestionDetailDTO questionDetail(Long questionNo);
     public PageResultDTO questionAll(PageRequestDTO pageRequestDTO);
     public PageResultDTO questionAllByUsername(String username, PageRequestDTO pageRequestDTO);
