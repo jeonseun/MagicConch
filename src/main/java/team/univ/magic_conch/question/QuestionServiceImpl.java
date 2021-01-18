@@ -5,12 +5,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.bundle.BundleRepository;
+import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,14 +23,17 @@ import java.util.function.Function;
 public class QuestionServiceImpl implements QuestionService{
 
     private final QuestionRepository questionRepository;
+    private final BundleRepository bundleRepository;
 
     /**
      * 질문하기(GET)
      * @return 해당 유저가 가지고 있는 bundle 목록
      */
     @Override
-    public void question(){
-        /* 번들 목록 리턴 구현 필요 */
+    public List<BundleDropBoxDTO> question(String name){
+        return bundleRepository.findAllByUserUsername(name)
+                .stream().map(Bundle::entityToBundleDropBoxDTO)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -45,7 +53,7 @@ public class QuestionServiceImpl implements QuestionService{
      */
     @Override
     public QuestionDetailDTO questionDetail(Long questionNo) {
-        return this.entityToQuestionDetailDto(questionRepository.findById(questionNo).get());
+        return questionRepository.findById(questionNo).get().entityToQuestionDetailDto();
     }
 
     /**
@@ -56,7 +64,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public PageResultDTO<QuestionListDTO, Question> questionAll(PageRequestDTO pageRequestDTO) {
         Page<Question> result = questionRepository.findAll(pageRequestDTO.getPageable(Sort.by("createTime").descending()));
-        Function<Question, QuestionListDTO> fn = (this::entityToQuestionListDto);
+        Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
 
@@ -69,7 +77,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public PageResultDTO<QuestionListDTO, Question> questionAllByTitle(String title, PageRequestDTO pageRequestDTO) {
         Page<Question> result = questionRepository.findAllByTitle(title, pageRequestDTO.getPageable(Sort.by("createTime").descending()));
-        Function<Question, QuestionListDTO> fn = (this::entityToQuestionListDto);
+        Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
     
@@ -82,7 +90,7 @@ public class QuestionServiceImpl implements QuestionService{
     @Override
     public PageResultDTO<QuestionListDTO, Question> questionAllByUsername(String username, PageRequestDTO pageRequestDTO) {
         Page<Question> result = questionRepository.findAllByUsername(username, pageRequestDTO.getPageable(Sort.by("createTime").descending()));
-        Function<Question, QuestionListDTO> fn = (this::entityToQuestionListDto);
+        Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
 

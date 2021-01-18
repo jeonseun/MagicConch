@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 
@@ -57,4 +60,30 @@ public class Question {
             this.bundle = bundle;
         }
     }
+
+    public QuestionListDTO entityToQuestionListDto(){
+        return QuestionListDTO.builder()
+                .questionId(getId())
+                .title(getTitle())
+                .view(getView())
+                .createTime(getCreateTime())
+                .username(getUser().getUsername())
+                /*.tagName(question.getTag().getName())*/
+                .build();
+    }
+
+    public QuestionDetailDTO entityToQuestionDetailDto(){
+        return QuestionDetailDTO.builder()
+                .questionId(getId())
+                .title(getTitle())
+                .content(getContent())
+                .view(getView())
+                .createTime(getCreateTime())
+                .lastModifyTime(getLastModifyTime())
+                .username(getUser().getUsername())
+                /*.tagName()
+                .bundleId()*/
+                .build();
+    }
+
 }

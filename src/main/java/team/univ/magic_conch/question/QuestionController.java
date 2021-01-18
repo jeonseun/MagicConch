@@ -1,47 +1,72 @@
 package team.univ.magic_conch.question;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import team.univ.magic_conch.bundle.BundleSerivce;
+import team.univ.magic_conch.question.form.QuestionForm;
+import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 
+import java.security.Principal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
-@RestController
+@Controller
+@RequiredArgsConstructor
 public class QuestionController {
 
-    @GetMapping("/question")
-    public String question(Model model){
+    private final QuestionService questionService;
+    private final TagService tagService;
+    private final BundleSerivce bundleSerivce;
 
+    @GetMapping("/question")
+    public String question(Model model, Principal principal){
+        model.addAttribute("bundleList", questionService.question(principal.getName()));
         return "/question";
     }
 
     @PostMapping("/question")
-    public String questionForm(Model model){
-
-        return "/question";
+    public String questionForm(@ModelAttribute QuestionForm questionForm/*, PrincipalDetails principalDetails*/){
+        /* 번들이 Default 인지를 구분하는 로직 구현 필요 */
+        Question question = Question.builder()
+                .title(questionForm.getTitle())
+                .content(questionForm.getContent())
+                .createTime(LocalDateTime.now())
+                .lastModifyTime(LocalDateTime.now())
+                /*.user(principalDetails.getUser())*/
+                .bundle(bundleSerivce.findById(questionForm.getBundleId()))
+                .tag(tagService.findByName(questionForm.getTagName()))
+                .build();
+        questionService.questionForm(question);
+        return "/question/" + question.getId();
     }
 
     @GetMapping("/question/{questionNo}")
     public String questionDetail(Model model, @PathVariable Optional<Integer> questionNo){
-
         int num = questionNo.isPresent() ? questionNo.get() : 0;
-
         return "/question/" + num;
     }
 
     @GetMapping("question/list")
-    public String questionList(Model model, PageRequestDTO pageRequestDTO,
+    public String questionList(Model model,
+                               @RequestParam(value = "page") Optional<Integer> pageNo,
                                @RequestParam(value = "user") Optional<String> userName,
                                @RequestParam(value = "title") Optional<String> title){
 
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo.orElse(1));
+
         if(userName.isPresent()){
-
+            model.addAttribute("list", questionService.questionAllByUsername(userName.get(), pageRequestDTO));
+        } else if(title.isPresent()){
+            model.addAttribute("list", questionService.questionAllByTitle(title.get(), pageRequestDTO));
+        } else{
+            model.addAttribute("list", questionService.questionAll(pageRequestDTO));
         }
-        else if(title.isPresent()){
 
-        }
-
-        return "/question/";
+        return "/question/list";
     }
 
 }

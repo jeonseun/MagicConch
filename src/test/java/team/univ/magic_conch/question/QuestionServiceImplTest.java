@@ -68,7 +68,7 @@ class QuestionServiceImplTest {
         //when
         questionRepository.save(question);
         Long id = questionRepository.findAll().get(0).getId();
-        QuestionDetailDTO expect = questionService.entityToQuestionDetailDto(question);
+        QuestionDetailDTO expect = question.entityToQuestionDetailDto();
         QuestionDetailDTO result = questionService.questionDetail(id);
         //then
         Assertions.assertThat(result).as("해당 질문과 내용이 다릅니다").isEqualTo(expect);
@@ -92,7 +92,7 @@ class QuestionServiceImplTest {
                     .build();
             questionRepository.save(question);
             if(i >= (pageNo - 1) * 10 && i < pageNo * 10){
-                expect.add(questionService.entityToQuestionListDto(question));
+                expect.add(question.entityToQuestionListDto());
             }
         }
         //when
@@ -127,7 +127,7 @@ class QuestionServiceImplTest {
                     .build();
             questionRepository.save(question);
             if(i >= 100){
-                expect.add(questionService.entityToQuestionListDto(question));
+                expect.add(question.entityToQuestionListDto());
             }
         }
         //when
@@ -161,7 +161,7 @@ class QuestionServiceImplTest {
                     .build();
             questionRepository.save(question);
             if(i >= 100){
-                expect.add(questionService.entityToQuestionListDto(question));
+                expect.add(question.entityToQuestionListDto());
             }
         }
         //when

@@ -22,5 +22,6 @@ public class QuestionDetailDTO {
     private String username;
     private String tagName;
     private Long bundleId;
+    private String bundleName;
 
 }
