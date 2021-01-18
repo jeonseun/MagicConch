@@ -23,9 +23,9 @@ public class QuestionController {
     private final BundleSerivce bundleSerivce;
 
     @GetMapping("/question")
-    public String question(Model model, Principal principal){
-        model.addAttribute("bundleList", questionService.question(principal.getName()));
-        return "/question";
+    public String question(Model model/*, Principal principal*/){
+        /*model.addAttribute("bundleList", questionService.question(principal.getName()));*/
+        return "/question/question";
     }
 
     @PostMapping("/question")
@@ -41,13 +41,13 @@ public class QuestionController {
                 .tag(tagService.findByName(questionForm.getTagName()))
                 .build();
         questionService.questionForm(question);
-        return "/question/" + question.getId();
+        return "redirect:/question/" + question.getId();
     }
 
     @GetMapping("/question/{questionNo}")
     public String questionDetail(Model model, @PathVariable Optional<Integer> questionNo){
         int num = questionNo.isPresent() ? questionNo.get() : 0;
-        return "/question/" + num;
+        return "/question/questionDetail";
     }
 
     @GetMapping("question/list")
@@ -66,7 +66,7 @@ public class QuestionController {
             model.addAttribute("list", questionService.questionAll(pageRequestDTO));
         }
 
-        return "/question/list";
+        return "/question/questionList";
     }
 
 }
