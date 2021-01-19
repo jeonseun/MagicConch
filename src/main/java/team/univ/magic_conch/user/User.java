@@ -29,7 +29,9 @@ public class User {
     @Builder.Default
     private UserRole role = UserRole.ROLE_USER;
     private String name;
-    private String profileImg;
+
+    @Builder.Default
+    private String profileImg = "/img/default_profile_image.png";
 
     @Builder.Default
     private LocalDate createDate = LocalDate.now();
