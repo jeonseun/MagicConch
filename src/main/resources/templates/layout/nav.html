@@ -8,6 +8,37 @@
     <nav th:fragment="nav" class="navbar navbar-expand-lg bg-primary mb-5">
       <div class="container">
         <a class="navbar-brand text-white" th:href="@{/}">Magic Conch</a>
+
+        <!-- 왼쪽 메뉴 -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item me-3">
+            <form action="">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="button-addon2"
+                  name="keyword"
+                />
+                <button
+                  class="btn btn-sm btn-outline-light"
+                  type="button"
+                  id="button-addon2"
+                >
+                  <i class="fas fa-search text-white"></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/question}" class="btn btn-rounded btn-success">
+              <i class="fas fa-question"></i> 질문하기</a
+            >
+          </li>
+        </ul>
+        <!-- 왼쪽 메뉴 -->
+
+        <!-- 오른쪽 메뉴 -->
         <!-- 로그인 되지 않은 경우의 메뉴 -->
         <div sec:authorize="!isAuthenticated()">
           <div>
@@ -68,6 +99,7 @@
           </ul>
         </div>
         <!-- 로그인 된 경우의 메뉴 -->
+        <!-- 오른쪽 메뉴 -->
       </div>
     </nav>
   </body>
