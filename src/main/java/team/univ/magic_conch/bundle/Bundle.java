@@ -1,6 +1,7 @@
 package team.univ.magic_conch.bundle;
 
 import lombok.Getter;
+import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -36,6 +37,13 @@ public class Bundle {
         if (question.getBundle() != this) {
             question.changeBundle(this);
         }
+    }
+
+    public BundleDropBoxDTO entityToBundleDropBoxDTO(){
+        return BundleDropBoxDTO.builder()
+                .bundleId(getId())
+                .bundleName(getName())
+                .build();
     }
 
 }
