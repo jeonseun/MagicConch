@@ -1,9 +1,16 @@
 package team.univ.magic_conch.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import team.univ.magic_conch.config.auth.PrincipalDetails;
+import team.univ.magic_conch.utils.file.StorageService;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @Transactional
@@ -12,15 +19,12 @@ public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final StorageService storageService;
 
-    /**
-     * 새로운 회원을 등록
-     *
-     * @param username 신규 회원 ID
-     * @param password 신규 회원 비밀번호
-     * @param name     신규 회원이 사용할 이름
-     * @return 등록된 User Entity
-     */
+    // 이미지 파일 저장 경로
+    @Value("${custom.file.location}")
+    private String location;
+
     @Override
     public User join(String username, String password, String name) {
         User newUser = User.builder()
@@ -32,12 +36,7 @@ public class UserServiceImpl implements UserService{
         return newUser;
     }
 
-    /**
-     * 회원가입에 쓰일 유저네임(로그인 ID) 중복여부 확인
-     *
-     * @param username 신규 회원 ID
-     * @return 중복되면 true, 중복되지 않으면 false
-     */
+
     @Override
     public boolean isUsernameDuplicate(String username) {
         if (userRepository.findByUsername(username).isPresent()) {
@@ -45,4 +44,18 @@ public class UserServiceImpl implements UserService{
         }
         return false;
     }
+
+    @Override
+    public String changeProfileImage(MultipartFile imageFile, String username) {
+        try {
+            String path = storageService.save(imageFile.getBytes(), imageFile.getOriginalFilename(), location);
+            userRepository.findByUsername(username)
+                    .ifPresent((user) -> user.changeProfileImage(path));
+            return path;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 }

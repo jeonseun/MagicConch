@@ -1,13 +1,123 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
   <body>
     <nav th:fragment="nav" class="navbar navbar-expand-lg bg-primary mb-5">
       <div class="container">
         <a class="navbar-brand text-white" th:href="@{/}">Magic Conch</a>
-        <div>
-          <a class="btn btn-black" th:href="@{/loginForm}">로그인</a>
-          <a class="btn btn-white" th:href="@{/logout}">로그아웃</a>
+
+        <!-- 왼쪽 메뉴 -->
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item me-3">
+            <form action="">
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-describedby="button-addon2"
+                  name="keyword"
+                />
+                <button
+                  class="btn btn-sm btn-outline-light"
+                  type="button"
+                  id="button-addon2"
+                >
+                  <i class="fas fa-search text-white"></i>
+                </button>
+              </div>
+            </form>
+          </li>
+          <li class="nav-item">
+            <a th:href="@{/question}" class="btn btn-rounded btn-success">
+              <i class="fas fa-question"></i> 질문하기</a
+            >
+          </li>
+        </ul>
+        <!-- 왼쪽 메뉴 -->
+
+        <!-- 오른쪽 메뉴 -->
+        <!-- 로그인 되지 않은 경우의 메뉴 -->
+        <div sec:authorize="!isAuthenticated()">
+          <div>
+            <a class="btn btn-black" th:href="@{/loginForm}">로그인</a>
+          </div>
         </div>
+        <!-- 로그인 되지 않은 경우의 메뉴 -->
+        <!-- 로그인 된 경우의 메뉴 -->
+        <div sec:authorize="isAuthenticated()">
+          <ul class="navbar-nav flex-row align-items-center">
+            <!-- 프로필 사진 & 이름 -->
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                href="#"
+                id="my-menu"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
+                  src="http://localhost:8080/default_profile_image.png"
+                  class="rounded-circle"
+                  height="25px"
+                  width="25px"
+                  id="navProfileImage"
+                />
+                <span
+                  sec:authentication="principal.user.name"
+                  class="ms-1"
+                  style="color: #e3f2fd"
+                  >이름</span
+                >
+              </a>
+              <!-- 프로필 사진 누르면 나오는 드랍다운 메뉴 -->
+              <ul class="dropdown-menu" aria-labelledby="my-menu">
+                <li>
+                  <a class="dropdown-item" th:href="@{/mypage/overview}"
+                    >마이페이지</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+              </ul>
+              <!-- 프로필 사진 누르면 나오는 드랍다운 메뉴 -->
+            </li>
+            <!-- 프로필 사진 & 이름 -->
+            <!-- 알림 부분 -->
+            <li class="nav-item">
+              <a
+                class="nav-link dropdown-toggle hidden-arrow"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="fas fa-bell fa-lg" style="color: #e3f2fd"></i>
+                <span
+                  class="badge rounded-pill badge-notification bg-danger"
+                ></span>
+              </a>
+            </li>
+            <!-- 알림 부분 -->
+            <!-- 로그아웃 버튼 -->
+            <li class="nav-item ms-2">
+              <a href="#" onclick="document.getElementById('logout').submit();">
+                <i class="fas fa-sign-out-alt fa-lg" style="color: #e3f2fd"></i>
+              </a>
+              <form id="logout" action="/logout" method="POST">
+                <inpout type="hidden" />
+              </form>
+            </li>
+            <!-- 로그아웃 버튼 -->
+          </ul>
+        </div>
+        <!-- 로그인 된 경우의 메뉴 -->
+        <!-- 오른쪽 메뉴 -->
       </div>
     </nav>
   </body>

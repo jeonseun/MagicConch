@@ -29,8 +29,18 @@ public class User {
     @Builder.Default
     private UserRole role = UserRole.ROLE_USER;
     private String name;
-    private String profileImg;
+
+    @Builder.Default
+    private String profileImg = "/img/default_profile_image.png";
 
     @Builder.Default
     private LocalDate createDate = LocalDate.now();
+
+    /**
+     * 프로필 이미지 변경
+     * @param profileImg 신규 프로필 이미지 경로
+     */
+    public void changeProfileImage(String profileImg) {
+        this.profileImg = profileImg;
+    }
 }
