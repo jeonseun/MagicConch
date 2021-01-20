@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:fragment="base">
+  <head th:fragment="base(title)">
     <meta charset="UTF-8" />
     <meta
       name="viewport"
@@ -35,5 +35,6 @@
         font-weight: 700;
       }
     </style>
+    <title th:text="${title}"></title>
   </head>
 </html>

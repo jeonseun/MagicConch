@@ -14,7 +14,7 @@ function addEventListenerForInputLoginId() {
 
 function addEventListenerForBtnIdCheck() {
     btnIdCheck.addEventListener("click", function () {
-        const data = { id: inputLoginId.value };
+        const data = {id: inputLoginId.value};
         fetch(endPoint + idCheckUri, {
             method: "POST",
             headers: {

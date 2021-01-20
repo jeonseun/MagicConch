@@ -35,4 +35,12 @@ public class User {
 
     @Builder.Default
     private LocalDate createDate = LocalDate.now();
+
+    /**
+     * 프로필 이미지 변경
+     * @param profileImg 신규 프로필 이미지 경로
+     */
+    public void changeProfileImage(String profileImg) {
+        this.profileImg = profileImg;
+    }
 }

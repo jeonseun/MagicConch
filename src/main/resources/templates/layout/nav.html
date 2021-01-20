@@ -50,16 +50,23 @@
         <div sec:authorize="isAuthenticated()">
           <ul class="navbar-nav flex-row align-items-center">
             <!-- 프로필 사진 & 이름 -->
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center" href="#">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                href="#"
+                id="my-menu"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
                 <img
                   th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
                   src="http://localhost:8080/default_profile_image.png"
                   class="rounded-circle"
                   height="25px"
                   width="25px"
+                  id="navProfileImage"
                 />
-                <span></span>
                 <span
                   sec:authentication="principal.user.name"
                   class="ms-1"
@@ -67,6 +74,17 @@
                   >이름</span
                 >
               </a>
+              <!-- 프로필 사진 누르면 나오는 드랍다운 메뉴 -->
+              <ul class="dropdown-menu" aria-labelledby="my-menu">
+                <li>
+                  <a class="dropdown-item" th:href="@{/mypage/overview}"
+                    >마이페이지</a
+                  >
+                </li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+              </ul>
+              <!-- 프로필 사진 누르면 나오는 드랍다운 메뉴 -->
             </li>
             <!-- 프로필 사진 & 이름 -->
             <!-- 알림 부분 -->
