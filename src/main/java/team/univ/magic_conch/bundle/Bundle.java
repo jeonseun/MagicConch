@@ -1,6 +1,9 @@
 package team.univ.magic_conch.bundle;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
@@ -10,6 +13,9 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Getter
 public class Bundle {
@@ -43,6 +49,8 @@ public class Bundle {
         return BundleDropBoxDTO.builder()
                 .bundleId(getId())
                 .bundleName(getName())
+                .tagName(getTag().getName())
+                .tagColor(getTag().getColor())
                 .build();
     }
 

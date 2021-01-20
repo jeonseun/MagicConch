@@ -19,5 +19,6 @@ public class QuestionListDTO {
     private LocalDateTime createTime;
     private String username;
     private String tagName;
+    private String tagColor;
 
 }

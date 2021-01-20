@@ -3,63 +3,68 @@
 <head th:include="layout/base :: base">
     <title>Title</title>
 </head>
+<script defer th:src="@{/js/question/questionList.js}"></script>
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
 
-<div class="container col-md-6">
-    <p class="fs-1 text-center mb-5">질문 목록</p>
+<style>
+    .page-item-no:active {
+        color: yellow;
+    }
+
+</style>
+
+<div class="container col-md-10">
+    <!--  질문 목록 제목  -->
+    <p class="fs-1 text-center mb-5" th:text="'질문 목록(' + ${list.totalCnt} + ')'"></p>
 
     <hr>
-
+    <!--  질문 목록 리스트  -->
     <table class="table animation fade-in shadow" style="border-radius: 10px">
         <thead class="table-primary">
             <tr>
-                <th>No</th>
-                <th>태그</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성시간</th>
-                <th>조회수</th>
-                <th>좋아요</th>
+                <th style="text-align: center" >No</th>
+                <th style="text-align: center" >태그</th>
+                <th style="text-align: center" >제목</th>
+                <th style="text-align: center" >작성자</th>
+                <th style="text-align: center" >작성시간</th>
+                <th style="text-align: center" >조회수</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>1</td>
-                <td style="text-shadow: 1px 1px 10px #a316fd">Spring</td>
-                <td>스프링 꿀잼</td>
-                <td>하주현</td>
-                <td>2021-01-18</td>
-                <td>1</td>
-                <td>777</td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td style="text-shadow: 1px 1px 10px #3d5afe">JAVA</td>
-                <td>gd</td>
-                <td>gd</td>
-                <td>gd</td>
-                <td>gd</td>
-                <td>gd</td>
+            <tr th:each="item, idx : ${list.dtoList}">
+                <td style="text-align: center"  th:text="${list.totalCnt - ((list.curPage - 1) * 10) - idx.index}"></td>
+                <td th:text="${item.tagName}" th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"></td>
+                <td style="text-align: center"  th:text="${item.title}"></td>
+                <td style="text-align: center"  th:text="${item.username}"></td>
+                <td style="text-align: center"  th:text="${item.createTime}"></td>
+                <td style="text-align: center"  th:text="${item.view}"></td>
             </tr>
         </tbody>
     </table>
+    <!--  페이징  -->
+    <div class="d-flex justify-content-center pt-3">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="#" th:onclick="'previous(' + ${list.previous} + ',' + ${list.startPage} + ')'">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                    <span class="sr-only">목록에서 이전 페이지로 이동</span>
+                </a>
+            </li>
 
-    <nav aria-label="..." class="d-flex justify-content-center mt-5">
-        <ul class="pagination pagination-circle">
-            <li class="page-item">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            <li class="page-item page-item-no" th:each="idx : ${#numbers.sequence(list.getStartPage(), list.getEndPage())}">
+                <a class="page-link" th:href="@{/question/list(page=${idx})}" th:text="${idx}"></a>
             </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2 <span class="visually-hidden">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
+
             <li class="page-item">
-                <a class="page-link" href="#">Next</a>
+                <a class="page-link" href="#" th:onclick="'next(' + ${list.next} + ',' + ${list.startPage} + ')'">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                    <span class="sr-only">목록에서 다음 페이지로 이동</span>
+                </a>
             </li>
         </ul>
-    </nav>
+    </div>
+
 </div>
 </body>
 </html>

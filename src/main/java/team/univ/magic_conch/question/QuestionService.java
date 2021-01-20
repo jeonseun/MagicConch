@@ -14,8 +14,8 @@ public interface QuestionService {
     public List<BundleDropBoxDTO> question(String name);
     public void questionForm(Question question);
     public QuestionDetailDTO questionDetail(Long questionNo);
-    public PageResultDTO questionAll(PageRequestDTO pageRequestDTO);
-    public PageResultDTO questionAllByUsername(String username, PageRequestDTO pageRequestDTO);
-    public PageResultDTO questionAllByTitle(String title, PageRequestDTO pageRequestDTO);
+    public PageResultDTO<QuestionListDTO, Question> questionAll(PageRequestDTO pageRequestDTO);
+    public PageResultDTO<QuestionListDTO, Question> questionAllByUsername(String username, PageRequestDTO pageRequestDTO);
+    public PageResultDTO<QuestionListDTO, Question> questionAllByTitle(String title, PageRequestDTO pageRequestDTO);
 
 }

@@ -68,7 +68,8 @@ public class Question {
                 .view(getView())
                 .createTime(getCreateTime())
                 .username(getUser().getUsername())
-                /*.tagName(question.getTag().getName())*/
+                .tagName(getTag().getName())
+                .tagColor(getTag().getColor())
                 .build();
     }
 
@@ -81,8 +82,8 @@ public class Question {
                 .createTime(getCreateTime())
                 .lastModifyTime(getLastModifyTime())
                 .username(getUser().getUsername())
-                /*.tagName()
-                .bundleId()*/
+                .tagName(getTag().getName())
+                .bundleId(getBundle().getId())
                 .build();
     }
 

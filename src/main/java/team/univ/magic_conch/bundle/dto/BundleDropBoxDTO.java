@@ -13,5 +13,7 @@ public class BundleDropBoxDTO {
 
     private Long bundleId;
     private String bundleName;
+    private String tagName;
+    private String tagColor;
 
 }

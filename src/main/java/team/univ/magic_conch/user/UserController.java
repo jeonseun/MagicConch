@@ -9,15 +9,22 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.bundle.BundleSerivce;
+import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.user.dto.UserDTO;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final UserService userService;
+    private final BundleSerivce bundleSerivce;
+    private final TagService tagService;
 
     // 회원가입시 비밀번호, 비밀번호 확인 동등 검증용 validator 등록
     @InitBinder("joinForm")
@@ -62,7 +69,7 @@ public class UserController {
     // 회원가입 처리
     @GetMapping("/joinProc")
     public String joinProc(UserDTO.JoinData joinData) {
-        userService.join(joinData.getUsername(), joinData.getPassword(), joinData.getName());
+        User user = userService.join(joinData.getUsername(), joinData.getPassword(), joinData.getName());
         return "redirect:/";
     }
 
