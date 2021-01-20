@@ -97,7 +97,7 @@ class QuestionServiceImplTest {
         }
         //when
         List<QuestionListDTO> result = questionService.questionAll(new PageRequestDTO(pageNo)).getDtoList();
-        PageResultDTO pageResultDTO = questionService.questionAll(new PageRequestDTO(pageNo));
+
         //then
         Assertions.assertThat(result)
                 .usingRecursiveComparison()

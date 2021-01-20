@@ -3,42 +3,50 @@
 <head th:include="layout/base :: base">
     <title>질문 작성 페이지</title>
 </head>
+<script defer th:src="@{/js/question/question.js}"></script>
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
 
-<form class="d-flex flex-column mb-3 container col-md-6 animation fade-in">
+<form th:action="@{/question}" th:method="post" class="d-flex flex-column mb-3 container col-md-6 animation fade-in">
 
     <p class="fs-1 text-center">질문 작성</p>
 
     <hr>
 
+    <!--  제목  -->
     <div class="form-outline mb-4">
-        <input type="text" id="form1" class="form-control" />
+        <input type="text" id="form1" th:name="title" class="form-control" />
         <label class="form-label" for="form1">제목 입력</label>
     </div>
 
     <div class="d-flex flex-row mb-3">
         <div class="input-group mb-3 me-4">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="태그 선택" />
+            <!--  태그선택  -->
+            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control" id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택" />
             <button
                     class="btn btn-primary dropdown-toggle"
+                    id="tagDrop"
                     type="button"
                     data-mdb-toggle="dropdown"
                     aria-expanded="false"
             >
                 Dropdown
             </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
+            <ul class="dropdown-menu dropdown-menu-end" id="tagBtn">
+                <li><a class="dropdown-item" href="#" onclick="selectTag('C')">C</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('C++')">C++</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('JAVA')">JAVA</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('PYTHON')">PYTHON</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('SPRING')">SPRING</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('JPA')">JPA</a></li>
+                <li><a class="dropdown-item" href="#" onclick="selectTag('DEFAULT')">DEFAULT</a></li>
             </ul>
         </div>
 
-        <div class="input-group mb-3">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button" placeholder="저장소 선택" />
+        <div class="input-group mb-3 bundleDrop">
+            <!--  번들선택  -->
+            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt" aria-label="Text input with dropdown button" placeholder="번들 선택" />
+            <input readonly hidden th:name="bundleId" type="text" style="background-color: white;" class="form-control" id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1" />
             <button
                     class="btn btn-primary dropdown-toggle"
                     type="button"
@@ -48,11 +56,8 @@
                 Dropdown
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                <li><a class="dropdown-item" href="#" onclick="enableBundle('Default', 'DEFAULT', -1)">Default</a></li>
+                <li th:each="bundle : ${bundleList}"><a th:text="${bundle.bundleName}" th:onclick="disableBundle([[${bundle.bundleName}]], [[${bundle.tagName}]], [[${bundle.bundleId}]])" class="dropdown-item" href="#"></a></li>
             </ul>
         </div>
     </div>
@@ -60,26 +65,28 @@
 
 
     <div class="form-outline">
-        <textarea class="form-control" id="textAreaExample" rows="16"></textarea>
+        <!--  내용  -->
+        <textarea class="form-control" id="textAreaExample" th:name="content" rows="16"></textarea>
         <label class="form-label" for="textAreaExample">내용 입력</label>
     </div>
 
     <div class="d-flex flex-row mb-3 justify-content-center mt-4">
         <button
-                type="button"
+                type="submit"
                 class="btn btn-outline-primary btn-rounded me-3"
                 data-mdb-ripple-color="dark"
         >
             제출
         </button>
 
-        <button
+        <a
+                th:href="@{/}"
                 type="button"
                 class="btn btn-outline-danger btn-rounded"
                 data-mdb-ripple-color="dark"
         >
             취소
-        </button>
+        </a>
     </div>
 
 </form>

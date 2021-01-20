@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -31,5 +32,4 @@ public class PageResultDTO<DTO, EN> {
         previous = curPage > 10;
         next = result.getTotalPages() / 10 != pageable.getPageNumber() / 10;
     }
-
 }
