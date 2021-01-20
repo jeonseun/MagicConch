@@ -31,7 +31,7 @@ public class User {
     private String name;
 
     @Builder.Default
-    private String profileImg = "/img/default_profile_image.png";
+    private String profileImg = "/image/default_profile_image.png";
 
     @Builder.Default
     private LocalDate createDate = LocalDate.now();
