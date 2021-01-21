@@ -15,10 +15,40 @@
 
     <div class="container col-md-10">
       <!--  질문 목록 제목  -->
+
       <p
         class="fs-1 text-center mb-5"
         th:text="'질문 목록(' + ${list.totalCnt} + ')'"
       ></p>
+
+      <!--  질문 검색  -->
+
+      <form class="d-flex flex-row-reverse" action="/question/list" method="get">
+
+        <button type="submit" class="btn btn-primary btn-sm ms-3" onclick="search()">검색</button>
+
+        <div class="form-outline">
+          <input type="text" name="title" id="form1" class="form-control searchInput"/>
+          <label class="form-label" for="form1"></label>
+        </div>
+
+        <div class="dropdown me-3">
+          <button
+                  class="btn btn-primary dropdown-toggle searchDrop"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-mdb-toggle="dropdown"
+                  aria-expanded="false"
+          >
+            title
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('title')">제목</a></li>
+            <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('username')">작성자</a></li>
+          </ul>
+        </div>
+
+      </form>
 
       <hr />
       <!--  질문 목록 리스트  -->

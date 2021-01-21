@@ -61,6 +61,10 @@ public class QuestionController {
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo.orElse(1));
 
+        System.out.println(userName);
+        System.out.println(title);
+        System.out.println(pageNo);
+
         if(userName.isPresent()){
             model.addAttribute("list", questionService.questionAllByUsername(userName.get(), pageRequestDTO));
         } else if(title.isPresent()){
