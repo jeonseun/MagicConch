@@ -7,15 +7,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.StringUtils;
 import team.univ.magic_conch.bundle.BundleSerivce;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.question.form.QuestionForm;
+import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,19 +58,21 @@ public class QuestionController {
 
     @GetMapping("question/list")
     public String questionList(Model model,
-                               @RequestParam(value = "page") Optional<Integer> pageNo,
-                               @RequestParam(value = "user") Optional<String> userName,
-                               @RequestParam(value = "title") Optional<String> title){
+                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                               @RequestParam(value = "user", required = false) String userName,
+                               @RequestParam(value = "title", required = false) String title){
 
-        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo.orElse(1));
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        if(userName.isPresent()){
-            model.addAttribute("list", questionService.questionAllByUsername(userName.get(), pageRequestDTO));
-        } else if(title.isPresent()){
-            model.addAttribute("list", questionService.questionAllByTitle(title.get(), pageRequestDTO));
+        if(!StringUtils.isEmpty(userName)){
+            model.addAttribute("list", questionService.questionAllByUsername(userName, pageRequestDTO));
+        } else if(!StringUtils.isEmpty(title)){
+            model.addAttribute("list", questionService.questionAllByTitle(title, pageRequestDTO));
         } else{
             model.addAttribute("list", questionService.questionAll(pageRequestDTO));
         }
+
+        model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
 
         return "/question/questionList";
     }

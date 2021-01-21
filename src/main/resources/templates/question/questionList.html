@@ -31,29 +31,41 @@
 
       <!--  질문 검색  -->
 
-      <form class="d-flex flex-row-reverse" action="/question/list" method="get">
+      <h4>Tag</h4>
 
-        <button type="submit" class="btn btn-primary btn-sm ms-3" onclick="search()">검색</button>
+      <form class="d-flex justify-content-between" action="/question/list" method="get">
 
-        <div class="form-outline">
-          <input type="text" name="title" id="form1" class="form-control searchInput"/>
-          <label class="form-label" for="form1"></label>
+        <div class="d-flex flex-row align-items-center">
+
+          <a href="#" class="me-4" th:each="tag : ${tagList}" th:text="${tag.name}" th:style="'text-shadow: 1px 1px 10px ' + ${tag.color}"></a>
+
         </div>
 
-        <div class="dropdown me-3">
-          <button
-                  class="btn btn-primary dropdown-toggle searchDrop"
-                  type="button"
-                  id="dropdownMenuButton"
-                  data-mdb-toggle="dropdown"
-                  aria-expanded="false"
-          >
-            title
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('title')">제목</a></li>
-            <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('username')">작성자</a></li>
-          </ul>
+        <div class="d-flex flex-row mb-3">
+
+          <div class="dropdown me-3">
+            <button
+                    class="btn btn-primary dropdown-toggle searchDrop"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+            >
+              title
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('title')">제목</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('username')">작성자</a></li>
+            </ul>
+          </div>
+
+          <div class="form-outline">
+            <input type="text" name="title" id="form1" class="form-control searchInput"/>
+            <label class="form-label" for="form1"></label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm ms-3" onclick="search()">검색</button>
+
         </div>
 
       </form>
@@ -108,7 +120,7 @@
           >
             <a
               class="page-link"
-              th:href="@{/question/list(page=${idx})}"
+              th:href="@{/question/list(page=${idx}, user=${param.user}, title=${param.title})}"
               th:text="${idx}"
             ></a>
           </li>

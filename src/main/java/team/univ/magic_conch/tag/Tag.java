@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.univ.magic_conch.tag.dto.TagDTO;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -23,5 +24,12 @@ public class Tag {
     private String name;
     private LocalDate createDate;
     private String color;
+
+    public TagDTO entityToTagDto(){
+        return TagDTO.builder()
+                .name(getName())
+                .color(getColor())
+                .build();
+    }
 
 }
