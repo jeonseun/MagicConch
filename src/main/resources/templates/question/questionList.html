@@ -4,6 +4,14 @@
     <title>Title</title>
   </head>
   <script defer th:src="@{/js/question/questionList.js}"></script>
+  <style>
+    a {
+      color: #000000;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
 
@@ -51,13 +59,14 @@
       </form>
 
       <hr />
+
       <!--  질문 목록 리스트  -->
       <table class="table animation fade-in shadow" style="border-radius: 10px">
         <thead class="table-primary">
           <tr>
-            <th style="text-align: center">No</th>
-            <th style="text-align: center">태그</th>
-            <th style="text-align: center">제목</th>
+            <th>No</th>
+            <th>태그</th>
+            <th style="text-align: center; width: 40%">제목</th>
             <th style="text-align: center">작성자</th>
             <th style="text-align: center">작성시간</th>
             <th style="text-align: center">조회수</th>
@@ -66,14 +75,13 @@
         <tbody>
           <tr th:each="item, idx : ${list.dtoList}">
             <td
-              style="text-align: center"
               th:text="${list.totalCnt - ((list.curPage - 1) * 10) - idx.index}"
             ></td>
             <td
               th:text="${item.tagName}"
-              th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"
+              th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor}"
             ></td>
-            <td style="text-align: center" th:text="${item.title}"></td>
+            <td><a th:href="@{/question/{id}(id=${item.questionId})}" th:text="${item.title}"></a></td>
             <td style="text-align: center" th:text="${item.username}"></td>
             <td style="text-align: center" th:text="${item.createTime}"></td>
             <td style="text-align: center" th:text="${item.view}"></td>

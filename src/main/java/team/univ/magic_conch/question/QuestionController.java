@@ -33,12 +33,11 @@ public class QuestionController {
 
     @PostMapping("/question")
     public String questionForm(@ModelAttribute QuestionForm questionForm, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        /* 번들이 Default 인지를 구분하는 로직 구현 필요 */
         Question question = Question.builder()
                 .title(questionForm.getTitle())
                 .content(questionForm.getContent())
                 .createTime(LocalDateTime.now())
-                .lastModifyTime(LocalDateTime.now())
+                .lastModifyTime(LocalDateTime.now().withNano(0))
                 .user(principalDetails.getUser())
                 .bundle(bundleSerivce.findById(questionForm.getBundleId()).orElse(null))
                 .tag(tagService.findByName(questionForm.getTagName()))
@@ -48,8 +47,9 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(Model model, @PathVariable Optional<Integer> questionNo){
-        int num = questionNo.isPresent() ? questionNo.get() : 0;
+    public String questionDetail(Model model, @PathVariable Optional<Long> questionNo){
+        Long num = questionNo.isPresent() ? questionNo.get() : 1;
+        model.addAttribute("question", questionService.questionDetail(num));
         return "/question/questionDetail";
     }
 
@@ -60,10 +60,6 @@ public class QuestionController {
                                @RequestParam(value = "title") Optional<String> title){
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo.orElse(1));
-
-        System.out.println(userName);
-        System.out.println(title);
-        System.out.println(pageNo);
 
         if(userName.isPresent()){
             model.addAttribute("list", questionService.questionAllByUsername(userName.get(), pageRequestDTO));

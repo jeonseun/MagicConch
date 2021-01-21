@@ -83,7 +83,8 @@ public class Question {
                 .lastModifyTime(getLastModifyTime())
                 .username(getUser().getUsername())
                 .tagName(getTag().getName())
-                .bundleId(getBundle().getId())
+                .tagColor(getTag().getColor())
+                .bundleId(getBundle() != null ? getBundle().getId() : 0)
                 .build();
     }
 
