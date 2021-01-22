@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.bundle.Bundle;
-import team.univ.magic_conch.bundle.BundleSerivce;
+import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
@@ -22,7 +22,7 @@ public class Init implements CommandLineRunner {
 
     private final TagRepository tagRepository;
     private final UserService userService;
-    private final BundleSerivce bundleSerivce;
+    private final BundleService bundleService;
     private final TagService tagService;
     private final QuestionService questionService;
 
@@ -43,25 +43,28 @@ public class Init implements CommandLineRunner {
         }
 
         User user = userService.join("q", "q", "Hajoo");
-        bundleSerivce.save(
+        bundleService.save(
                 Bundle.builder()
                         .name("자바 질문방")
                         .user(user)
                         .tag(tagService.findByName("JAVA"))
+                        .visibility("PRIVATE")
                         .build()
         );
-        bundleSerivce.save(
+        bundleService.save(
                 Bundle.builder()
                         .name("스프링 질문방")
                         .user(user)
                         .tag(tagService.findByName("SPRING"))
+                        .visibility("PUBLIC")
                         .build()
         );
-        bundleSerivce.save(
+        bundleService.save(
                 Bundle.builder()
                         .name("파이썬 질문방")
                         .user(user)
                         .tag(tagService.findByName("PYTHON"))
+                        .visibility("FRIEND")
                         .build()
         );
 

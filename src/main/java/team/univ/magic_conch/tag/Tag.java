@@ -24,4 +24,5 @@ public class Tag {
     private LocalDate createDate;
     private String color;
 
+
 }

@@ -29,6 +29,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_USER')")
                 .antMatchers("/mypage/**")
                 .access("hasRole('ROLE_USER')")
+                .antMatchers("/bundle/**")
+                .access("hasRole('ROLE_USER')")
                 .anyRequest()
                 .permitAll()
                 .and()

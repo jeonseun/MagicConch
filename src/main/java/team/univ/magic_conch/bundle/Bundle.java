@@ -4,12 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +28,7 @@ public class Bundle {
 
     private String name;
     private String visibility;
+    private LocalDate createDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -34,6 +37,7 @@ public class Bundle {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     private Tag tag;
+
 
     @OneToMany(mappedBy = "bundle")
     private List<Question> questions = new ArrayList<>();
@@ -54,4 +58,14 @@ public class Bundle {
                 .build();
     }
 
+    public BundleDTO.MyBundleDTO toMyBundleDTO() {
+        return BundleDTO.MyBundleDTO.builder()
+                .bundleName(getName())
+                .createTime(getCreateDate())
+                .questionCount(getQuestions().size())
+                .tagName(getTag().getName())
+                .tagColor(getTag().getColor())
+                .visibility(getVisibility())
+                .build();
+    }
 }

@@ -1,13 +1,11 @@
 package team.univ.magic_conch.question;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import team.univ.magic_conch.bundle.BundleSerivce;
+import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.TagService;
@@ -23,7 +21,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final TagService tagService;
-    private final BundleSerivce bundleSerivce;
+    private final BundleService bundleService;
 
     @GetMapping("/question")
     public String question(Model model, Principal principal){
@@ -40,7 +38,7 @@ public class QuestionController {
                 .createTime(LocalDateTime.now())
                 .lastModifyTime(LocalDateTime.now())
                 .user(principalDetails.getUser())
-                .bundle(bundleSerivce.findById(questionForm.getBundleId()).orElse(null))
+                .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
                 .tag(tagService.findByName(questionForm.getTagName()))
                 .build();
         questionService.questionForm(question);

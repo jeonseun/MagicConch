@@ -1,43 +1,67 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:include="layout/base :: base('모아보기')"></head>
-  <link rel="stylesheet" th:href="@{/css/mypage.css}" />
-  <script defer th:src="@{/js/profile.js}"></script>
-  <body>
-    <nav th:replace="layout/nav :: nav"></nav>
-    <nav th:replace="layout/mypageNav :: mypageNav('overview')"></nav>
+<head th:include="layout/base :: base('모아보기')"></head>
+<link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+<script defer th:src="@{/js/profile.js}"></script>
 
-    <div class="container mt-5">
-      <div class="row">
-        <div class="col-lg-4 col-sm-12 col-md-7">
-          <h3 class="text-black-50">프로필</h3>
-          <div class="container">
-            <div class="profile__image row">
-              <img
-                th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
-                class="p-2 w-75 shadow-lg"
-                id="profileImage"
-              />
-              <label
-                for="profileImageChange"
-                class="profile__icon d-flex justify-content-center align-items-center"
-                ><i class="fas fa-camera text-white"></i
-              ></label>
-              <input type="file" id="profileImageChange" />
-            </div>
-            <div class="row profile__info mt-2">
+<body>
+<nav th:replace="layout/nav :: nav"></nav>
+<nav th:replace="layout/mypageNav :: mypageNav('overview')"></nav>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-4 col-sm-12 col-md-6">
+            <h3 class="text-black-50">프로필</h3>
+            <div class="container">
+                <div class="profile__image row">
+                    <img
+                            th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
+                            class="p-2 w-75 shadow-lg"
+                            id="profileImage"
+                    />
+                    <label
+                            for="profileImageChange"
+                            class="profile__icon d-flex justify-content-center align-items-center"
+                    ><i class="fas fa-camera text-white"></i
+                    ></label>
+                    <input type="file" id="profileImageChange"/>
+                </div>
+                <div class="row profile__info mt-2">
               <span
-                class="h2 font-weight-bold"
-                th:text="${#authentication.getPrincipal().getUser().getName()}"
+                      class="h2 font-weight-bold"
+                      th:text="${#authentication.getPrincipal().getUser().getName()}"
               ></span>
+                </div>
             </div>
-          </div>
         </div>
 
-        <div class="col-lg-8 col-md-5 bg-danger">
-          <h3>번들 오버뷰</h3>
+        <div class="col-lg-8 col-md-6" id="bundleContainer">
+            <div class="d-flex mb-4">
+                <h3 class="title row">내 번들</h3>
+                <a th:href="@{/bundleForm}" class="btn btn-floating btn-primary ms-auto"><i class="fas fa-plus"></i></a>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
+            <div th:each="bundle : ${bundles}">
+                <div class="card border border-light shadow mb-3">
+                    <div class="card-header mb-2" th:text="${bundle.tagName}">
+                        태그 명
+                    </div>
+
+                    <span class="badge bg-primary ms-auto me-2" th:if="${bundle.visibility} == 'PRIVATE'"
+                          th:text="${bundle.visibility}"></span>
+                    <span class="badge bg-success ms-auto me-2" th:if="${bundle.visibility} == 'PUBLIC'"
+                          th:text="${bundle.visibility}"></span>
+                    <span class="badge bg-secondary ms-auto me-2" th:if="${bundle.visibility} == 'FRIEND'"
+                          th:text="${bundle.visibility}"></span>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
+                    </div>
+                </div>
+            </div>
+            </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</div>
+</body>
 </html>

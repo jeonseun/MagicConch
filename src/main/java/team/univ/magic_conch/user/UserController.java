@@ -12,20 +12,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
-import team.univ.magic_conch.bundle.BundleSerivce;
+import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.user.dto.UserDTO;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
     private final UserService userService;
-    private final BundleSerivce bundleSerivce;
-    private final TagService tagService;
+    private final BundleService bundleService;
 
     // 회원가입시 비밀번호, 비밀번호 확인 동등 검증용 validator 등록
     @InitBinder("joinForm")
@@ -87,7 +85,9 @@ public class UserController {
 
     // 마이페이지 모아보기 페이지 제공
     @GetMapping("/mypage/overview")
-    public String overview() {
+    public String overview(Model model,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
+        model.addAttribute("bundles", bundleService.getMyBundles(principalDetails.getUsername()));
         return "/mypage/overview";
     }
 
