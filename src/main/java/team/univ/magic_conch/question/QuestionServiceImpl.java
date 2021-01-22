@@ -10,10 +10,12 @@ import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,17 @@ public class QuestionServiceImpl implements QuestionService{
         Page<Question> result = questionRepository.findAllByTitleOrUsernameOrTagName(title, username, tagName, pageRequestDTO.getPageable());
         Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
+    }
+
+    /**
+     * 해당 게시글 방문 - > 조회수 추가
+     * @param questionId
+     */
+    @Override
+    @Transactional(readOnly = false)
+    public void plusViews(Long questionId){
+        Optional<Question> question = questionRepository.findById(questionId);
+        question.orElse(null).changeView();
     }
 
 }

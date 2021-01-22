@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 import team.univ.magic_conch.bundle.BundleSerivce;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
+import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -50,8 +54,28 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(Model model, @PathVariable Long questionNo){
-        model.addAttribute("question", questionService.questionDetail(questionNo));
+    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable Long questionNo, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
+
+        /* 조회수 중복방지 */
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null && principalDetails.getUsername() != questionDetail.getUsername()){
+            for (int i = 0; i < cookies.length; i++) {
+                if(cookies[i].getName().equals("viewCookie" + questionNo)){
+                    break;
+                }
+                if(i == cookies.length - 1) {
+                    questionService.plusViews(questionNo);
+                    Cookie cookie = new Cookie("viewCookie" + questionNo, String.valueOf(questionNo));
+                    cookie.setMaxAge(60 * 60 * 24);
+                    cookie.setPath("/");
+                    res.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("question", questionDetail);
         return "/question/questionDetail";
     }
 

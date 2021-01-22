@@ -62,6 +62,10 @@ public class Question {
         }
     }
 
+    public void changeView(){
+        this.view ++;
+    }
+
     public QuestionListDTO entityToQuestionListDto(){
         return QuestionListDTO.builder()
                 .questionId(getId())

@@ -43,6 +43,7 @@ public class Init implements CommandLineRunner {
         }
 
         User user = userService.join("q", "q", "Hajoo");
+        User user2 = userService.join("w", "w", "Hajoo2");
         bundleSerivce.save(
                 Bundle.builder()
                         .name("자바 질문방")
@@ -66,12 +67,13 @@ public class Init implements CommandLineRunner {
         );
 
         for (int i = 0; i < 255; i++) {
+            Thread.sleep(10);
             questionService.questionForm(
                     Question.builder()
                             .title("제목" + i)
                             .content("본문" + i)
-                            .createTime(LocalDateTime.now().withNano(0))
-                            .lastModifyTime(LocalDateTime.now().withNano(0))
+                            .createTime(LocalDateTime.now())
+                            .lastModifyTime(LocalDateTime.now())
                             .bundle(null)
                             .tag(tagService.findByName(name[i % 7]))
                             .user(user)
