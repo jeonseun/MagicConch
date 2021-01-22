@@ -30,7 +30,7 @@
       <!--  질문 목록 제목  -->
 
       <p
-        class="fs-1 text-center mb-5"
+        class="fs-1 text-center mb-5 title"
         th:text="'질문 목록(' + ${questionList.totalCnt} + ')'"
       ></p>
 
@@ -42,11 +42,11 @@
         <i class="fas fa-caret-right ps-2 tagOff" style="font-size: 30px" onclick="tagDrop('off')"></i>
       </div>
 
-      <form class="d-flex justify-content-between" action="/question/list" method="get">
+      <form class="d-flex justify-content-between form-data" action="/question/list" method="get">
 
         <div class="d-flex flex-row align-items-center">
-          <button class="me-4 tag" style="text-shadow: 1px 1px 10px #EB0000; display: none" onclick="selectTag('All')">All</button>
-          <button class="me-4 tag" th:each="tag : ${tagList}" th:text="${tag.name}" th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'" th:onclick="selectTagName([[${tag.name}]])"></button>
+          <button class="me-4 tag" style="text-shadow: 1px 1px 10px #EB0000; display: none" onclick="selectTagName(event, 'All')">All</button>
+          <button class="me-4 tag" th:each="tag : ${tagList}" th:text="${tag.name}" th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'" th:onclick="selectTagName(event, [[${tag.name}]])"></button>
           <input hidden type="text" id="tagList">
 
         </div>
@@ -74,7 +74,7 @@
             <label class="form-label" for="form1"></label>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-sm ms-3" onclick="search()">검색</button>
+          <button type="submit" class="btn btn-primary btn-sm ms-3 search" onclick="search(event)">검색</button>
 
         </div>
 
@@ -94,7 +94,7 @@
             <th style="text-align: center">조회수</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="list-wrapper">
           <tr th:each="item, idx : ${questionList.dtoList}">
             <td
               th:text="${questionList.totalCnt - ((questionList.curPage - 1) * 10) - idx.index}"
@@ -115,7 +115,7 @@
         <ul class="pagination">
           <li class="page-item">
             <a
-              class="page-link"
+              class="page-link previous"
               href="#"
               th:onclick="'previous(' + ${questionList.previous} + ',' + ${questionList.startPage} + ')'"
             >
@@ -123,21 +123,22 @@
               <span class="sr-only">목록에서 이전 페이지로 이동</span>
             </a>
           </li>
-
+        <div class="d-flex pageNo">
           <li
             class="page-item page-item-no"
             th:each="idx : ${#numbers.sequence(questionList.getStartPage(), questionList.getEndPage())}"
           >
             <a
               class="page-link"
-              th:href="@{/question/list(page=${idx}, user=${param.user}, title=${param.title}, tag=${param.tag})}"
               th:text="${idx}"
+              th:onclick="'selectPageNo(' + ${idx} + ')'"
             ></a>
           </li>
+        </div>
 
           <li class="page-item">
             <a
-              class="page-link"
+              class="page-link next"
               href="#"
               th:onclick="'next(' + ${questionList.next} + ',' + ${questionList.startPage} + ')'"
             >

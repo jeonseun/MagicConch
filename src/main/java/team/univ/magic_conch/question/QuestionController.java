@@ -1,27 +1,25 @@
 package team.univ.magic_conch.question;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
 import team.univ.magic_conch.bundle.BundleSerivce;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
+import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -94,4 +92,18 @@ public class QuestionController {
         return "/question/questionList";
     }
 
+    @GetMapping("question/api/v1/list")
+    @ResponseBody
+    public PageResultDTO<QuestionListDTO, Question> questionListApi(Model model,
+                                                                    @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                    @RequestParam(value = "user", required = false) String userName,
+                                                                    @RequestParam(value = "title", required = false) String title,
+                                                                    @RequestParam(value = "tag", required = false) String tagName){
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+
+        return questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO);
+
+
+    }
 }
