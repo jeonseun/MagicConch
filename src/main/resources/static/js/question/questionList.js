@@ -1,4 +1,5 @@
 const searchDrop = document.getElementsByClassName('searchInput').item(0);
+const tagList = document.getElementById('tagList');
 
 function previous(is, startPage){
     if(is){
@@ -25,4 +26,25 @@ function selectSearchFilter(searchName){
 
 function search(){
     searchDrop.value = $('.searchInput').val();
+}
+
+function selectTagName(tagName){
+    if(tagName == 'All'){
+        tagList.name = "";
+    }else{
+        tagList.name = "tag";
+        tagList.value = tagName;
+    }
+}
+
+function tagDrop(tagDrop){
+    if(tagDrop == 'on'){
+        $('.tagOn').hide();
+        $('.tagOff').show();
+        $('.tag').hide();
+    }else{
+        $('.tagOn').show();
+        $('.tagOff').hide();
+        $('.tag').show();
+    }
 }

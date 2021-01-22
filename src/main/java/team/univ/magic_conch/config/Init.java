@@ -73,7 +73,7 @@ public class Init implements CommandLineRunner {
                             .createTime(LocalDateTime.now().withNano(0))
                             .lastModifyTime(LocalDateTime.now().withNano(0))
                             .bundle(null)
-                            .tag(tagService.findByName(name[i % 5]))
+                            .tag(tagService.findByName(name[i % 7]))
                             .user(user)
                             .build()
             );

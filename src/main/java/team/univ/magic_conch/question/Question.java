@@ -48,6 +48,7 @@ public class Question {
     private Tag tag;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer) {

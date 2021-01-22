@@ -50,9 +50,8 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(Model model, @PathVariable Optional<Long> questionNo){
-        Long num = questionNo.isPresent() ? questionNo.get() : 1;
-        model.addAttribute("question", questionService.questionDetail(num));
+    public String questionDetail(Model model, @PathVariable Long questionNo){
+        model.addAttribute("question", questionService.questionDetail(questionNo));
         return "/question/questionDetail";
     }
 
@@ -60,18 +59,12 @@ public class QuestionController {
     public String questionList(Model model,
                                @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
                                @RequestParam(value = "user", required = false) String userName,
-                               @RequestParam(value = "title", required = false) String title){
+                               @RequestParam(value = "title", required = false) String title,
+                               @RequestParam(value = "tag", required = false) String tagName){
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        if(!StringUtils.isEmpty(userName)){
-            model.addAttribute("list", questionService.questionAllByUsername(userName, pageRequestDTO));
-        } else if(!StringUtils.isEmpty(title)){
-            model.addAttribute("list", questionService.questionAllByTitle(title, pageRequestDTO));
-        } else{
-            model.addAttribute("list", questionService.questionAll(pageRequestDTO));
-        }
-
+        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO));
         model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
 
         return "/question/questionList";
