@@ -48,6 +48,7 @@ public class Question {
     private Tag tag;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
 
     public void addAnswer(Answer answer) {
@@ -59,6 +60,10 @@ public class Question {
         if(this.bundle != bundle){
             this.bundle = bundle;
         }
+    }
+
+    public void changeView(){
+        this.view ++;
     }
 
     public QuestionListDTO entityToQuestionListDto(){
@@ -83,7 +88,8 @@ public class Question {
                 .lastModifyTime(getLastModifyTime())
                 .username(getUser().getUsername())
                 .tagName(getTag().getName())
-                .bundleId(getBundle().getId())
+                .tagColor(getTag().getColor())
+                .bundleId(getBundle() != null ? getBundle().getId() : 0)
                 .build();
     }
 

@@ -7,13 +7,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
+import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
+import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
+import team.univ.magic_conch.utils.page.PageResultDTO;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,12 +38,11 @@ public class QuestionController {
 
     @PostMapping("/question")
     public String questionForm(@ModelAttribute QuestionForm questionForm, @AuthenticationPrincipal PrincipalDetails principalDetails){
-        /* 번들이 Default 인지를 구분하는 로직 구현 필요 */
         Question question = Question.builder()
                 .title(questionForm.getTitle())
                 .content(questionForm.getContent())
                 .createTime(LocalDateTime.now())
-                .lastModifyTime(LocalDateTime.now())
+                .lastModifyTime(LocalDateTime.now().withNano(0))
                 .user(principalDetails.getUser())
                 .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
                 .tag(tagService.findByName(questionForm.getTagName()))
@@ -46,28 +52,58 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(Model model, @PathVariable Optional<Integer> questionNo){
-        int num = questionNo.isPresent() ? questionNo.get() : 0;
+    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable Long questionNo, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
+
+        /* 조회수 중복방지 */
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null && principalDetails.getUsername() != questionDetail.getUsername()){
+            for (int i = 0; i < cookies.length; i++) {
+                if(cookies[i].getName().equals("viewCookie" + questionNo)){
+                    break;
+                }
+                if(i == cookies.length - 1) {
+                    questionService.plusViews(questionNo);
+                    Cookie cookie = new Cookie("viewCookie" + questionNo, String.valueOf(questionNo));
+                    cookie.setMaxAge(60 * 60 * 24);
+                    cookie.setPath("/");
+                    res.addCookie(cookie);
+                    break;
+                }
+            }
+        }
+
+        model.addAttribute("question", questionDetail);
         return "/question/questionDetail";
     }
 
     @GetMapping("question/list")
     public String questionList(Model model,
-                               @RequestParam(value = "page") Optional<Integer> pageNo,
-                               @RequestParam(value = "user") Optional<String> userName,
-                               @RequestParam(value = "title") Optional<String> title){
+                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                               @RequestParam(value = "user", required = false) String userName,
+                               @RequestParam(value = "title", required = false) String title,
+                               @RequestParam(value = "tag", required = false) String tagName){
 
-        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo.orElse(1));
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        if(userName.isPresent()){
-            model.addAttribute("list", questionService.questionAllByUsername(userName.get(), pageRequestDTO));
-        } else if(title.isPresent()){
-            model.addAttribute("list", questionService.questionAllByTitle(title.get(), pageRequestDTO));
-        } else{
-            model.addAttribute("list", questionService.questionAll(pageRequestDTO));
-        }
+        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO));
+        model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
 
         return "/question/questionList";
     }
 
+    @GetMapping("question/api/v1/list")
+    @ResponseBody
+    public PageResultDTO<QuestionListDTO, Question> questionListApi(Model model,
+                                                                    @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                    @RequestParam(value = "user", required = false) String userName,
+                                                                    @RequestParam(value = "title", required = false) String title,
+                                                                    @RequestParam(value = "tag", required = false) String tagName){
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+
+        return questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO);
+
+
+    }
 }

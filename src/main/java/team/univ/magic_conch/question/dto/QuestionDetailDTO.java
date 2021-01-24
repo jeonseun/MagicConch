@@ -21,6 +21,7 @@ public class QuestionDetailDTO {
     private LocalDateTime lastModifyTime;
     private String username;
     private String tagName;
+    private String tagColor;
     private Long bundleId;
     private String bundleName;
 

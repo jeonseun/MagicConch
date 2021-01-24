@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<Question, Long> {
+public interface QuestionRepository extends JpaRepository<Question, Long>, QuestionRepositorySupport {
     Optional<Question> findById(Long questionNo);
 
     @Query("select q from Question q where lower(q.title) like lower(concat('%', concat(:title, '%')))")

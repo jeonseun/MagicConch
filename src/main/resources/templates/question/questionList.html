@@ -4,6 +4,19 @@
     <title>Title</title>
   </head>
   <script defer th:src="@{/js/question/questionList.js}"></script>
+  <style>
+    a {
+      color: #000000;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    button {
+      border: 0;
+      outline: 0;
+      border-radius: 15px;
+    }
+  </style>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
 
@@ -15,35 +28,82 @@
 
     <div class="container col-md-10">
       <!--  질문 목록 제목  -->
+
       <p
-        class="fs-1 text-center mb-5"
-        th:text="'질문 목록(' + ${list.totalCnt} + ')'"
+        class="fs-1 text-center mb-5 title"
+        th:text="'질문 목록(' + ${questionList.totalCnt} + ')'"
       ></p>
 
+      <!--  질문 검색  -->
+
+      <div class="d-flex flex-row mb-3">
+        <h4>Tag</h4>
+        <i class="fas fa-caret-down ps-2 tagOn" style="display: none; font-size: 30px" onclick="tagDrop('on')"></i>
+        <i class="fas fa-caret-right ps-2 tagOff" style="font-size: 30px" onclick="tagDrop('off')"></i>
+      </div>
+
+      <form class="d-flex justify-content-between form-data" action="/question/list" method="get">
+
+        <div class="d-flex flex-row align-items-center">
+          <button class="me-4 tag" style="text-shadow: 1px 1px 10px #EB0000; display: none" onclick="selectTagName(event, 'All')">All</button>
+          <button class="me-4 tag" th:each="tag : ${tagList}" th:text="${tag.name}" th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'" th:onclick="selectTagName(event, [[${tag.name}]])"></button>
+          <input hidden type="text" id="tagList">
+
+        </div>
+
+        <div class="d-flex flex-row mb-3">
+
+          <div class="dropdown me-3">
+            <button
+                    class="btn btn-primary dropdown-toggle searchDrop"
+                    type="button"
+                    id="dropdownMenuButton"
+                    data-mdb-toggle="dropdown"
+                    aria-expanded="false"
+            >
+              title
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('title')">제목</a></li>
+              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('username')">작성자</a></li>
+            </ul>
+          </div>
+
+          <div class="form-outline">
+            <input type="text" name="title" id="form1" class="form-control searchInput"/>
+            <label class="form-label" for="form1"></label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-sm ms-3 search" onclick="search(event)">검색</button>
+
+        </div>
+
+      </form>
+
       <hr />
+
       <!--  질문 목록 리스트  -->
       <table class="table animation fade-in shadow" style="border-radius: 10px">
         <thead class="table-primary">
           <tr>
-            <th style="text-align: center">No</th>
-            <th style="text-align: center">태그</th>
-            <th style="text-align: center">제목</th>
+            <th>No</th>
+            <th>태그</th>
+            <th style="text-align: center; width: 40%">제목</th>
             <th style="text-align: center">작성자</th>
             <th style="text-align: center">작성시간</th>
             <th style="text-align: center">조회수</th>
           </tr>
         </thead>
-        <tbody>
-          <tr th:each="item, idx : ${list.dtoList}">
+        <tbody class="list-wrapper">
+          <tr th:each="item, idx : ${questionList.dtoList}">
             <td
-              style="text-align: center"
-              th:text="${list.totalCnt - ((list.curPage - 1) * 10) - idx.index}"
+              th:text="${questionList.totalCnt - ((questionList.curPage - 1) * 10) - idx.index}"
             ></td>
             <td
               th:text="${item.tagName}"
-              th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"
+              th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor}"
             ></td>
-            <td style="text-align: center" th:text="${item.title}"></td>
+            <td><a th:href="@{/question/{id}(id=${item.questionId})}" th:text="${item.title}"></a></td>
             <td style="text-align: center" th:text="${item.username}"></td>
             <td style="text-align: center" th:text="${item.createTime}"></td>
             <td style="text-align: center" th:text="${item.view}"></td>
@@ -55,31 +115,32 @@
         <ul class="pagination">
           <li class="page-item">
             <a
-              class="page-link"
+              class="page-link previous"
               href="#"
-              th:onclick="'previous(' + ${list.previous} + ',' + ${list.startPage} + ')'"
+              th:onclick="'previous(' + ${questionList.previous} + ',' + ${questionList.startPage} + ')'"
             >
               <i class="fa fa-angle-left" aria-hidden="true"></i>
               <span class="sr-only">목록에서 이전 페이지로 이동</span>
             </a>
           </li>
-
+        <div class="d-flex pageNo">
           <li
             class="page-item page-item-no"
-            th:each="idx : ${#numbers.sequence(list.getStartPage(), list.getEndPage())}"
+            th:each="idx : ${#numbers.sequence(questionList.getStartPage(), questionList.getEndPage())}"
           >
             <a
               class="page-link"
-              th:href="@{/question/list(page=${idx})}"
               th:text="${idx}"
+              th:onclick="'selectPageNo(' + ${idx} + ')'"
             ></a>
           </li>
+        </div>
 
           <li class="page-item">
             <a
-              class="page-link"
+              class="page-link next"
               href="#"
-              th:onclick="'next(' + ${list.next} + ',' + ${list.startPage} + ')'"
+              th:onclick="'next(' + ${questionList.next} + ',' + ${questionList.startPage} + ')'"
             >
               <i class="fa fa-angle-right" aria-hidden="true"></i>
               <span class="sr-only">목록에서 다음 페이지로 이동</span>
