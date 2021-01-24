@@ -1,12 +1,15 @@
 package team.univ.magic_conch.question;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
@@ -26,11 +29,8 @@ class QuestionServiceImplTest {
     private QuestionRepository questionRepository;
     @Autowired
     private UserRepository userRepository;
-    
-    @Test
-    public void 질문하기_GET() throws Exception {
-        /* 구현 필요 */
-    }
+    @Autowired
+    private TagRepository tagRepository;
     
     @Test
     public void 질문하기_POST() throws Exception {
@@ -59,117 +59,81 @@ class QuestionServiceImplTest {
                 .username("테스터")
                 .build();
         userRepository.save(user);
+        Tag tag = Tag.builder()
+                .name("JAVA")
+                .build();
+        tagRepository.save(tag);
         Question question = Question.builder()
                 .title("제목")
                 .content("본문")
                 .user(user)
+                .tag(tag)
                 .createTime(LocalDateTime.now().withNano(0))
                 .build();
-        //when
         questionRepository.save(question);
-        Long id = questionRepository.findAll().get(0).getId();
         QuestionDetailDTO expect = question.entityToQuestionDetailDto();
+        Long id = questionRepository.findAll().get(0).getId();
+        //when
         QuestionDetailDTO result = questionService.questionDetail(id);
         //then
         Assertions.assertThat(result).as("해당 질문과 내용이 다릅니다").isEqualTo(expect);
     }
-
+    
     @Test
-    public void 전체질문목록보기() throws Exception {
+    public void 검색하기() throws Exception {
         //given
-        List<QuestionListDTO> expect = new ArrayList<>();
-        int pageNo = 11;
-        for (int i = 0; i < 105; i++) {
+        List<QuestionListDTO> expects = new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
             User user = User.builder()
-                    .username("테스터" + i)
+                    .username("tester" + i)
+                    .build();
+            Tag tag = Tag.builder()
+                    .name("JAVA" + i)
                     .build();
             userRepository.save(user);
+            tagRepository.save(tag);
             Question question = Question.builder()
-                    .title("제목" + i)
-                    .content("본문" + i)
+                    .title("TestTitle")
                     .user(user)
-                    .createTime(LocalDateTime.now().minusDays(i).withNano(0))
+                    .tag(tag)
                     .build();
             questionRepository.save(question);
-            if(i >= (pageNo - 1) * 10 && i < pageNo * 10){
-                expect.add(question.entityToQuestionListDto());
-            }
+            expects.add(question.entityToQuestionListDto());
         }
         //when
-        List<QuestionListDTO> result = questionService.questionAll(new PageRequestDTO(pageNo)).getDtoList();
-
+        List<QuestionListDTO> resultTitle
+                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", null, null, new PageRequestDTO(1)).getDtoList();
+        List<QuestionListDTO> resultUsername
+                = questionService.questionAllByTitleOrUsernameOrTagName(null, "tester0", null, new PageRequestDTO(1)).getDtoList();
+        List<QuestionListDTO> resultTagName
+                = questionService.questionAllByTitleOrUsernameOrTagName(null, null, "JAVA1", new PageRequestDTO(1)).getDtoList();
+        List<QuestionListDTO> resultTitleAndTagName
+                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", null, "JAVA0", new PageRequestDTO(1)).getDtoList();
+        List<QuestionListDTO> resultTitleAndTagNameAndTagName
+                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", "tester0", "JAVA0", new PageRequestDTO(1)).getDtoList();
+        List<QuestionListDTO> resultTitleAndTagNameAndTagName2
+                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", "tester0", "JAVA1", new PageRequestDTO(1)).getDtoList();
         //then
-        Assertions.assertThat(result)
+        Assertions.assertThat(resultTitle)
                 .usingRecursiveComparison()
-                .isEqualTo(expect);
+                .ignoringCollectionOrder()
+                .as("제목 검색이 일치하지 않습니다.")
+                .isEqualTo(expects);
+        Assertions.assertThat(resultUsername.size() == 1 ? resultUsername.get(0) : resultUsername)
+                .as("이름 검색이 일치하지 않습니다.")
+                .isEqualTo(expects.get(0));
+        Assertions.assertThat(resultTagName.size() == 1 ? resultTagName.get(0) : resultTagName)
+                .as("태그 검색이 일치하지 않습니다.")
+                .isEqualTo(expects.get(1));
+        Assertions.assertThat(resultTitleAndTagName.size() == 1 ? resultTitleAndTagName.get(0) : resultTitleAndTagName)
+                .as("제목 + 태그 검색이 일치하지 않습니다.")
+                .isEqualTo(expects.get(0));
+        Assertions.assertThat(resultTitleAndTagNameAndTagName.size() == 1 ? resultTitleAndTagNameAndTagName.get(0) : resultTitleAndTagNameAndTagName)
+                .as("제목 + 이름 + 태그 검색이 일치하지 않습니다.")
+                .isEqualTo(expects.get(0));
+        Assertions.assertThat(resultTitleAndTagNameAndTagName2)
+                .as("해당 검색은 존재하면 안됩니다.")
+                .isEmpty();
     }
-
-    @Test
-    public void 질문제목검색() throws Exception {
-        //given
-        List<QuestionListDTO> expect = new ArrayList<>();
-        for (int i = 0; i < 105; i++) {
-            String title;
-            if(i < 100) {
-                title = "Title" + i;
-            }else{
-                title = "123Happy321";
-            }
-            User user = User.builder()
-                    .username("테스터" + i)
-                    .build();
-            userRepository.save(user);
-            Question question = Question.builder()
-                    .title(title)
-                    .content("본문" + i)
-                    .user(user)
-                    .createTime(LocalDateTime.now().minusDays(i).withNano(0))
-                    .build();
-            questionRepository.save(question);
-            if(i >= 100){
-                expect.add(question.entityToQuestionListDto());
-            }
-        }
-        //when
-        List<QuestionListDTO> result = questionService.questionAllByTitle("HAPPY", new PageRequestDTO()).getDtoList();
-        //then
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expect);
-    }
-
-    @Test
-    public void 질문유저이름검색() throws Exception {
-        //given
-        List<QuestionListDTO> expect = new ArrayList<>();
-        for (int i = 0; i < 105; i++) {
-            String username;
-            if(i < 100) {
-                username = "user";
-            }else{
-                username = "123Abc321";
-            }
-            User user = User.builder()
-                    .username(username)
-                    .build();
-            userRepository.save(user);
-            Question question = Question.builder()
-                    .title("제목")
-                    .content("본문" + i)
-                    .user(user)
-                    .createTime(LocalDateTime.now().minusDays(i).withNano(0))
-                    .build();
-            questionRepository.save(question);
-            if(i >= 100){
-                expect.add(question.entityToQuestionListDto());
-            }
-        }
-        //when
-        List<QuestionListDTO> result = questionService.questionAllByUsername("ABc3", new PageRequestDTO()).getDtoList();
-        //then
-        Assertions.assertThat(result)
-                .usingRecursiveComparison()
-                .isEqualTo(expect);
-    }
-
+    
 }

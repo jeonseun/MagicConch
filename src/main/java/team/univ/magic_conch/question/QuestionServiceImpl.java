@@ -11,10 +11,12 @@ import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -58,42 +60,28 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     /**
-     * 전체 질문 목록 보기
-     * @param pageRequestDTO
-     * @return 전체 질문 목록
-     */
-    @Override
-    public PageResultDTO<QuestionListDTO, Question> questionAll(PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAll(pageRequestDTO.getPageable(Sort.by("createTime").descending()));
-        Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
-        return new PageResultDTO<>(result, fn);
-    }
-
-    /**
-     * 질문 제목으로 검색
+     * 질문 다중 검색
      * @param title
-     * @param pageRequestDTO
-     * @return 질문 제목으로 검색한 질문 목록
+     * @param username
+     * @param tagName
+     * @return 해당되는 파라미터에 대해 검색된 질문 목록
      */
     @Override
-    public PageResultDTO<QuestionListDTO, Question> questionAllByTitle(String title, PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAllByTitle(title, pageRequestDTO.getPageable(Sort.by("createTime").descending()));
+    public PageResultDTO<QuestionListDTO, Question> questionAllByTitleOrUsernameOrTagName(String title, String username, String tagName, PageRequestDTO pageRequestDTO) {
+        Page<Question> result = questionRepository.findAllByTitleOrUsernameOrTagName(title, username, tagName, pageRequestDTO.getPageable());
         Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
 
-
     /**
-     * 유저 이름으로 검색
-     * @param username
-     * @param pageRequestDTO
-     * @return 유저 이름으로 검색한 질문 목록
+     * 해당 게시글 방문 - > 조회수 추가
+     * @param questionId
      */
     @Override
-    public PageResultDTO<QuestionListDTO, Question> questionAllByUsername(String username, PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAllByUsername(username, pageRequestDTO.getPageable(Sort.by("createTime").descending()));
-        Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
-        return new PageResultDTO<>(result, fn);
+    @Transactional(readOnly = false)
+    public void plusViews(Long questionId){
+        Optional<Question> question = questionRepository.findById(questionId);
+        question.orElse(null).changeView();
     }
 
 

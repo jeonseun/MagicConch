@@ -39,6 +39,7 @@ public class Bundle {
     private Tag tag;
 
     @OneToMany(mappedBy = "bundle")
+    @Builder.Default
     private List<Question> questions = new ArrayList<>();
 
     public void addQuestion(Question question){
