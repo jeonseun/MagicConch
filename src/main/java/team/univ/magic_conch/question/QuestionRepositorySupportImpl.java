@@ -28,7 +28,9 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
         QueryResults<Question> result = jpaQueryFactory
                 .selectFrom(question)
                 .join(question.user, user)
+                .fetchJoin()
                 .join(question.tag, tag)
+                .fetchJoin()
                 .where(
                         !StringUtils.isEmpty(title) ? question.title.contains(title) : null,
                         !StringUtils.isEmpty(username) ? user.username.contains(username) : null,
