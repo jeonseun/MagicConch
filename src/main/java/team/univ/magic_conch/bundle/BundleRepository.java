@@ -7,15 +7,17 @@ import org.springframework.data.repository.query.Param;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
 
 import javax.swing.text.html.Option;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public interface BundleRepository extends JpaRepository<Bundle, Long> {
 
-    @EntityGraph(attributePaths = {"questions", "tag"}, type = EntityGraph.EntityGraphType.LOAD)
-    List<Bundle> findAllByUserUsername(String username);
+    @EntityGraph(attributePaths = {"tag"}, type = EntityGraph.EntityGraphType.LOAD)
+    List<Bundle> findAllByUserUsername(@Param("username") String username);
 
     @EntityGraph(attributePaths = {"questions", "tag"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Bundle> findWithQuestionsAndTagById(Long id);
+
 }
 
