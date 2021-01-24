@@ -32,7 +32,7 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
                 .where(
                         !StringUtils.isEmpty(title) ? question.title.contains(title) : null,
                         !StringUtils.isEmpty(username) ? user.username.contains(username) : null,
-                        !StringUtils.isEmpty(tagName) ? tag.name.contains(tagName) : null
+                        !StringUtils.isEmpty(tagName) ? tag.name.eq(tagName) : null
                 )
                 .orderBy(question.createTime.desc())
                 .offset(pageable.getOffset())
