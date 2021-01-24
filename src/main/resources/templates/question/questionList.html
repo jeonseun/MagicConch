@@ -1,22 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:include="layout/base :: base('질문보기')">
-    <title>Title</title>
+  <head>
+    <div th:replace="layout/base :: base"></div>
+    <title>질문보기</title>
+    <style>
+      a {
+        color: #000000;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      button {
+        border: 0;
+        outline: 0;
+        border-radius: 15px;
+      }
+    </style>
+    <script defer th:src="@{/js/question/questionList.js}"></script>
   </head>
-  <script defer th:src="@{/js/question/questionList.js}"></script>
-  <style>
-    a {
-      color: #000000;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-    button {
-      border: 0;
-      outline: 0;
-      border-radius: 15px;
-    }
-  </style>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
 
@@ -38,46 +39,90 @@
 
       <div class="d-flex flex-row mb-3">
         <h4>Tag</h4>
-        <i class="fas fa-caret-down ps-2 tagOn" style="display: none; font-size: 30px" onclick="tagDrop('on')"></i>
-        <i class="fas fa-caret-right ps-2 tagOff" style="font-size: 30px" onclick="tagDrop('off')"></i>
+        <i
+          class="fas fa-caret-down ps-2 tagOn"
+          style="display: none; font-size: 30px"
+          onclick="tagDrop('on')"
+        ></i>
+        <i
+          class="fas fa-caret-right ps-2 tagOff"
+          style="font-size: 30px"
+          onclick="tagDrop('off')"
+        ></i>
       </div>
 
-      <form class="d-flex justify-content-between form-data" action="/question/list" method="get">
-
+      <form
+        class="d-flex justify-content-between form-data"
+        action="/question/list"
+        method="get"
+      >
         <div class="d-flex flex-row align-items-center">
-          <button class="me-4 tag" style="text-shadow: 1px 1px 10px #EB0000; display: none" onclick="selectTagName(event, 'All')">All</button>
-          <button class="me-4 tag" th:each="tag : ${tagList}" th:text="${tag.name}" th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'" th:onclick="selectTagName(event, [[${tag.name}]])"></button>
-          <input hidden type="text" id="tagList">
-
+          <button
+            class="me-4 tag"
+            style="text-shadow: 1px 1px 10px #eb0000; display: none"
+            onclick="selectTagName(event, 'All')"
+          >
+            All
+          </button>
+          <button
+            class="me-4 tag"
+            th:each="tag : ${tagList}"
+            th:text="${tag.name}"
+            th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'"
+            th:onclick="selectTagName(event, [[${tag.name}]])"
+          ></button>
+          <input hidden type="text" id="tagList" />
         </div>
 
         <div class="d-flex flex-row mb-3">
-
           <div class="dropdown me-3">
             <button
-                    class="btn btn-primary dropdown-toggle searchDrop"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
+              class="btn btn-primary dropdown-toggle searchDrop"
+              type="button"
+              id="dropdownMenuButton"
+              data-mdb-toggle="dropdown"
+              aria-expanded="false"
             >
               title
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('title')">제목</a></li>
-              <li><a class="dropdown-item" href="#" onclick="selectSearchFilter('username')">작성자</a></li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick="selectSearchFilter('title')"
+                  >제목</a
+                >
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick="selectSearchFilter('username')"
+                  >작성자</a
+                >
+              </li>
             </ul>
           </div>
 
           <div class="form-outline">
-            <input type="text" name="title" id="form1" class="form-control searchInput"/>
+            <input
+              type="text"
+              name="title"
+              id="form1"
+              class="form-control searchInput"
+            />
             <label class="form-label" for="form1"></label>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-sm ms-3 search" onclick="search(event)">검색</button>
-
+          <button
+            type="submit"
+            class="btn btn-primary btn-sm ms-3 search"
+            onclick="search(event)"
+          >
+            검색
+          </button>
         </div>
-
       </form>
 
       <hr />
@@ -103,7 +148,12 @@
               th:text="${item.tagName}"
               th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor}"
             ></td>
-            <td><a th:href="@{/question/{id}(id=${item.questionId})}" th:text="${item.title}"></a></td>
+            <td>
+              <a
+                th:href="@{/question/{id}(id=${item.questionId})}"
+                th:text="${item.title}"
+              ></a>
+            </td>
             <td style="text-align: center" th:text="${item.username}"></td>
             <td style="text-align: center" th:text="${item.createTime}"></td>
             <td style="text-align: center" th:text="${item.view}"></td>
@@ -123,18 +173,18 @@
               <span class="sr-only">목록에서 이전 페이지로 이동</span>
             </a>
           </li>
-        <div class="d-flex pageNo">
-          <li
-            class="page-item page-item-no"
-            th:each="idx : ${#numbers.sequence(questionList.getStartPage(), questionList.getEndPage())}"
-          >
-            <a
-              class="page-link"
-              th:text="${idx}"
-              th:onclick="'selectPageNo(' + ${idx} + ')'"
-            ></a>
-          </li>
-        </div>
+          <div class="d-flex pageNo">
+            <li
+              class="page-item page-item-no"
+              th:each="idx : ${#numbers.sequence(questionList.getStartPage(), questionList.getEndPage())}"
+            >
+              <a
+                class="page-link"
+                th:text="${idx}"
+                th:onclick="'selectPageNo(' + ${idx} + ')'"
+              ></a>
+            </li>
+          </div>
 
           <li class="page-item">
             <a

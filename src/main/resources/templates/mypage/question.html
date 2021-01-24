@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:include="layout/base :: base('내 질문')"></head>
+  <head>
+    <div th:replace="layout/base :: base"></div>
+    <title>내 질문</title>
+  </head>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
     <nav th:replace="layout/mypageNav :: mypageNav('question')"></nav>

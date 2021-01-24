@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout/base :: base('모아보기')"></head>
-<link rel="stylesheet" th:href="@{/css/mypage.css}"/>
-<script defer th:src="@{/js/profile.js}"></script>
+<head>
+    <div th:replace="layout/base :: base"></div>
+    <title>모아보기</title>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
+    <script defer th:src="@{/js/profile.js}"></script>
+</head>
 
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
@@ -41,29 +44,29 @@
                 <a th:href="@{/bundleForm}" class="btn btn-floating btn-primary ms-auto"><i class="fas fa-plus"></i></a>
             </div>
             <div class="row row-cols-md-1 row-cols-lg-2 row-cols-xl-3">
-            <a class="bundle-link" th:each="bundle : ${bundles}" th:href="@{|/bundle/${bundle.bundleId}|}">
-                <div class="card border border-light shadow mb-3">
-                    <div class="card-header mb-2 text-white" th:text="${bundle.tagName}"
-                    th:styleappend="|background-color: ${bundle.tagColor}|">
-                        태그 명
-                    </div>
+                <a class="bundle-link" th:each="bundle : ${bundles}" th:href="@{|/bundle/${bundle.bundleId}|}">
+                    <div class="card border border-light shadow mb-3">
+                        <div class="card-header mb-2 text-white" th:text="${bundle.tagName}"
+                             th:styleappend="|background-color: ${bundle.tagColor}|">
+                            태그 명
+                        </div>
 
-                    <span class="badge bg-primary ms-auto me-2" th:if="${bundle.visibility} == 'PRIVATE'"
-                          th:text="${bundle.visibility}"></span>
-                    <span class="badge bg-success ms-auto me-2" th:if="${bundle.visibility} == 'PUBLIC'"
-                          th:text="${bundle.visibility}"></span>
-                    <span class="badge bg-secondary ms-auto me-2" th:if="${bundle.visibility} == 'FRIEND'"
-                          th:text="${bundle.visibility}"></span>
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
+                        <span class="badge bg-primary ms-auto me-2" th:if="${bundle.visibility} == 'PRIVATE'"
+                              th:text="${bundle.visibility}"></span>
+                        <span class="badge bg-success ms-auto me-2" th:if="${bundle.visibility} == 'PUBLIC'"
+                              th:text="${bundle.visibility}"></span>
+                        <span class="badge bg-secondary ms-auto me-2" th:if="${bundle.visibility} == 'FRIEND'"
+                              th:text="${bundle.visibility}"></span>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
 
+                        </div>
+                        <div class="card-footer d-flex justify-content-between">
+                            <span class="text-muted" th:text="|질문 :  ${bundle.questionCount}|"></span>
+                            <span class="text-muted" th:text="|생성 : ${bundle.createTime}|"></span>
+                        </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <span class="text-muted" th:text="|질문 :  ${bundle.questionCount}|"></span>
-                        <span class="text-muted" th:text="|생성 : ${bundle.createTime}|"></span>
-                    </div>
-                </div>
-            </a>
+                </a>
             </div>
         </div>
     </div>

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:include="layout/base :: base('질문하기')">
+<head>
+    <div th:replace="layout/base :: base"></div>
     <title>질문 작성 페이지</title>
+    <script defer th:src="@{/js/question/question.js}"></script>
 </head>
-<script defer th:src="@{/js/question/question.js}"></script>
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
 
@@ -15,14 +16,15 @@
 
     <!--  제목  -->
     <div class="form-outline mb-4">
-        <input type="text" id="form1" th:name="title" class="form-control" />
+        <input type="text" id="form1" th:name="title" class="form-control"/>
         <label class="form-label" for="form1">제목 입력</label>
     </div>
 
     <div class="d-flex flex-row mb-3">
         <div class="input-group mb-3 me-4">
             <!--  태그선택  -->
-            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control" id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택" />
+            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control"
+                   id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택"/>
             <button
                     class="btn btn-primary dropdown-toggle"
                     id="tagDrop"
@@ -45,8 +47,10 @@
 
         <div class="input-group mb-3 bundleDrop">
             <!--  번들선택  -->
-            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt" aria-label="Text input with dropdown button" placeholder="번들 선택" />
-            <input readonly hidden th:name="bundleId" type="text" style="background-color: white;" class="form-control" id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1" />
+            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt"
+                   aria-label="Text input with dropdown button" placeholder="번들 선택"/>
+            <input readonly hidden th:name="bundleId" type="text" style="background-color: white;" class="form-control"
+                   id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1"/>
             <button
                     class="btn btn-primary dropdown-toggle"
                     type="button"
@@ -57,11 +61,12 @@
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li><a class="dropdown-item" href="#" onclick="enableBundle('Default', 'DEFAULT', -1)">Default</a></li>
-                <li th:each="bundle : ${bundleList}"><a th:text="${bundle.bundleName}" th:onclick="disableBundle([[${bundle.bundleName}]], [[${bundle.tagName}]], [[${bundle.bundleId}]])" class="dropdown-item" href="#"></a></li>
+                <li th:each="bundle : ${bundleList}"><a th:text="${bundle.bundleName}"
+                                                        th:onclick="disableBundle([[${bundle.bundleName}]], [[${bundle.tagName}]], [[${bundle.bundleId}]])"
+                                                        class="dropdown-item" href="#"></a></li>
             </ul>
         </div>
     </div>
-
 
 
     <div class="form-outline">

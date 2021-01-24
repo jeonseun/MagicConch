@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:include="layout/base :: base('질문보기')">
-    <title>Title</title>
+  <head>
+    <div th:replace="layout/base :: base"></div>
+    <title>질문보기</title>
+    <script defer th:src="@{/js/question/questionDetail.js}"></script>
   </head>
-  <script defer th:src="@{/js/question/questionDetail.js}"></script>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
     <div class="container col-md-6 shadow" style="border-radius: 10px">
@@ -11,28 +12,56 @@
       <div class="d-flex flex-row mb-3">
         <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
         <div class="p-2">
-          <h6 th:text="${question.username}" style="font-size: small">사용자이름</h6>
-          <h6 th:text="${question.createTime}" style="font-size: small">생성일</h6>
+          <h6 th:text="${question.username}" style="font-size: small">
+            사용자이름
+          </h6>
+          <h6 th:text="${question.createTime}" style="font-size: small">
+            생성일
+          </h6>
         </div>
         <div class="ms-auto p-2">
           <h6
-                  th:text="${question.tagName}"
+            th:text="${question.tagName}"
             th:style="'font-size: small; text-shadow: 1px 1px 10px ' + ${question.tagColor}"
             class="text-end"
           >
             Tag
           </h6>
-          <h6 th:text="${question.bundleName}" style="font-size: small" class="text-end">Bundle</h6>
+          <h6
+            th:text="${question.bundleName}"
+            style="font-size: small"
+            class="text-end"
+          >
+            Bundle
+          </h6>
         </div>
       </div>
       <hr />
-      <pre th:text="${question.content}"
+      <pre
+        th:text="${question.content}"
         style="white-space: pre-wrap; margin: 0px"
-      >내용</pre>
+      >
+내용</pre
+      >
       <div class="d-flex justify-content-between" style="padding: 10px 5px">
-        <i class="fas fa-heart" id="like" style="color: red; display: none" onclick="clickLike('like')"></i>
-        <i class="far fa-heart" id="no-like" style="color: #ff0000" onclick="clickLike('noLike')"></i>
-        <i th:text="${question.view}" class="fas fa-eye" style="letter-spacing: .4em">0</i>
+        <i
+          class="fas fa-heart"
+          id="like"
+          style="color: red; display: none"
+          onclick="clickLike('like')"
+        ></i>
+        <i
+          class="far fa-heart"
+          id="no-like"
+          style="color: #ff0000"
+          onclick="clickLike('noLike')"
+        ></i>
+        <i
+          th:text="${question.view}"
+          class="fas fa-eye"
+          style="letter-spacing: 0.4em"
+          >0</i
+        >
       </div>
     </div>
     <div class="container col-md-6 shadow mt-4" style="border-radius: 10px">

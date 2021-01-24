@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:replace="layout/base :: base('번들 생성')"></head>
-  <link rel="stylesheet" th:href="@{/css/select.css}" />
+  <head>
+    <div th:replace="layout/base :: base"></div>
+    <link rel="stylesheet" th:href="@{/css/select.css}" />
+    <title>번들 생성</title>
+  </head>
+
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
     <form
