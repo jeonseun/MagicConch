@@ -40,8 +40,9 @@
 .bundle-link {
   text-decoration: none;
   color: black;
+  transition: transform 0.3s ease;
 }
 
 .bundle-link:hover {
-  transform: scaleX(1.5);
+  transform: translateY(-5px);
 }

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head th:include="layout/base :: base('번들 상세보기')"></head>
+  <body>
+    <nav th:replace="layout/nav :: nav"></nav>
+
+    <!-- 번들 상세보기 정보 -->
+    <div class="container shadow">
+      <span th:text="${bundle.bundleName}"></span>
+      <span th:text="${bundle.tagName}"></span>
+      <span th:text="${bundle.tagColor}"></span>
+      <span th:text="${bundle.createDate}"></span>
+      <ul class="list-group">
+        <h4>내 질문</h4>
+        <li class="list-group-item" th:each="question : ${bundle.questions}">
+          <a th:href="@{|/question/${question.id}|}"
+            ><h3 th:text="${question.title}"></h3
+          ></a>
+          <p th:text="${question.content}"></p>
+          <p th:text="${question.createTime}"></p>
+          <p th:text="${question.answers.size()}"></p>
+          <p th:text="${question.lastModifyTime}"></p>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

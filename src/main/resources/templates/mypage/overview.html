@@ -35,15 +35,16 @@
             </div>
         </div>
 
-        <div class="col-lg-8 col-md-6" id="bundleContainer">
+        <div class="col-lg-8 col-md-6 col-sm-12 p-3 shadow rounded-3" id="bundleContainer">
             <div class="d-flex mb-4">
-                <h3 class="title row">내 번들</h3>
+                <h3 class="title row ms-5">번들</h3>
                 <a th:href="@{/bundleForm}" class="btn btn-floating btn-primary ms-auto"><i class="fas fa-plus"></i></a>
             </div>
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3">
-            <div th:each="bundle : ${bundles}">
+            <div class="row row-cols-md-1 row-cols-lg-2 row-cols-xl-3">
+            <a class="bundle-link" th:each="bundle : ${bundles}" th:href="@{|/bundle/${bundle.bundleId}|}">
                 <div class="card border border-light shadow mb-3">
-                    <div class="card-header mb-2" th:text="${bundle.tagName}">
+                    <div class="card-header mb-2 text-white" th:text="${bundle.tagName}"
+                    th:styleappend="|background-color: ${bundle.tagColor}|">
                         태그 명
                     </div>
 
@@ -55,9 +56,14 @@
                           th:text="${bundle.visibility}"></span>
                     <div class="card-body">
                         <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
+
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <span class="text-muted" th:text="|질문 :  ${bundle.questionCount}|"></span>
+                        <span class="text-muted" th:text="|생성 : ${bundle.createTime}|"></span>
                     </div>
                 </div>
-            </div>
+            </a>
             </div>
         </div>
     </div>

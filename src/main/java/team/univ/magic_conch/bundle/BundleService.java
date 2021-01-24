@@ -10,5 +10,7 @@ public interface BundleService {
     public Optional<Bundle> findById(Long id);
     public void save(Bundle bundle);
 
-    List<BundleDTO.MyBundleDTO> getMyBundles(String username);
+    List<BundleDTO.MyBundle> getMyBundles(String username);
+
+    BundleDTO.BundleDetails getBundleDetails(Long id);
 }

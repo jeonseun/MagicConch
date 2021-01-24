@@ -38,7 +38,6 @@ public class Bundle {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
-
     @OneToMany(mappedBy = "bundle")
     private List<Question> questions = new ArrayList<>();
 
@@ -58,8 +57,9 @@ public class Bundle {
                 .build();
     }
 
-    public BundleDTO.MyBundleDTO toMyBundleDTO() {
-        return BundleDTO.MyBundleDTO.builder()
+    public BundleDTO.MyBundle toMyBundleDTO() {
+        return BundleDTO.MyBundle.builder()
+                .bundleId(getId())
                 .bundleName(getName())
                 .createTime(getCreateDate())
                 .questionCount(getQuestions().size())

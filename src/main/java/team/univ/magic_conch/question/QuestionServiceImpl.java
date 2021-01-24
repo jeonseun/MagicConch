@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.BundleRepository;
+import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
@@ -80,7 +81,8 @@ public class QuestionServiceImpl implements QuestionService{
         Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
-    
+
+
     /**
      * 유저 이름으로 검색
      * @param username
@@ -93,5 +95,6 @@ public class QuestionServiceImpl implements QuestionService{
         Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
+
 
 }

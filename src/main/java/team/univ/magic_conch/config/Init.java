@@ -49,6 +49,7 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("JAVA"))
                         .visibility("PRIVATE")
+                        .createDate(LocalDate.now())
                         .build()
         );
         bundleService.save(
@@ -57,6 +58,8 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("SPRING"))
                         .visibility("PUBLIC")
+                        .createDate(LocalDate.now())
+
                         .build()
         );
         bundleService.save(
@@ -65,6 +68,7 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("PYTHON"))
                         .visibility("FRIEND")
+                        .createDate(LocalDate.now())
                         .build()
         );
 
