@@ -6,7 +6,6 @@ import team.univ.magic_conch.bundle.dto.BundleDTO;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,7 +32,7 @@ public class BundleServiceImpl implements BundleService {
      */
     @Override
     public Optional<Bundle> findById(Long id) {
-        return bundleRepository.findById(id);
+        return bundleRepository.findWithQuestionsAndTagById(id);
     }
 
 
@@ -54,7 +53,8 @@ public class BundleServiceImpl implements BundleService {
 
     @Override
     public BundleDTO.BundleDetails getBundleDetails(Long id) {
-        Optional<Bundle> findBundle = bundleRepository.findById(id);
+
+        Optional<Bundle> findBundle = bundleRepository.findWithQuestionsAndTagById(id);
         if(findBundle.isPresent()) {
             Bundle bundle = findBundle.get();
             return BundleDTO.BundleDetails.builder()
