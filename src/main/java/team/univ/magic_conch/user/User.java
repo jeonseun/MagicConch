@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.univ.magic_conch.user.dto.SimpleUserDTO;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
@@ -42,5 +43,12 @@ public class User {
      */
     public void changeProfileImage(String profileImg) {
         this.profileImg = profileImg;
+    }
+
+    public SimpleUserDTO entityToSimpleUserDto(){
+        return SimpleUserDTO.builder()
+                .username(getUsername())
+                .profileImg(getProfileImg())
+                .build();
     }
 }

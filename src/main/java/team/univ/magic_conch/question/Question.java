@@ -1,9 +1,6 @@
 package team.univ.magic_conch.question;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
@@ -17,9 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Question {
@@ -48,8 +43,19 @@ public class Question {
     private Tag tag;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
-    @Builder.Default
     private List<Answer> answers = new ArrayList<>();
+
+    @Builder
+    public Question(String title, String content, int view, LocalDateTime createTime, LocalDateTime lastModifyTime, User user, Bundle bundle, Tag tag) {
+        this.title = title;
+        this.content = content;
+        this.view = view;
+        this.createTime = createTime;
+        this.lastModifyTime = lastModifyTime;
+        this.user = user;
+        this.bundle = bundle;
+        this.tag = tag;
+    }
 
     public void addAnswer(Answer answer) {
         this.answers.add(answer);

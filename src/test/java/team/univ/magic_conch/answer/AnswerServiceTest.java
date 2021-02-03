@@ -31,7 +31,7 @@ class AnswerServiceTest {
     public void setSampleData() {
         if(sampleUser1 == null && sampleQuestion1 == null) {
             sampleUser1 = new User();
-            sampleQuestion1 = new Question();
+            sampleQuestion1 = Question.builder().build();
             em.persist(sampleUser1);
             em.persist(sampleQuestion1);
         }
