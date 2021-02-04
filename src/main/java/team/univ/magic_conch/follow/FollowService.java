@@ -12,7 +12,7 @@ public interface FollowService {
      * @param userFrom
      * @param userTo
      */
-    public void addFollow(User userFrom, User userTo);
+    public Follow addFollow(User userFrom, User userTo);
 
     /**
      * 언팔로우
@@ -24,14 +24,14 @@ public interface FollowService {
     /**
      * 내가 팔로우 한 사람들 목록
      * @param userFrom
-     * @return
+     * @return List<SimpleUserDTO>
      */
     public List<SimpleUserDTO> findAllByUserFrom(User userFrom);
 
     /**
      * 나를 팔로우 한 사람들 목록
      * @param userTo
-     * @return
+     * @return List<SimpleUserDTO>
      */
     public List<SimpleUserDTO> findAllByUserTo(User userTo);
 

@@ -18,12 +18,12 @@ public class Follow {
     private LocalDateTime createDate;
 
     // 팔로우를 요청하는 회원
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_from")
     private User userFrom;
 
     //
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_to")
     private User userTo;
 

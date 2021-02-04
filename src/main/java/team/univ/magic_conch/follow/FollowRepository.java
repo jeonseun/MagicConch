@@ -8,7 +8,6 @@ import java.util.Optional;
 
 public interface FollowRepository extends JpaRepository<Follow, Long> {
 
-    Follow removeById(Long id);
     List<Follow> findAllByUserFrom(User user);
     List<Follow> findAllByUserTo(User user);
     Optional<Follow> findByUserFromAndUserTo(User userFrom, User userTo);

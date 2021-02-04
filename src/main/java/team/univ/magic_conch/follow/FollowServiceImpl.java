@@ -19,16 +19,17 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     @Transactional(readOnly = false)
-    public void addFollow(User userFrom, User userTo) {
+    public Follow addFollow(User userFrom, User userTo) {
         Follow follow = new Follow(userFrom, userTo);
         followRepository.save(follow);
+        return follow;
     }
 
     @Override
     @Transactional(readOnly = false)
     public void deleteFollow(User userFrom, User userTo) {
         Optional<Follow> allByUserFromAndUserTo = followRepository.findByUserFromAndUserTo(userFrom, userTo);
-        allByUserFromAndUserTo.ifPresent(follow -> followRepository.removeById(follow.getId()));
+        allByUserFromAndUserTo.ifPresent(follow -> followRepository.deleteById(follow.getId()));
     }
 
     @Override
