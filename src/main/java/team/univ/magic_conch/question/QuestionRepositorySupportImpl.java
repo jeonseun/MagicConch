@@ -51,14 +51,10 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
         QQuestion question = QQuestion.question;
         QUser user = QUser.user;
         QFollow follow = QFollow.follow;
-        QTag tag = QTag.tag;
-        QBundle bundle = QBundle.bundle;
 
         QueryResults<Question> result = jpaQueryFactory
                 .selectFrom(question)
                 .join(question.user, user).fetchJoin()
-                .join(question.tag, tag).fetchJoin()
-                .leftJoin(question.bundle, bundle).fetchJoin()
                 .where(user.in(
                         JPAExpressions
                             .select(follow.userTo)
@@ -68,6 +64,8 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
                             .where(follow.userFrom.username.eq(username))),
                         question.status.eq(QuestionStatus.ING))
                 .orderBy(question.createTime.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetchResults();
 
         return new PageImpl<>(result.getResults(), pageable, result.getTotal());

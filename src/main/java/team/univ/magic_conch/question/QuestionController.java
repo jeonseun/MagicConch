@@ -108,10 +108,12 @@ public class QuestionController {
     }
 
     @GetMapping("api/v1/question/follow/list")
+    @ResponseBody
     public PageResultDTO<QuestionFollowDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
                                                                          @AuthenticationPrincipal PrincipalDetails principalDetails){
+
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        return questionService.questionFollow(principalDetails.getUsername(), pageRequestDTO);
+        return questionService.questionFollow(principalDetails == null ? "" : principalDetails.getUsername(), pageRequestDTO);
     }
 }

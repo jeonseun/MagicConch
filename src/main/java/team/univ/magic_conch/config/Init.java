@@ -52,7 +52,7 @@ public class Init implements CommandLineRunner {
         User user = userService.join("q", "q", "Hajoo");
 
         for (int i = 0; i < 5; i++) {
-            userList.add(userService.join("a" + i, "a" + i, "Hajoo" + (i + 2)));
+            userList.add(userService.join(String.valueOf((char)('a' + i)), String.valueOf((char)('a' + i)), "Hajoo" + (i + 2)));
         }
 
         /* bundle 추가 */

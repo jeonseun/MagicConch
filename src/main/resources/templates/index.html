@@ -1,10 +1,68 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>마법의 코딩고동</title>
-  </head>
-  <body>
-    <nav th:replace="layout/nav :: nav"></nav>
-  </body>
+
+<head>
+  <div th:replace="layout/base :: base"></div>
+  <title>마법의 코딩고동</title>
+  <style>
+    .balloon {
+      position:relative;
+      margin: 50px;
+      width:550px;
+      height:170px;
+      background:lightgray;
+      border-radius: 10px;
+    }
+    .balloon:after {
+      border-top:15px solid lightgray;
+      border-left: 15px solid transparent;
+      border-right: 0px solid transparent;
+      border-bottom: 0px solid transparent;
+      content:"";
+      position:absolute;
+      top:10px;
+      left:-15px;
+    }
+    .balloon2 {
+      position:relative;
+      margin: 50px;
+      width:550px;
+      height:170px;
+      background:lightgray;
+      border-radius: 10px;
+    }
+    .balloon2:after {
+      border-top:15px solid lightgray;
+      border-left: 0px solid transparent;
+      border-right: 15px solid transparent;
+      border-bottom: 0px solid transparent;
+      content:"";
+      position:absolute;
+      top:10px;
+      left:550px;
+    }
+    a {
+      color: #000000;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+<script defer th:src="@{/js/index.js}"></script>
+</head>
+
+<nav th:replace="layout/nav :: nav"></nav>
+
+<body>
+  <div class="d-flex flex-row mb-3">
+    <!-- left -->
+    <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
+    <!-- center -->
+    <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
+    <!--right-->
+    <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
+  </div>
+
+</body>
+
 </html>

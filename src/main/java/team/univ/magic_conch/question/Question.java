@@ -11,6 +11,7 @@ import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -109,10 +110,9 @@ public class Question {
                 .title(getTitle())
                 .content(getContent())
                 .createTime(getCreateTime())
-                .bundleId(getBundle().getId())
-                .bundleName(getBundle().getName())
-                .tagName(getTag().getName())
-                .tagColor(getTag().getColor())
+                .beforeTime((System.currentTimeMillis() - getCreateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / 1000 / 60)
+                .username(getUser().getUsername())
+                .profileImg(getUser().getProfileImg())
                 .build();
     }
 

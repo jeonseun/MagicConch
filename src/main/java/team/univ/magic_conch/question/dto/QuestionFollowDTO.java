@@ -17,9 +17,8 @@ public class QuestionFollowDTO {
     private String title;
     private String content;
     private LocalDateTime createTime;
-    private Long bundleId;
-    private String bundleName;
-    private String tagName;
-    private String tagColor;
+    private Long beforeTime;
+    private String username;
+    private String profileImg;
 
 }
