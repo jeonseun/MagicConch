@@ -4,8 +4,8 @@ import lombok.*;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
-import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 
@@ -30,6 +30,9 @@ public class Question {
     private LocalDateTime createTime;
     private LocalDateTime lastModifyTime;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -46,15 +49,16 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Question(String title, String content, int view, LocalDateTime createTime, LocalDateTime lastModifyTime, User user, Bundle bundle, Tag tag) {
+    public Question(String title, String content, int view, LocalDateTime lastModifyTime, User user, Bundle bundle, Tag tag) {
         this.title = title;
         this.content = content;
         this.view = view;
-        this.createTime = createTime;
+        this.createTime = LocalDateTime.now().withNano(0);
         this.lastModifyTime = lastModifyTime;
         this.user = user;
         this.bundle = bundle;
         this.tag = tag;
+        this.status = QuestionStatus.ING;
     }
 
     public void addAnswer(Answer answer) {
@@ -96,6 +100,19 @@ public class Question {
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .bundleId(getBundle() != null ? getBundle().getId() : 0)
+                .build();
+    }
+
+    public QuestionFollowDTO entityToQuestionFollowDto(){
+        return QuestionFollowDTO.builder()
+                .questionId(getId())
+                .title(getTitle())
+                .content(getContent())
+                .createTime(getCreateTime())
+                .bundleId(getBundle().getId())
+                .bundleName(getBundle().getName())
+                .tagName(getTag().getName())
+                .tagColor(getTag().getColor())
                 .build();
     }
 

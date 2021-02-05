@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.dto.SimpleUserDTO;
 
 import java.util.List;
@@ -20,12 +21,16 @@ class FollowServiceTest {
     private FollowService followService;
     @Autowired
     private FollowRepository followRepository;
+    @Autowired
+    private UserRepository userRepository;
     
     @Test
     public void 팔로우() throws Exception {
         //given
         User user = User.builder().build();
         User user2 = User.builder().build();
+        userRepository.save(user);
+        userRepository.save(user2);
         //when
         Follow result = followService.addFollow(user, user2);
         //then
@@ -39,6 +44,8 @@ class FollowServiceTest {
         //given
         User user = User.builder().build();
         User user2 = User.builder().build();
+        userRepository.save(user);
+        userRepository.save(user2);
         //when
         followRepository.save(new Follow(user, user2));
         followService.deleteFollow(user, user2);
@@ -51,8 +58,10 @@ class FollowServiceTest {
     public void 팔로우조회() throws Exception {
         //given
         User user = User.builder().username("test").build();
+        userRepository.save(user);
         for (int i = 0; i < 10; i++) {
             User user2 = User.builder().username("test" + i).build();
+            userRepository.save(user2);
             followRepository.save(new Follow(user, user2));
             followRepository.save(new Follow(user2, user));
         }

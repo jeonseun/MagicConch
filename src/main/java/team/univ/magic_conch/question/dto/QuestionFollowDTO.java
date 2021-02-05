@@ -1,6 +1,9 @@
 package team.univ.magic_conch.question.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -8,18 +11,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class QuestionDetailDTO {
+public class QuestionFollowDTO {
 
     private Long questionId;
     private String title;
     private String content;
-    private int view;
     private LocalDateTime createTime;
-    private LocalDateTime lastModifyTime;
-    private String username;
-    private String tagName;
-    private String tagColor;
     private Long bundleId;
     private String bundleName;
+    private String tagName;
+    private String tagColor;
 
 }

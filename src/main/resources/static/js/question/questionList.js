@@ -68,7 +68,7 @@ function refreshList(params){
     console.log(params);
 
     $.ajax({
-        url: '/question/api/v1/list',
+        url: '/api/v1/question/list',
         type: 'GET',
         data : params,
         dataType: 'json',

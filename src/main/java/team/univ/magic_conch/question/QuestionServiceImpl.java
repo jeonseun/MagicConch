@@ -10,6 +10,7 @@ import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
@@ -28,44 +29,24 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionRepository questionRepository;
     private final BundleRepository bundleRepository;
 
-    /**
-     * 질문하기(GET)
-     * @return 해당 유저가 가지고 있는 bundle 목록
-     */
     @Override
-    public List<BundleDropBoxDTO> question(String name){
-        return bundleRepository.findAllByUserUsername(name)
+    public List<BundleDropBoxDTO> question(String username){
+        return bundleRepository.findAllByUserUsername(username)
                 .stream().map(Bundle::entityToBundleDropBoxDTO)
                 .collect(Collectors.toList());
     }
 
-    /**
-     * 질문하기(POST)
-     * @param question
-     */
     @Override
     @Transactional(readOnly = false)
     public void questionForm(Question question){
         questionRepository.save(question);
     }
 
-    /**
-     * 상세 질문 보기
-     * @param questionNo
-     * @return 질문 상세 정보
-     */
     @Override
     public QuestionDetailDTO questionDetail(Long questionNo) {
         return questionRepository.findById(questionNo).get().entityToQuestionDetailDto();
     }
 
-    /**
-     * 질문 다중 검색
-     * @param title
-     * @param username
-     * @param tagName
-     * @return 해당되는 파라미터에 대해 검색된 질문 목록
-     */
     @Override
     public PageResultDTO<QuestionListDTO, Question> questionAllByTitleOrUsernameOrTagName(String title, String username, String tagName, PageRequestDTO pageRequestDTO) {
         Page<Question> result = questionRepository.findAllByTitleOrUsernameOrTagName(title, username, tagName, pageRequestDTO.getPageable());
@@ -73,10 +54,6 @@ public class QuestionServiceImpl implements QuestionService{
         return new PageResultDTO<>(result, fn);
     }
 
-    /**
-     * 해당 게시글 방문 - > 조회수 추가
-     * @param questionId
-     */
     @Override
     @Transactional(readOnly = false)
     public void plusViews(Long questionId){
@@ -84,5 +61,12 @@ public class QuestionServiceImpl implements QuestionService{
         question.orElse(null).changeView();
     }
 
+    @Override
+    @Transactional(readOnly = false)
+    public PageResultDTO<QuestionFollowDTO, Question> questionFollow(String username, PageRequestDTO pageRequestDTO) {
+        Page<Question> result = questionRepository.findAllByFollowUsername(username, pageRequestDTO.getPageable());
+        Function<Question, QuestionFollowDTO> fn = Question::entityToQuestionFollowDto;
+        return new PageResultDTO<>(result, fn);
+    }
 
 }

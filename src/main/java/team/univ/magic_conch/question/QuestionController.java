@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
@@ -37,11 +38,11 @@ public class QuestionController {
     }
 
     @PostMapping("/question")
-    public String questionForm(@ModelAttribute QuestionForm questionForm, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String questionForm(@ModelAttribute QuestionForm questionForm,
+                               @AuthenticationPrincipal PrincipalDetails principalDetails){
         Question question = Question.builder()
                 .title(questionForm.getTitle())
                 .content(questionForm.getContent())
-                .createTime(LocalDateTime.now())
                 .lastModifyTime(LocalDateTime.now().withNano(0))
                 .user(principalDetails.getUser())
                 .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
@@ -52,7 +53,9 @@ public class QuestionController {
     }
 
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable Long questionNo, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model,
+                                 @PathVariable Long questionNo,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
         QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
 
         /* 조회수 중복방지 */
@@ -92,10 +95,9 @@ public class QuestionController {
         return "/question/questionList";
     }
 
-    @GetMapping("question/api/v1/list")
+    @GetMapping("api/v1/question/list")
     @ResponseBody
-    public PageResultDTO<QuestionListDTO, Question> questionListApi(Model model,
-                                                                    @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+    public PageResultDTO<QuestionListDTO, Question> questionListApi(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
                                                                     @RequestParam(value = "user", required = false) String userName,
                                                                     @RequestParam(value = "title", required = false) String title,
                                                                     @RequestParam(value = "tag", required = false) String tagName){
@@ -103,7 +105,13 @@ public class QuestionController {
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
         return questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO);
+    }
 
+    @GetMapping("api/v1/question/follow/list")
+    public PageResultDTO<QuestionFollowDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
+        return questionService.questionFollow(principalDetails.getUsername(), pageRequestDTO);
     }
 }
