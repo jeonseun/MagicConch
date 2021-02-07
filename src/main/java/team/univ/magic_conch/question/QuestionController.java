@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
-import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
@@ -82,14 +81,11 @@ public class QuestionController {
 
     @GetMapping("question/list")
     public String questionList(Model model,
-                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
-                               @RequestParam(value = "user", required = false) String userName,
-                               @RequestParam(value = "title", required = false) String title,
-                               @RequestParam(value = "tag", required = false) String tagName){
+                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo){
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO));
+        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(null, null, null, pageRequestDTO));
         model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
 
         return "/question/questionList";
@@ -98,22 +94,56 @@ public class QuestionController {
     @GetMapping("api/v1/question/list")
     @ResponseBody
     public PageResultDTO<QuestionListDTO, Question> questionListApi(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
-                                                                    @RequestParam(value = "user", required = false) String userName,
+                                                                    @RequestParam(value = "username", required = false) String username,
                                                                     @RequestParam(value = "title", required = false) String title,
                                                                     @RequestParam(value = "tag", required = false) String tagName){
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        return questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO);
+        return questionService.questionAllByTitleOrUsernameOrTagName(title, username, tagName, pageRequestDTO);
+    }
+
+    @GetMapping("api/v1/index/question/follow/list")
+    @ResponseBody
+    public PageResultDTO<QuestionListDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
+
+        return questionService.questionFollow(myname, null, null, null,  pageRequestDTO);
+    }
+
+    @GetMapping("question/follow/list")
+    public String questsionFollowList(Model model,
+                                      @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                      @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
+
+        model.addAttribute("questionList", questionService.questionFollow(myname, null, null, null, pageRequestDTO));
+        model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
+
+        return "/question/questionFollowList";
     }
 
     @GetMapping("api/v1/question/follow/list")
     @ResponseBody
-    public PageResultDTO<QuestionFollowDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
-                                                                         @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public PageResultDTO<QuestionListDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                       @RequestParam(value = "user", required = false) String username,
+                                                                       @RequestParam(value = "title", required = false) String title,
+                                                                       @RequestParam(value = "tag", required = false) String tagName,
+                                                                       @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        System.out.println(username);
+        System.out.println(title);
+        System.out.println(tagName);
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
 
-        return questionService.questionFollow(principalDetails == null ? "" : principalDetails.getUsername(), pageRequestDTO);
+        return questionService.questionFollow(myname, title, username, tagName, pageRequestDTO);
+
     }
 }

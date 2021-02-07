@@ -34,7 +34,7 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
                 .join(question.tag, tag).fetchJoin()
                 .where(
                         !StringUtils.isEmpty(title) ? question.title.contains(title) : null,
-                        !StringUtils.isEmpty(username) ? user.username.contains(username) : null,
+                        !StringUtils.isEmpty(username) ? user.username.eq(username) : null,
                         !StringUtils.isEmpty(tagName) ? tag.name.eq(tagName) : null
                 )
                 .orderBy(question.createTime.desc())
@@ -46,23 +46,28 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
     }
 
     @Override
-    public Page<Question> findAllByFollowUsername(String username, Pageable pageable) {
+    public Page<Question> findAllByFollowUsername(String myname, String title, String username, String tagName, Pageable pageable) {
 
         QQuestion question = QQuestion.question;
         QUser user = QUser.user;
         QFollow follow = QFollow.follow;
+        QTag tag = QTag.tag;
 
         QueryResults<Question> result = jpaQueryFactory
                 .selectFrom(question)
                 .join(question.user, user).fetchJoin()
+                .join(question.tag, tag).fetchJoin()
                 .where(user.in(
                         JPAExpressions
                             .select(follow.userTo)
                             .from(follow)
                             .join(follow.userTo, user)
                             .join(follow.userFrom, user)
-                            .where(follow.userFrom.username.eq(username))),
-                        question.status.eq(QuestionStatus.ING))
+                            .where(follow.userFrom.username.eq(myname))),
+                        question.status.eq(QuestionStatus.ING),
+                        !StringUtils.isEmpty(title) ? question.title.contains(title) : null,
+                        !StringUtils.isEmpty(username) ? user.username.eq(username) : null,
+                        !StringUtils.isEmpty(tagName) ? tag.name.eq(tagName) : null)
                 .orderBy(question.createTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

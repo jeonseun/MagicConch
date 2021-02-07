@@ -2,17 +2,13 @@ package team.univ.magic_conch.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.BundleRepository;
-import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
-import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
-import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
@@ -63,9 +59,9 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = false)
-    public PageResultDTO<QuestionFollowDTO, Question> questionFollow(String username, PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAllByFollowUsername(username, pageRequestDTO.getPageable());
-        Function<Question, QuestionFollowDTO> fn = Question::entityToQuestionFollowDto;
+    public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, String title, String username, String tagName, PageRequestDTO pageRequestDTO) {
+        Page<Question> result = questionRepository.findAllByFollowUsername(myname, title, username, tagName, pageRequestDTO.getPageable());
+        Function<Question, QuestionListDTO> fn = Question::entityToQuestionListDto;
         return new PageResultDTO<>(result, fn);
     }
 

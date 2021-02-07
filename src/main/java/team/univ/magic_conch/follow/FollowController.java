@@ -3,10 +3,7 @@ package team.univ.magic_conch.follow;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.dto.SimpleUserDTO;
@@ -21,23 +18,27 @@ public class FollowController {
     private final UserRepository userRepository;
 
     @PostMapping("follow")
+    @ResponseBody
     public void createFollow(@RequestParam(value = "user") String username, @AuthenticationPrincipal PrincipalDetails principalDetails){
         userRepository.findByUsername(username)
                 .ifPresent(user -> followService.addFollow(user, principalDetails.getUser()));
     }
 
     @DeleteMapping("follow")
+    @ResponseBody
     public void deleteFollow(@RequestParam(value = "user") String username, @AuthenticationPrincipal PrincipalDetails principalDetails){
         userRepository.findByUsername(username)
                 .ifPresent(user -> followService.deleteFollow(user, principalDetails.getUser()));
     }
 
-    @GetMapping("follow/me")
+    @GetMapping("api/v1/follow/me")
+    @ResponseBody
     public List<SimpleUserDTO> followListByUserFrom(@AuthenticationPrincipal PrincipalDetails principalDetails){
         return followService.findAllByUserFrom(principalDetails.getUser());
     }
 
-    @GetMapping("follow/you")
+    @GetMapping("api/v1/follow/you")
+    @ResponseBody
     public List<SimpleUserDTO> followListByUserTo(@AuthenticationPrincipal PrincipalDetails principalDetails){
         return followService.findAllByUserTo(principalDetails.getUser());
     }

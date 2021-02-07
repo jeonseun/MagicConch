@@ -168,7 +168,7 @@ class QuestionServiceImplTest {
             expect.add(question);
         }
         //when
-        Page<Question> result = questionRepository.findAllByFollowUsername("test", new PageRequestDTO().getPageable());
+        Page<Question> result = questionRepository.findAllByFollowUsername("test", null, null, null, new PageRequestDTO().getPageable());
         //then
         Assertions.assertThat(result.getContent())
                 .usingRecursiveComparison()

@@ -14,8 +14,8 @@ public class QuestionDetailDTO {
     private String title;
     private String content;
     private int view;
-    private LocalDateTime createTime;
-    private LocalDateTime lastModifyTime;
+    private String createTime;
+    private String lastModifyTime;
     private String username;
     private String tagName;
     private String tagColor;

@@ -3,9 +3,17 @@
   <head>
     <div th:replace="layout/base :: base"></div>
     <title>내 친구</title>
+    <script defer th:src="@{/js/mypage/friend.js}"></script>
   </head>
   <body>
     <nav th:replace="layout/nav :: nav"></nav>
     <nav th:replace="layout/mypageNav :: mypageNav('friend')"></nav>
+
+    <div class="text-center" style="padding: 30px">
+      <button type="button" class="btn btn-primary" onclick="friendMeInfo()">팔로우</button>
+      <button type="button" class="btn btn-primary" onclick="friendYouInfo()">팔로워</button>
+    </div>
+
+    <div id="friend-wrapper" class="d-flex flex-wrap justify-content-center"></div>
   </body>
 </html>

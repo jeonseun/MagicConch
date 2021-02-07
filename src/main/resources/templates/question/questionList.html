@@ -3,29 +3,16 @@
   <head>
     <div th:replace="layout/base :: base"></div>
     <title>질문보기</title>
-    <style>
-      a {
-        color: #000000;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-      button {
-        border: 0;
-        outline: 0;
-        border-radius: 15px;
-      }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/global.css}"}>
     <script defer th:src="@{/js/question/questionList.js}"></script>
-  </head>
-  <body>
-    <nav th:replace="layout/nav :: nav"></nav>
-
     <style>
       .page-item-no:active {
         color: yellow;
       }
     </style>
+  </head>
+  <body>
+    <nav th:replace="layout/nav :: nav"></nav>
 
     <div class="container col-md-10">
       <!--  질문 목록 제목  -->

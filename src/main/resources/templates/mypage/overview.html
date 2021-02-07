@@ -5,6 +5,7 @@
     <title>모아보기</title>
     <link rel="stylesheet" th:href="@{/css/mypage.css}"/>
     <script defer th:src="@{/js/profile.js}"></script>
+    <script defer th:src="@{/js/mypage/overview.js}"></script>
 </head>
 
 <body>
@@ -34,6 +35,10 @@
                       class="h2 font-weight-bold"
                       th:text="${#authentication.getPrincipal().getUser().getName()}"
               ></span>
+                </div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary me-2" onclick="follow('test')">팔로우</button>
+                    <button type="button" class="btn btn-primary" onclick="unFollow('test')">언팔로우</button>
                 </div>
             </div>
         </div>

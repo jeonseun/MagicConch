@@ -2,7 +2,6 @@ package team.univ.magic_conch.question;
 
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
-import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
@@ -50,6 +49,6 @@ public interface QuestionService {
      * @param name
      * @return 내가 팔로우 한 사람들 질문 목록
      */
-    public PageResultDTO<QuestionFollowDTO, Question> questionFollow(String name, PageRequestDTO pageRequestDTO);
+    public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, String title, String username, String tagName, PageRequestDTO pageRequestDTO);
 
 }

@@ -87,17 +87,19 @@ public class Init implements CommandLineRunner {
 
         /* question 추가 */
         for (int i = 0; i < 255; i++) {
-            Thread.sleep(10);
-            questionService.questionForm(
-                    Question.builder()
-                            .title("제목" + i)
-                            .content("본문" + i)
-                            .lastModifyTime(LocalDateTime.now())
-                            .bundle(null)
-                            .tag(tagService.findByName(name[i % 7]))
-                            .user(user)
-                            .build()
-            );
+            Thread.sleep(100);
+            if(i < 50) {
+                questionService.questionForm(
+                        Question.builder()
+                                .title("제목" + i)
+                                .content("본문" + i)
+                                .lastModifyTime(LocalDateTime.now())
+                                .bundle(null)
+                                .tag(tagService.findByName(name[i % 7]))
+                                .user(user)
+                                .build()
+                );
+            }
             questionService.questionForm(
                     Question.builder()
                             .title("제목" + (254 - i))
@@ -111,9 +113,12 @@ public class Init implements CommandLineRunner {
         }
 
         /* follow 추가 */
-
         for (int i = 0; i < 5; i++) {
             followService.addFollow(user, userList.get(i));
         }
+
+        followService.addFollow(userList.get(0), user);
+        followService.addFollow(userList.get(1), user);
+        followService.addFollow(userList.get(2), user);
     }
 }

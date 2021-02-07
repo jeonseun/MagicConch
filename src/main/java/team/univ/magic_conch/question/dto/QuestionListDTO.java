@@ -12,9 +12,12 @@ public class QuestionListDTO {
 
     private Long questionId;
     private String title;
+    private String content;
     private int view;
-    private LocalDateTime createTime;
+    private String createTime;
+    private Long beforeTime;
     private String username;
+    private String profileImg;
     private String tagName;
     private String tagColor;
 

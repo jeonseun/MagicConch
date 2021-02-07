@@ -4,51 +4,8 @@
 <head>
   <div th:replace="layout/base :: base"></div>
   <title>마법의 코딩고동</title>
-  <style>
-    .balloon {
-      position:relative;
-      margin: 50px;
-      width:550px;
-      height:170px;
-      background:lightgray;
-      border-radius: 10px;
-    }
-    .balloon:after {
-      border-top:15px solid lightgray;
-      border-left: 15px solid transparent;
-      border-right: 0px solid transparent;
-      border-bottom: 0px solid transparent;
-      content:"";
-      position:absolute;
-      top:10px;
-      left:-15px;
-    }
-    .balloon2 {
-      position:relative;
-      margin: 50px;
-      width:550px;
-      height:170px;
-      background:lightgray;
-      border-radius: 10px;
-    }
-    .balloon2:after {
-      border-top:15px solid lightgray;
-      border-left: 0px solid transparent;
-      border-right: 15px solid transparent;
-      border-bottom: 0px solid transparent;
-      content:"";
-      position:absolute;
-      top:10px;
-      left:550px;
-    }
-    a {
-      color: #000000;
-    }
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
-<script defer th:src="@{/js/index.js}"></script>
+  <script defer th:src="@{/js/index.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/global.css}"}>
 </head>
 
 <nav th:replace="layout/nav :: nav"></nav>

@@ -4,7 +4,6 @@ import lombok.*;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
-import team.univ.magic_conch.question.dto.QuestionFollowDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -12,6 +11,7 @@ import team.univ.magic_conch.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,9 +81,12 @@ public class Question {
         return QuestionListDTO.builder()
                 .questionId(getId())
                 .title(getTitle())
+                .content(getContent())
                 .view(getView())
-                .createTime(getCreateTime())
+                .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .beforeTime((System.currentTimeMillis() - getCreateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / 1000 / 60)
                 .username(getUser().getUsername())
+                .profileImg(getUser().getProfileImg())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .build();
@@ -95,24 +98,12 @@ public class Question {
                 .title(getTitle())
                 .content(getContent())
                 .view(getView())
-                .createTime(getCreateTime())
-                .lastModifyTime(getLastModifyTime())
+                .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastModifyTime(getLastModifyTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .username(getUser().getUsername())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .bundleId(getBundle() != null ? getBundle().getId() : 0)
-                .build();
-    }
-
-    public QuestionFollowDTO entityToQuestionFollowDto(){
-        return QuestionFollowDTO.builder()
-                .questionId(getId())
-                .title(getTitle())
-                .content(getContent())
-                .createTime(getCreateTime())
-                .beforeTime((System.currentTimeMillis() - getCreateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / 1000 / 60)
-                .username(getUser().getUsername())
-                .profileImg(getUser().getProfileImg())
                 .build();
     }
 
