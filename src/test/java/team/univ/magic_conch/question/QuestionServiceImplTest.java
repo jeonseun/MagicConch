@@ -11,6 +11,7 @@ import team.univ.magic_conch.follow.Follow;
 import team.univ.magic_conch.follow.FollowRepository;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.user.User;
@@ -107,17 +108,17 @@ class QuestionServiceImplTest {
         }
         //when
         List<QuestionListDTO> resultTitle
-                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", null, null, new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, null, "TestTitle", null)).getDtoList();
         List<QuestionListDTO> resultUsername
-                = questionService.questionAllByTitleOrUsernameOrTagName(null, "tester0", null, new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, "tester0", null, null)).getDtoList();
         List<QuestionListDTO> resultTagName
-                = questionService.questionAllByTitleOrUsernameOrTagName(null, null, "JAVA1", new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, null, null, "JAVA1")).getDtoList();
         List<QuestionListDTO> resultTitleAndTagName
-                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", null, "JAVA0", new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, null, "TestTitle", "JAVA0")).getDtoList();
         List<QuestionListDTO> resultTitleAndTagNameAndTagName
-                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", "tester0", "JAVA0", new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, "tester0", "TestTitle", "JAVA0")).getDtoList();
         List<QuestionListDTO> resultTitleAndTagNameAndTagName2
-                = questionService.questionAllByTitleOrUsernameOrTagName("TestTitle", "tester0", "JAVA1", new PageRequestDTO(1)).getDtoList();
+                = questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, "tester0", "TestTitle", "JAVA1")).getDtoList();
         //then
         Assertions.assertThat(resultTitle)
                 .usingRecursiveComparison()
@@ -168,7 +169,7 @@ class QuestionServiceImplTest {
             expect.add(question);
         }
         //when
-        Page<Question> result = questionRepository.findAllByFollowUsername("test", null, null, null, new PageRequestDTO().getPageable());
+        Page<Question> result = questionRepository.findAllByFollowUsername("test", new QuestionSearchDTO(1, null, null, null));
         //then
         Assertions.assertThat(result.getContent())
                 .usingRecursiveComparison()

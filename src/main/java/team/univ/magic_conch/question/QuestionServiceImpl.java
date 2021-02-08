@@ -9,6 +9,7 @@ import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
@@ -44,8 +45,8 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public PageResultDTO<QuestionListDTO, Question> questionAllByTitleOrUsernameOrTagName(String title, String username, String tagName, PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAllByTitleOrUsernameOrTagName(title, username, tagName, pageRequestDTO.getPageable());
+    public PageResultDTO<QuestionListDTO, Question> questionAllByTitleOrUsernameOrTagName(QuestionSearchDTO questionSearchDTO) {
+        Page<Question> result = questionRepository.findAllByTitleOrUsernameOrTagName(questionSearchDTO);
         Function<Question, QuestionListDTO> fn = (Question::entityToQuestionListDto);
         return new PageResultDTO<>(result, fn);
     }
@@ -59,8 +60,8 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = false)
-    public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, String title, String username, String tagName, PageRequestDTO pageRequestDTO) {
-        Page<Question> result = questionRepository.findAllByFollowUsername(myname, title, username, tagName, pageRequestDTO.getPageable());
+    public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO) {
+        Page<Question> result = questionRepository.findAllByFollowUsername(myname, questionSearchDTO);
         Function<Question, QuestionListDTO> fn = Question::entityToQuestionListDto;
         return new PageResultDTO<>(result, fn);
     }

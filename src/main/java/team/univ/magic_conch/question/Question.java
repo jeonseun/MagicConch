@@ -50,12 +50,12 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Question(String title, String content, int view, LocalDateTime lastModifyTime, User user, Bundle bundle, Tag tag) {
+    public Question(String title, String content, int view, User user, Bundle bundle, Tag tag) {
         this.title = title;
         this.content = content;
         this.view = view;
         this.createTime = LocalDateTime.now().withNano(0);
-        this.lastModifyTime = lastModifyTime;
+        this.lastModifyTime = LocalDateTime.now().withNano(0);
         this.user = user;
         this.bundle = bundle;
         this.tag = tag;

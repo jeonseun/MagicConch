@@ -11,8 +11,10 @@ import org.springframework.data.domain.Pageable;
 import org.thymeleaf.util.StringUtils;
 import team.univ.magic_conch.bundle.QBundle;
 import team.univ.magic_conch.follow.QFollow;
+import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.tag.QTag;
 import team.univ.magic_conch.user.QUser;
+import team.univ.magic_conch.utils.page.PageRequestDTO;
 
 import java.util.List;
 
@@ -22,11 +24,16 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
     private final JPAQueryFactory jpaQueryFactory;
 
     @Override
-    public Page<Question> findAllByTitleOrUsernameOrTagName(String title, String username, String tagName, Pageable pageable) {
+    public Page<Question> findAllByTitleOrUsernameOrTagName(QuestionSearchDTO questionSearchDTO) {
 
         QQuestion question = QQuestion.question;
         QUser user = QUser.user;
         QTag tag = QTag.tag;
+
+        String title = questionSearchDTO.getTitle();
+        String username = questionSearchDTO.getUsername();
+        String tagName = questionSearchDTO.getTagName();
+        Pageable pageable = new PageRequestDTO(questionSearchDTO.getPageNo()).getPageable();
 
         QueryResults<Question> result = jpaQueryFactory
                 .selectFrom(question)
@@ -46,12 +53,17 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
     }
 
     @Override
-    public Page<Question> findAllByFollowUsername(String myname, String title, String username, String tagName, Pageable pageable) {
+    public Page<Question> findAllByFollowUsername(String myname, QuestionSearchDTO questionSearchDTO) {
 
         QQuestion question = QQuestion.question;
         QUser user = QUser.user;
         QFollow follow = QFollow.follow;
         QTag tag = QTag.tag;
+
+        String title = questionSearchDTO.getTitle();
+        String username = questionSearchDTO.getUsername();
+        String tagName = questionSearchDTO.getTagName();
+        Pageable pageable = new PageRequestDTO(questionSearchDTO.getPageNo()).getPageable();
 
         QueryResults<Question> result = jpaQueryFactory
                 .selectFrom(question)
