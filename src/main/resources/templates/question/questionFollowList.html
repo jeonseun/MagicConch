@@ -15,13 +15,16 @@
 <nav th:replace="layout/nav :: nav"></nav>
 
 <div class="container col-md-10">
+
     <!--  질문 목록 제목  -->
 
-    <p
-            class="fs-1 text-center mb-5 title"
-            th:text="'질문 목록(' + ${questionList.totalCnt} + ')'"
-            onclick="location.href='/question/list'"
-    ></p>
+    <div class="text-center">
+        <a
+                class="fs-1 text-center mb-5 title"
+                th:text="'질문 목록(' + ${questionList.totalCnt} + ')'"
+                onclick="location.href='/question/follow/list'"
+        ></a>
+    </div>
 
     <!--  질문 검색  -->
 
