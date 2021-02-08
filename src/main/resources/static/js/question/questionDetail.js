@@ -26,3 +26,9 @@ function clickDelete(){
         }
     })
 }
+
+
+function test(str){
+    console.log(str);
+    document.getElementsByClassName('test').item(0).innerHTML = str;
+}

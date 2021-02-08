@@ -4,6 +4,7 @@ import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
+import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
@@ -21,7 +22,19 @@ public interface QuestionService {
      * 질문하기(POST)
      * @param question
      */
-    public void questionForm(Question question);
+    public void createQuestion(Question question);
+
+    /**
+     * 질문수정(PUT)
+     * @param questionForm
+     */
+    public void updateQuestion(QuestionForm questionForm);
+
+    /**
+     * 질문삭제(DELETE)
+     * @param question
+     */
+    public void deleteQuestion(Question question);
 
     /**
      * 상세 질문 보기

@@ -43,12 +43,7 @@
         </div>
     </div>
     <hr/>
-    <pre
-            th:text="${question.content}"
-            style="white-space: pre-wrap; margin: 0px"
-    >
-내용</pre
-    >
+    <div th:utext="${question.content}"></div>
     <div class="d-flex justify-content-between" style="padding: 10px 5px">
         <i
                 class="fas fa-heart"

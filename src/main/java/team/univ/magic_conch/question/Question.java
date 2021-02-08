@@ -67,6 +67,18 @@ public class Question {
         answer.changeQuestion(this);
     }
 
+    public void changeTitle(String title){
+        this.title = title;
+    }
+
+    public void changeContent(String content) {
+        this.content = content;
+    }
+
+    public void changeTag(Tag tag){
+        this.tag = tag;
+    }
+
     public void changeBundle(Bundle bundle) {
         if(this.bundle != bundle){
             this.bundle = bundle;

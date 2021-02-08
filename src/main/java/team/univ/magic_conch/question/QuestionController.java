@@ -19,7 +19,6 @@ import team.univ.magic_conch.utils.page.PageResultDTO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -69,12 +68,18 @@ public class QuestionController {
                 .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
                 .tag(tagService.findByName(questionForm.getTagName()))
                 .build();
-        questionService.questionForm(question);
+        questionService.createQuestion(question);
         return "redirect:/question/" + question.getId();
     }
 
+    /**
+     * 질문 수정 요청
+     * @param questionForm
+     * @return
+     */
     @PutMapping("/question")
     public String updateQuestion(@ModelAttribute QuestionForm questionForm){
+        questionService.updateQuestion(questionForm);
         return "redirect:/question/" + questionForm.getQuestionId();
     }
 
@@ -87,8 +92,12 @@ public class QuestionController {
     @ResponseBody
     public String deleteQuestion(@PathVariable Long questionNo){
         Optional<Question> question = questionRepository.findById(questionNo);
-        question.ifPresent(questionRepository::delete);
-        return "success";
+        if(question.isPresent()){
+            questionService.deleteQuestion(question.get());
+            return "success";
+        }else{
+            return "fail";
+        }
     }
 
     /**

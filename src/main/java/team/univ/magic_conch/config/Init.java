@@ -15,7 +15,6 @@ import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +84,7 @@ public class Init implements CommandLineRunner {
         for (int i = 0; i < 255; i++) {
             Thread.sleep(10);
             if(i < 50) {
-                questionService.questionForm(
+                questionService.createQuestion(
                         Question.builder()
                                 .title("제목" + i)
                                 .content("본문" + i)
@@ -95,7 +94,7 @@ public class Init implements CommandLineRunner {
                                 .build()
                 );
             }
-            questionService.questionForm(
+            questionService.createQuestion(
                     Question.builder()
                             .title("제목" + (254 - i))
                             .content("본문" + (254 - i))

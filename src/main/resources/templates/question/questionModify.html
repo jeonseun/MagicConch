@@ -4,6 +4,9 @@
     <div th:replace="layout/base :: base"></div>
     <title>질문 수정 페이지</title>
     <script defer th:src="@{/js/question/question.js}"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
@@ -20,14 +23,14 @@
 
     <!--  제목  -->
     <div class="form-outline mb-4">
-        <input type="text" id="form1" th:name="title" class="form-control"/>
-        <label class="form-label" for="form1">제목 입력</label>
+        <textarea class="form-control" id="textAreaExample" th:name="title" rows="1" th:text="${questionInfo.title}"></textarea>
+        <label class="form-label" for="textAreaExample">제목 입력</label>
     </div>
 
     <div class="d-flex flex-row mb-3">
         <div class="input-group mb-3 me-4">
             <!--  태그선택  -->
-            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control"
+            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control" th:value="${questionInfo.tagName}"
                    id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택"/>
             <button
                     class="btn btn-primary dropdown-toggle"
@@ -51,7 +54,7 @@
 
         <div class="input-group mb-3 bundleDrop">
             <!--  번들선택  -->
-            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt"
+            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt" th:value="${questionInfo.bundleName}"
                    aria-label="Text input with dropdown button" placeholder="번들 선택"/>
             <input readonly hidden th:name="bundleId" type="text" style="background-color: white;" class="form-control"
                    id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1"/>
@@ -75,8 +78,14 @@
 
     <div class="form-outline">
         <!--  내용  -->
-        <textarea class="form-control" id="textAreaExample" th:name="content" rows="16"></textarea>
-        <label class="form-label" for="textAreaExample">내용 입력</label>
+        <textarea name="content" id="summernote" class="summernote" th:name="content" th:text="${questionInfo.content}"></textarea>
+        <script>
+            $(document).ready(function() {
+                $('#summernote').summernote({
+                    height: 500, minHeight: null, maxHeight: null, lang : 'ko-KR'
+                });
+            });
+        </script>
     </div>
 
     <div class="d-flex flex-row mb-3 justify-content-center mt-4">

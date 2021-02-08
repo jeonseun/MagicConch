@@ -10,6 +10,8 @@ import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
+import team.univ.magic_conch.question.form.QuestionForm;
+import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
@@ -25,6 +27,7 @@ public class QuestionServiceImpl implements QuestionService{
 
     private final QuestionRepository questionRepository;
     private final BundleRepository bundleRepository;
+    private final TagRepository tagRepository;
 
     @Override
     public List<BundleDropBoxDTO> question(String username){
@@ -35,8 +38,24 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = false)
-    public void questionForm(Question question){
+    public void createQuestion(Question question){
         questionRepository.save(question);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void updateQuestion(QuestionForm questionForm) {
+        Question question = questionRepository.findById(questionForm.getQuestionId()).orElse(null);
+        question.changeTitle(questionForm.getTitle());
+        question.changeContent(questionForm.getContent());
+        question.changeTag(tagRepository.findByName(questionForm.getTagName()));
+        question.changeBundle(bundleRepository.findById(questionForm.getBundleId()).orElse(null));
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteQuestion(Question question) {
+        questionRepository.delete(question);
     }
 
     @Override

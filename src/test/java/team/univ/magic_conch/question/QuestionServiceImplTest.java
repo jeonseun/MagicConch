@@ -1,7 +1,6 @@
 package team.univ.magic_conch.question;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,10 +15,7 @@ import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
-import team.univ.magic_conch.utils.page.PageRequestDTO;
-import team.univ.magic_conch.utils.page.PageResultDTO;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,7 +47,7 @@ class QuestionServiceImplTest {
                 .user(user)
                 .build();
         //when
-        questionService.questionForm(question);
+        questionService.createQuestion(question);
         //then
         Assertions.assertThat(questionRepository.findAll().size()).as("질문 생성 X").isEqualTo(1);
         Assertions.assertThat(questionRepository.findAll().get(0)).as("생성된 질문과 다릅니다").extracting("title").isEqualTo("제목");
