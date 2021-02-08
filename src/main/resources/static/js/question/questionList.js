@@ -1,3 +1,7 @@
+$(document).ready(function (){
+    document.getElementsByClassName('page-item-no').item(0).classList.add('active');
+})
+
 const searchDrop = document.getElementsByClassName('searchInput').item(0);
 const tagList = document.getElementById('tagList');
 
@@ -19,7 +23,7 @@ function next(is, startPage){
 
 function selectPageNo(pageNo){
     var params = jQuery('.form-data').serialize() + '&page=' + pageNo;
-    refreshList(params);
+    refreshList(params, pageNo);
 }
 
 function selectSearchFilter(searchName){
@@ -63,7 +67,11 @@ function tagDrop(tagDrop){
     }
 }
 
-function refreshList(params){
+function selectQuestion(url){
+    location.href = '/question/' + url;
+}
+
+function refreshList(params, pageNo = 1){
 
     $.ajax({
         url: '/api/v1/question/list',
@@ -80,6 +88,7 @@ function refreshList(params){
             for (let i = 0; i < data.dtoList.length; i++) {
                 let tr = document.createElement("tr");
                 list.appendChild(tr);
+                tr.setAttribute('onclick', 'javascript:selectQuestion(' + data.dtoList[i].questionId + ')')
                 tr.innerHTML =
                     '<td>' + (data.totalCnt - ((data.curPage - 1) * 10) - i) + '</td>' +
                     '<td style="text-shadow: 1px 1px 10px ' + data.dtoList[i].tagColor + '">' + data.dtoList[i].tagName + '</td>' +
@@ -103,6 +112,7 @@ function refreshList(params){
                 previous.setAttribute("onclick", 'previous(' + data.previous + ',' + data.startPage + ')');
                 next.setAttribute("onclick", 'next(' + data.next + ',' + data.startPage + ')');
             }
+            document.getElementsByClassName('page-item-no').item(pageNo - 1).classList.add('active');
         }, error: function (xhr){
 
         }
