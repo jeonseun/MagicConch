@@ -9,6 +9,7 @@ import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagService;
@@ -19,7 +20,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Controller
@@ -27,22 +28,43 @@ import java.util.stream.Collectors;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final QuestionRepository questionRepository;
     private final TagService tagService;
     private final BundleService bundleService;
 
+    /**
+     * 질문 작성 페이지
+     * @param model
+     * @param principalDetails
+     * @return 질문 페이지 view
+     */
     @GetMapping("/question")
-    public String question(Model model, Principal principal){
-        model.addAttribute("bundleList", questionService.question(principal.getName()));
+    public String question(Model model, @AuthenticationPrincipal PrincipalDetails principalDetails){
+        model.addAttribute("bundleList", questionService.question(principalDetails.getUsername()));
         return "/question/question";
     }
 
+    @GetMapping("/question/{questionNo}/modify")
+    public String questionModify(Model model,
+                                 @PathVariable Long questionNo,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
+        model.addAttribute("questionInfo", questionService.questionDetail(questionNo));
+        model.addAttribute("bundleList", questionService.question(principalDetails.getUsername()));
+        return "/question/questionModify";
+    }
+
+    /**
+     * 질문 작성 요청
+     * @param questionForm
+     * @param principalDetails
+     * @return 작성한 질문 상세 페이지 view
+     */
     @PostMapping("/question")
-    public String questionForm(@ModelAttribute QuestionForm questionForm, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String createQuestion(@ModelAttribute QuestionForm questionForm,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
         Question question = Question.builder()
                 .title(questionForm.getTitle())
                 .content(questionForm.getContent())
-                .createTime(LocalDateTime.now())
-                .lastModifyTime(LocalDateTime.now().withNano(0))
                 .user(principalDetails.getUser())
                 .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
                 .tag(tagService.findByName(questionForm.getTagName()))
@@ -51,8 +73,37 @@ public class QuestionController {
         return "redirect:/question/" + question.getId();
     }
 
+    @PutMapping("/question")
+    public String updateQuestion(@ModelAttribute QuestionForm questionForm){
+        return "redirect:/question/" + questionForm.getQuestionId();
+    }
+
+    /**
+     * 질문 삭제 요청
+     * @param questionNo
+     * @return 성공 여부
+     */
+    @DeleteMapping("/question/{questionNo}")
+    @ResponseBody
+    public String deleteQuestion(@PathVariable Long questionNo){
+        Optional<Question> question = questionRepository.findById(questionNo);
+        question.ifPresent(questionRepository::delete);
+        return "success";
+    }
+
+    /**
+     * 질문 상세 페이지
+     * @param req
+     * @param res
+     * @param model
+     * @param questionNo
+     * @param principalDetails
+     * @return 상세 페이지 view
+     */
     @GetMapping("/question/{questionNo}")
-    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model, @PathVariable Long questionNo, @AuthenticationPrincipal PrincipalDetails principalDetails){
+    public String questionDetail(HttpServletRequest req, HttpServletResponse res, Model model,
+                                 @PathVariable Long questionNo,
+                                 @AuthenticationPrincipal PrincipalDetails principalDetails){
         QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
 
         /* 조회수 중복방지 */
@@ -77,33 +128,86 @@ public class QuestionController {
         return "/question/questionDetail";
     }
 
+    /**
+     * 질문 목록 페이지
+     * @param model
+     * @param pageNo
+     * @return 질문 목록 페이지 view
+     */
     @GetMapping("question/list")
     public String questionList(Model model,
-                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
-                               @RequestParam(value = "user", required = false) String userName,
-                               @RequestParam(value = "title", required = false) String title,
-                               @RequestParam(value = "tag", required = false) String tagName){
+                               @RequestParam(value = "page", defaultValue = "1") Integer pageNo){
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
 
-        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO));
+        model.addAttribute("questionList", questionService.questionAllByTitleOrUsernameOrTagName(new QuestionSearchDTO(1, null, null, null)));
         model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
 
         return "/question/questionList";
     }
 
-    @GetMapping("question/api/v1/list")
+    /**
+     * 질문 목록 페이지
+     * @param questionSearchDTO
+     * @return 질문 목록 + 페이징 정보만
+     */
+    @GetMapping("api/v1/question/list")
     @ResponseBody
-    public PageResultDTO<QuestionListDTO, Question> questionListApi(Model model,
-                                                                    @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
-                                                                    @RequestParam(value = "user", required = false) String userName,
-                                                                    @RequestParam(value = "title", required = false) String title,
-                                                                    @RequestParam(value = "tag", required = false) String tagName){
+    public PageResultDTO<QuestionListDTO, Question> questionList(QuestionSearchDTO questionSearchDTO){
 
-        PageRequestDTO pageRequestDTO = new PageRequestDTO(pageNo);
+        return questionService.questionAllByTitleOrUsernameOrTagName(questionSearchDTO);
+    }
 
-        return questionService.questionAllByTitleOrUsernameOrTagName(title, userName, tagName, pageRequestDTO);
+    /**
+     * 팔로우 질문 목록 페이지
+     * @param model
+     * @param pageNo
+     * @param principalDetails
+     * @return 팔로우 질문 목록 페이지 view
+     */
+    @GetMapping("question/follow/list")
+    public String questionFollowList(Model model,
+                                     @RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                     @AuthenticationPrincipal PrincipalDetails principalDetails){
 
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
 
+        model.addAttribute("questionList", questionService.questionFollow(myname, new QuestionSearchDTO(1, null, null, null)));
+        model.addAttribute("tagList", tagService.findAll().stream().map(Tag::entityToTagDto).collect(Collectors.toList()));
+
+        return "/question/questionFollowList";
+    }
+
+    /**
+     * 팔로우 질문 목록 페이지
+     * @param questionSearchDTO
+     * @param principalDetails
+     * @return 팔로우 질문 목록 + 페이징 정보만
+     */
+    @GetMapping("api/v1/question/follow/list")
+    @ResponseBody
+    public PageResultDTO<QuestionListDTO, Question> questionFollowList(QuestionSearchDTO questionSearchDTO,
+                                                                       @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
+
+        return questionService.questionFollow(myname, questionSearchDTO);
+
+    }
+
+    /**
+     * 메인 화면
+     * @param pageNo
+     * @param principalDetails
+     * @return 팔로우 질문 목록
+     */
+    @GetMapping("api/v1/index/question/follow/list")
+    @ResponseBody
+    public PageResultDTO<QuestionListDTO, Question> questionFollowList(@RequestParam(value = "page", defaultValue = "1") Integer pageNo,
+                                                                       @AuthenticationPrincipal PrincipalDetails principalDetails){
+
+        String myname = principalDetails == null ? "" : principalDetails.getUsername();
+
+        return questionService.questionFollow(myname, new QuestionSearchDTO(1, null, null, null));
     }
 }

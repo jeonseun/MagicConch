@@ -1,23 +1,23 @@
 package team.univ.magic_conch.question.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
 public class QuestionListDTO {
 
     private Long questionId;
     private String title;
+    private String content;
     private int view;
-    private LocalDateTime createTime;
+    private String createTime;
+    private Long beforeTime;
     private String username;
+    private String profileImg;
     private String tagName;
     private String tagColor;
 

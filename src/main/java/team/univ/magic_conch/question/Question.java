@@ -5,12 +5,13 @@ import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
-import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,9 @@ public class Question {
     private LocalDateTime createTime;
     private LocalDateTime lastModifyTime;
 
+    @Enumerated(EnumType.STRING)
+    private QuestionStatus status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -46,15 +50,16 @@ public class Question {
     private List<Answer> answers = new ArrayList<>();
 
     @Builder
-    public Question(String title, String content, int view, LocalDateTime createTime, LocalDateTime lastModifyTime, User user, Bundle bundle, Tag tag) {
+    public Question(String title, String content, int view, User user, Bundle bundle, Tag tag) {
         this.title = title;
         this.content = content;
         this.view = view;
-        this.createTime = createTime;
-        this.lastModifyTime = lastModifyTime;
+        this.createTime = LocalDateTime.now().withNano(0);
+        this.lastModifyTime = LocalDateTime.now().withNano(0);
         this.user = user;
         this.bundle = bundle;
         this.tag = tag;
+        this.status = QuestionStatus.ING;
     }
 
     public void addAnswer(Answer answer) {
@@ -76,9 +81,12 @@ public class Question {
         return QuestionListDTO.builder()
                 .questionId(getId())
                 .title(getTitle())
+                .content(getContent())
                 .view(getView())
-                .createTime(getCreateTime())
+                .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .beforeTime((System.currentTimeMillis() - getCreateTime().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / 1000 / 60)
                 .username(getUser().getUsername())
+                .profileImg(getUser().getProfileImg())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .build();
@@ -90,8 +98,8 @@ public class Question {
                 .title(getTitle())
                 .content(getContent())
                 .view(getView())
-                .createTime(getCreateTime())
-                .lastModifyTime(getLastModifyTime())
+                .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
+                .lastModifyTime(getLastModifyTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .username(getUser().getUsername())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())

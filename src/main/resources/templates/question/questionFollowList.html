@@ -2,9 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="layout/base :: base"></div>
-    <title>질문보기</title>
-    <link rel="stylesheet" th:href="@{/css/global.css}" }>
-    <script defer th:src="@{/js/question/questionList.js}"></script>
+    <title>팔로우 질문보기</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}"}>
+    <script defer th:src="@{/js/question/questionFollowList.js}"></script>
     <style>
         .page-item-no:active {
             color: yellow;
@@ -22,7 +22,7 @@
         <a
                 class="fs-1 text-center mb-5 title"
                 th:text="'질문 목록(' + ${questionList.totalCnt} + ')'"
-                onclick="location.href='/question/list'"
+                onclick="location.href='/question/follow/list'"
         ></a>
     </div>
 
@@ -62,7 +62,7 @@
                     th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'"
                     th:onclick="selectTagName(event, [[${tag.name}]])"
             ></button>
-            <input hidden type="text" id="tagList"/>
+            <input hidden type="text" id="tagList" />
         </div>
 
         <div class="d-flex flex-row mb-3">
@@ -116,7 +116,7 @@
         </div>
     </form>
 
-    <hr/>
+    <hr />
 
     <!--  질문 목록 리스트  -->
     <table class="table animation fade-in shadow" style="border-radius: 10px">

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class QuestionForm {
 
+    private Long questionId;
     private String title;
     private String content;
     private Long bundleId;

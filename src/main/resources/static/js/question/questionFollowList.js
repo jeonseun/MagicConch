@@ -66,7 +66,7 @@ function tagDrop(tagDrop){
 function refreshList(params){
 
     $.ajax({
-        url: '/api/v1/question/list',
+        url: '/api/v1/question/follow/list',
         type: 'GET',
         data : params,
         dataType: 'json',

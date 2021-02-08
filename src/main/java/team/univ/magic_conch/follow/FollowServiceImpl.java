@@ -43,7 +43,7 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public List<SimpleUserDTO> findAllByUserTo(User userTo) {
         return followRepository.findAllByUserTo(userTo).stream()
-                .map(Follow::getUserTo)
+                .map(Follow::getUserFrom)
                 .map(User::entityToSimpleUserDto)
                 .collect(Collectors.toList());
     }
