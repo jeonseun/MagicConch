@@ -5,14 +5,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserProfileDTO;
 
 import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.time.LocalDate;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Entity
 public class User {
@@ -22,20 +20,36 @@ public class User {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(name = "username", unique = true)
     private String username;
+
+    @Column(name = "user_password")
     private String password;
 
     @Enumerated(EnumType.STRING)
-    @Builder.Default
-    private UserRole role = UserRole.ROLE_USER;
+    @Column(name = "user_role")
+    private UserRole userRole;
+
+    @Column(name = "user_real_name")
     private String name;
 
-    @Builder.Default
-    private String profileImg = "/image/default_profile_image.png";
+    @Column(name = "user_created_date")
+    private LocalDate createdDate;
 
-    @Builder.Default
-    private LocalDate createDate = LocalDate.now();
+    @Column(name = "user_profile_image")
+    private String profileImg;
+
+    @Builder
+    public User(String username, String password, String name) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        userRole = UserRole.ROLE_USER;
+        createdDate = LocalDate.now();
+        profileImg = "/image/default_profile_image.png";
+    }
+
+    protected User() { }
 
     /**
      * 프로필 이미지 변경
@@ -49,6 +63,14 @@ public class User {
         return SimpleUserDTO.builder()
                 .username(getUsername())
                 .profileImg(getProfileImg())
+                .build();
+    }
+
+    public UserProfileDTO toUserProfileDTO() {
+        return UserProfileDTO.builder()
+                .username(getUsername())
+                .name(getName())
+                .profileImage(getProfileImg())
                 .build();
     }
 }

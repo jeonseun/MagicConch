@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>마법의 코딩고동</title>
-  </head>
-  <body>
-    <nav th:replace="layout/nav :: nav"></nav>
-  </body>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout('index', ~{}, ~{::body}, ~{}, ~{})}" lang="en"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+</body>
+
 </html>

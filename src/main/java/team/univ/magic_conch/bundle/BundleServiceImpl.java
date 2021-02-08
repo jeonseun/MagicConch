@@ -36,21 +36,6 @@ public class BundleServiceImpl implements BundleService {
     }
 
 
-    /**
-     * 회원 ID로 해당 회원이 생성한 번들목록 조회하여 반환
-     *
-     * @param username
-     * @return 뷰로 넘겨주기 위한 번들정보 리스트
-     */
-    @Override
-    public List<BundleDTO.MyBundle> getMyBundles(String username) {
-        List<Bundle> bundles = bundleRepository.findAllByUserUsername(username);
-
-        return bundles.stream()
-                .map(Bundle::toMyBundleDTO)
-                .collect(Collectors.toList());
-    }
-
     @Override
     public BundleDTO.BundleDetails getBundleDetails(Long id) {
 

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout('friend', ~{}, ~{::main}, ~{}, ~{})">
+<body>
+<main class="container bg-primary row mx-auto mt-5">
+    <header class="mb-3">
+        <nav th:replace="fragments/menus :: user_info_menu('friend')"></nav>
+    </header>
+    <!-- left section -->
+    <!-- left section -->
+
+    <!-- right section -->
+    <!-- right section -->
+
+</main>
+</body>
+</html>

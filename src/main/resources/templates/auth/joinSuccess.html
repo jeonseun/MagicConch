@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="fragments/layout :: layout('Join Success', ~{::head}, ~{::main},  ~{}, ~{})">
+<head>
+    <meta http-equiv="refresh" content="3; url=http://localhost:8080/">
+</head>
+<body>
+<main class="container mt-5 p-3">
+    <section class="card p-5">
+        <article class="card text-center" style="background-color:#e5f5ff;">
+            <h4 class="card-title">가입 성공</h4>
+            <p class="card-text">
+                3초 뒤 메인 화면으로 이동합니다.
+            </p>
+            <a th:href="@{/}" type="button" class="btn btn-primary">바로이동</a>
+        </article>
+    </section>
+</main>
+</body>
+</html>

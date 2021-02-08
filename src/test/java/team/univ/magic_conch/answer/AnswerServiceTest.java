@@ -30,7 +30,7 @@ class AnswerServiceTest {
     @BeforeEach
     public void setSampleData() {
         if(sampleUser1 == null && sampleQuestion1 == null) {
-            sampleUser1 = new User();
+            sampleUser1 = User.builder().build();
             sampleQuestion1 = Question.builder().build();
             em.persist(sampleUser1);
             em.persist(sampleQuestion1);

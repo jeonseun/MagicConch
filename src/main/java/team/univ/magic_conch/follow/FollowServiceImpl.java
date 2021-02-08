@@ -47,4 +47,9 @@ public class FollowServiceImpl implements FollowService{
                 .map(User::entityToSimpleUserDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public boolean isFollowed(User userFrom, User userTo) {
+        return followRepository.findByUserFromAndUserTo(userFrom, userTo).isPresent();
+    }
 }

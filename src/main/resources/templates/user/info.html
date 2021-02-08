@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      th:replace="fragments/layout :: layout('user info', ~{::head}, ~{::main}, ~{}, ~{})">
+<body>
+<head>
+    <link rel="stylesheet" th:href="@{/css/profile.css}">
+</head>
+<main class="container row mx-auto mt-5">
+    <header class="mb-3">
+        <nav th:replace="fragments/menus :: user_info_menu('info')"></nav>
+    </header>
+    <!-- left section -->
+    <section class="col-12 col-md-4 col-lg-3">
+        <!-- profile summary -->
+        <article>
+            <!-- user info -->
+            <!-- isMine true : own user info page -->
+            <!-- isMine false : another user info page -->
+            <div th:replace="fragments/components :: profile(${user}, ${isMine}, ${followed})"></div>
+            <!-- user info -->
+        </article>
+        <!-- profile summary -->
+    </section>
+    <!-- left section -->
+
+    <!-- right section -->
+    <section class="col-12 col-md-8 col-lg-9">
+        <!-- bundle summary -->
+        <article class="row">
+            <div class="d-flex mb-2">
+                <h3>BUNDLES</h3>
+
+                <a th:if="${isMine}" th:href="@{/bundle/createForm}" class="btn btn-rounded btn-success ms-auto">
+                    <i class="fas fa-plus"> NEW BUNDLE</i>
+                </a>
+            </div>
+            <ul class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3" style="list-style-type: none;">
+                <li th:each="bundle : ${bundles}" th:include="fragments/components :: bundlePreview(${bundle})"></li>
+            </ul>
+        </article>
+        <!-- bundle summary -->
+
+        <!-- activity summary -->
+        <article class="row ">
+
+        </article>
+        <!-- activity summary -->
+    </section>
+    <!-- right section -->
+
+</main>
+</body>
+</html>

@@ -7,10 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import team.univ.magic_conch.config.auth.PrincipalDetails;
 import team.univ.magic_conch.utils.file.StorageService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
@@ -39,10 +39,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public boolean isUsernameDuplicate(String username) {
-        if (userRepository.findByUsername(username).isPresent()) {
-            return true;
-        }
-        return false;
+        Optional<User> findUser = userRepository.findByUsername(username);
+        return findUser.isPresent();
     }
 
     @Override

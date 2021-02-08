@@ -1,0 +1,22 @@
+.profile__icon {
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  top: 83%;
+  left: 83%;
+  background-color: #9e9e9e;
+  padding: 5px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+#profileImageChange {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

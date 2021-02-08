@@ -52,7 +52,6 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("JAVA"))
                         .visibility("PRIVATE")
-                        .createDate(LocalDate.now())
                         .build()
         );
         bundleService.save(
@@ -61,8 +60,6 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("SPRING"))
                         .visibility("PUBLIC")
-                        .createDate(LocalDate.now())
-
                         .build()
         );
         bundleService.save(
@@ -71,23 +68,22 @@ public class Init implements CommandLineRunner {
                         .user(user)
                         .tag(tagService.findByName("PYTHON"))
                         .visibility("FRIEND")
-                        .createDate(LocalDate.now())
                         .build()
         );
-
-        for (int i = 0; i < 255; i++) {
-            Thread.sleep(10);
-            questionService.questionForm(
-                    Question.builder()
-                            .title("제목" + i)
-                            .content("본문" + i)
-                            .createTime(LocalDateTime.now())
-                            .lastModifyTime(LocalDateTime.now())
-                            .bundle(null)
-                            .tag(tagService.findByName(name[i % 7]))
-                            .user(user)
-                            .build()
-            );
-        }
+//
+//        for (int i = 0; i < 255; i++) {
+//            Thread.sleep(10);
+//            questionService.questionForm(
+//                    Question.builder()
+//                            .title("제목" + i)
+//                            .content("본문" + i)
+//                            .createTime(LocalDateTime.now())
+//                            .lastModifyTime(LocalDateTime.now())
+//                            .bundle(null)
+//                            .tag(tagService.findByName(name[i % 7]))
+//                            .user(user)
+//                            .build()
+//            );
+//        }
     }
 }

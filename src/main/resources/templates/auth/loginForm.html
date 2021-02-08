@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout('login', ~{}, ~{::main}, ~{}, ~{})}">
+
+<body>
+<main class="container">
+<section>
+    <article>
+        <!-- login form -->
+        <form class="border-1 rounded mx-auto shadow col-xl-7 col-lg-8 col-md-10 col-sm-12 p-5 mt-5"
+              th:action="@{/login}" th:method="POST">
+            <h3 class="text-center">Magic Conch Login</h3>
+            <hr>
+            <!-- username input -->
+            <div class="mb-3">
+                <label for="username"><i class="fas fa-user"></i> LOGIN ID</label>
+                <input class="form-control" id="username" type="text" name="username"
+                       th:attr="value=${id}"
+                th:classappend="${id} ? 'is-invalid'">
+
+            </div>
+            <!-- username input -->
+
+            <!-- password input -->
+            <div class="mb-3">
+                <label for="password"><i class="fas fa-key"></i> LOGIN PASSWORD</label>
+                <input id="password" class="form-control" type="password" name="password"
+                       th:classappend="${id} ? 'is-invalid'">
+            </div>
+            <!-- password input -->
+
+            <!-- login failed message -->
+            <div class="text-warning" th:text="${message}"></div>
+            <!-- login failed message -->
+
+            <!-- do login -->
+            <input id="btnLogin" class="btn btn-primary btn-block" type="submit" value="LOGIN">
+            <!-- do login -->
+
+            <!-- go to join page -->
+            <a class="btn btn-info btn-block" th:href="@{/joinForm}">JOIN</a>
+            <!-- go to join page -->
+        </form>
+        <!-- login form -->
+    </article>
+
+</section>
+</main>
+</body>
+</html>

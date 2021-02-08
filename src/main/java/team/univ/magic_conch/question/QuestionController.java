@@ -6,7 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.bundle.BundleService;
-import team.univ.magic_conch.config.auth.PrincipalDetails;
+import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.form.QuestionForm;

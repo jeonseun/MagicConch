@@ -1,5 +1,4 @@
-package team.univ.magic_conch.config.auth;
-
+package team.univ.magic_conch.auth;
 
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
@@ -8,7 +7,6 @@ import team.univ.magic_conch.user.User;
 
 import java.util.ArrayList;
 import java.util.Collection;
-
 @Getter
 public class PrincipalDetails implements UserDetails {
 
@@ -20,8 +18,8 @@ public class PrincipalDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add((GrantedAuthority) () -> user.getRole().toString());
+        Collection<GrantedAuthority> collection =new ArrayList<>();
+        collection.add((GrantedAuthority) () -> user.getUserRole().toString());
         return collection;
     }
 

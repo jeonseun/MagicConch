@@ -35,4 +35,11 @@ public interface FollowService {
      */
     public List<SimpleUserDTO> findAllByUserTo(User userTo);
 
+    /**
+     * 팔로우 중인지 확인
+     * @param userFrom 본인
+     * @param userTo   대상
+     * @return true : 팔로우 중, false : 팔로우 중 아님
+     */
+    boolean isFollowed(User userFrom, User userTo);
 }

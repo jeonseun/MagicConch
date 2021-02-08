@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<!-- unlogged navigation menu -->
+<ul th:fragment="unlogged_menu" class="navbar-nav ms-auto">
+    <li class="nav-item">
+        <th:block th:if="${menu} != 'login'">
+            <a th:href="@{/loginForm}"
+               class="btn btn-rounded btn-dark font-weight-bold">LOGIN</a>
+        </th:block>
+    </li>
+</ul>
+<!-- unlogged navigation menu -->
+
+<!-- logged navigation menu -->
+<ul th:fragment="logged_menu" class="navbar-nav ms-auto flex-row align-items-center">
+    <!-- profile image and name -->
+    <!-- !!this li is dropdown toggle button -->
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profile-dropdown"
+           role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+            <img id="navProfileImage"
+                 th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
+                 src="http://localhost:8080/default_profile_image.png"
+                 class="rounded-circle"
+                 height="25px"
+                 width="25px"/>
+            <span sec:authentication="principal.user.name" class="ms-1 text-white">
+                name
+            </span>
+        </a>
+        <!-- dropdown menu -->
+        <ul class="dropdown-menu" aria-labelledby="profile-dropdown">
+            <li>
+                <a class="dropdown-item" th:href="@{/user/info}">My Page</a>
+            </li>
+            <li>
+                <a class="dropdown-item" th:href="@{/user/bundle}">My Bundles</a>
+            </li>
+            <li>
+                <a class="dropdown-item" th:href="@{/user/question}">My Friends</a>
+            </li>
+            <li>
+                <a class="dropdown-item" th:href="@{/user/friend}">My Questions</a>
+            </li>
+            <li>
+                <a class="dropdown-item" th:href="@{/user/setting}">Setting</a>
+            </li>
+            <li>
+                <hr class="dropdown-divider"/>
+            </li>
+
+            <!-- logout menu -->
+
+            <li class="dropdown-item">
+                <a class="text-black" href="#" onclick="document.getElementById('logout-dropdown').submit();">
+                    <span>
+                        <i class="fas fa-sign-out-alt"></i> logout
+                    </span>
+                    <form id="logout-dropdown" action="/logout" method="POST">
+                        <inpout type="hidden"/>
+                    </form>
+                </a>
+            </li>
+
+            <!-- logout menu -->
+        </ul>
+        <!-- dropdown menu -->
+    </li>
+
+    <!-- profile image and name -->
+
+
+    <!-- notification -->
+    <li class="nav-item">
+        <a class="nav-link dropdown-toggle hidden-arrow"
+           href="#"
+           id="navbarDropdownMenuLink"
+           role="button"
+           data-mdb-toggle="dropdown"
+           aria-expanded="false">
+            <i class="fas fa-bell fa-lg" style="color: #e3f2fd"></i>
+            <span class="badge rounded-pill badge-notification bg-danger"></span>
+        </a>
+    </li>
+    <!-- notification -->
+
+    <!-- logout button -->
+    <li class="nav-item ms-2">
+        <a href="#" onclick="document.getElementById('logout').submit();">
+            <i class="fas fa-sign-out-alt fa-lg" style="color: #e3f2fd"></i>
+        </a>
+        <form id="logout" action="/logout" method="POST">
+            <inpout type="hidden"/>
+        </form>
+    </li>
+    <!-- logout button -->
+</ul>
+
+
+<!-- logged navigation menu -->
+
+<!-- user info navigation menu -->
+<ul th:fragment="user_info_menu(currentMenu)"
+    id="user-page__nav"
+    class="nav d-flex justify-content-around bg-white shadow-lg rounded-3 font-weight-bold">
+    <li class="nav-item">
+        <a th:href="@{/user/info}" class="nav-link"
+           th:classappend="${currentMenu} == 'info' ? 'disabled' : ''">
+            <i class="fas fa-info-circle"></i> INFO</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/bundle}" class="nav-link"
+           th:classappend="${currentMenu} == 'bundle' ? 'disabled' : ''">
+            <i class="fas fa-briefcase"></i> BUNDLE</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/question}" class="nav-link"
+           th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">
+            <i class="fas fa-question-circle"></i> QUESTION</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/friend}" class="nav-link"
+           th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
+            <i class="fas fa-user-friends"></i> FRIEND</a>
+    </li>
+    <li sec:authorize="isAuthenticated()" class="nav-item">
+        <a th:href="@{/user/setting}"  class="nav-link"
+           th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
+            <i class="fas fa-cog"></i> SETTING</a>
+    </li>
+    <script>
+        let split = window.location.href.split("?");
+        const userPageNav = document.getElementById("user-page__nav");
+        let links = userPageNav.getElementsByTagName("a");
+        for (let i = 0; i < links.length; i++) {
+            if(split[1] != undefined) {
+                links[i].href += ('?' + split[1]);
+            }
+        }
+    </script>
+</ul>
+<!-- user info navigation menu -->
+
+<!-- left side nav -->
+<aside></aside>
+<!-- left side nav -->
+
+<!-- right side nav -->
+<aside></aside>
+<!-- right side nav -->
+
+</body>
+</html>

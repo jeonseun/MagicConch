@@ -1,131 +1,135 @@
 package team.univ.magic_conch.user;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import team.univ.magic_conch.config.auth.PrincipalDetails;
-import team.univ.magic_conch.bundle.BundleService;
-import team.univ.magic_conch.tag.TagService;
-import team.univ.magic_conch.user.dto.UserDTO;
+import team.univ.magic_conch.auth.PrincipalDetails;
+import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.bundle.BundleRepository;
+import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
+import team.univ.magic_conch.follow.FollowService;
+import team.univ.magic_conch.user.dto.UserProfileDTO;
+import team.univ.magic_conch.user.exception.UserNotFoundException;
 
-import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
 public class UserController {
 
-    private final UserService userService;
-    private final BundleService bundleService;
 
-    // 회원가입시 비밀번호, 비밀번호 확인 동등 검증용 validator 등록
-    @InitBinder("joinForm")
-    public void initPasswordMatchValidator(WebDataBinder webDataBinder) {
-        webDataBinder.addValidators(new PasswordMatchValidator());
-    }
+    private final UserRepository userRepository;
+    private final BundleRepository bundleRepository;
+    private final FollowService followService;
+    // !! sample url information
+    // url : http://{host_ip}:{port}/user/{page-name}?username={target-username}
 
-    // 초기화면 제공
-    @GetMapping("/")
-    public String index() {
-        return "index";
-    }
+    // user info overview page
+    @GetMapping("/user/info")
+    public String infoPage(@RequestParam(required = false) String username,
+                           @AuthenticationPrincipal PrincipalDetails principalDetails,
+                           Model model) {
+        // Request from login user
+        if(principalDetails != null) {
+            User loginUser = principalDetails.getUser();
+            // own user info page
+            if (username == null || username.equals(principalDetails.getUsername())) {
+                // convert user data -> dto
+                UserProfileDTO userDTO = loginUser.toUserProfileDTO();
 
-    // 로그인 폼 제공
-    @RequestMapping(value = "/loginForm",
-            method = {RequestMethod.GET, RequestMethod.POST})
-    public String loginForm() {
-        return "form/loginForm";
-    }
+                // data push in model
+                model.addAttribute("user", userDTO);
+                model.addAttribute("isMine", true);
+            }
+            // another user info page
+            else {
+                // get user data
+                User findUser = userRepository.findByUsername(username)
+                        .orElseThrow(UserNotFoundException::new);
+                // convert user data -> dto
+                UserProfileDTO userDTO = findUser.toUserProfileDTO();
 
-    // 회원가입 폼 제공
-    @GetMapping("/joinForm")
-    public String joinForm(Model model) {
-        model.addAttribute("joinForm", new UserDTO.JoinForm());
-        return "form/joinForm";
-    }
+                // get follow or not
+                boolean followed = followService.isFollowed(findUser, loginUser);
 
-    // 회원가입 데이터 검증
-    @PostMapping("/join")
-    public String join(@Valid @ModelAttribute UserDTO.JoinForm joinForm,
-                       BindingResult bindingResult,
-                       RedirectAttributes model) {
-        if (bindingResult.hasErrors()) {
-            return "form/joinForm";
+                // data push in model
+                model.addAttribute("user", userDTO);
+                model.addAttribute("followed", followed);
+                model.addAttribute("isMine", false);
+            }
+
+            // get bundle data
+            List<BundlePreviewDTO> bundleDTOs = bundleRepository.findAllByUserUsername(loginUser.getUsername())
+                    .stream()
+                    .map(Bundle::toBundlePreviewDTO)
+                    .collect(Collectors.toList());
+            model.addAttribute("bundles", bundleDTOs);
         }
+        // Request from non-login user
+        else {
+            // get user data
+            User findUser = userRepository.findByUsername(username)
+                    .orElseThrow(UserNotFoundException::new);
 
-        model.addFlashAttribute("joinData", joinForm.toJoinData());
+            // convert user data -> dto
+            UserProfileDTO userDTO = findUser.toUserProfileDTO();
+            model.addAttribute("user", userDTO);
 
-        return "redirect:/joinProc";
-    }
-
-    // 회원가입 처리
-    @GetMapping("/joinProc")
-    public String joinProc(UserDTO.JoinData joinData) {
-        User user = userService.join(joinData.getUsername(), joinData.getPassword(), joinData.getName());
-        return "redirect:/";
-    }
-
-    // ID 중복확인
-    @PostMapping("/idCheck")
-    @ResponseBody
-    public ResponseEntity idCheck(@Validated @RequestBody UserDTO.IdCheck idCheck) {
-        if (userService.isUsernameDuplicate(idCheck.getId())) {
-            return ResponseEntity.badRequest().body("사용이 불가능한 ID 입니다.");
-        } else {
-            return ResponseEntity.ok().body("사용이 가능한 ID 입니다.");
+            // get bundle data
+            List<BundlePreviewDTO> bundleDTOs = bundleRepository.findAllByUserUsername(findUser.getUsername())
+                    .stream()
+                    .map(Bundle::toBundlePreviewDTO)
+                    .collect(Collectors.toList());
+            model.addAttribute("bundles", bundleDTOs);
         }
+        return "user/info";
     }
 
-    // 마이페이지 모아보기 페이지 제공
-    @GetMapping("/mypage/overview")
-    public String overview(Model model,
-                           @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        model.addAttribute("bundles", bundleService.getMyBundles(principalDetails.getUsername()));
-        return "/mypage/overview";
+    // user info bundle overview page
+    @GetMapping("/user/bundle")
+    public String bundleOverview(@RequestParam(required = false) String username) {
+
+        return "user/bundleOverview";
     }
 
-    // 마이페이지 내 번들보기 페이지 제공
-    @GetMapping("/mypage/bundle")
-    public String bundle() {
-        return "/mypage/bundle";
+    // user info question overview page
+    @GetMapping("/user/question")
+    public String questionOverview(@RequestParam(required = false) String username) {
+        return "user/questionOverview";
     }
 
-    // 마이페이지 내 질문보기 페이지 제공
-    @GetMapping("/mypage/question")
-    public String question() {
-        return "/mypage/question";
+    // user info friend overview page
+    @GetMapping("/user/friend")
+    public String friendOverview(@RequestParam(required = false) String username) {
+        return "user/friendOverview";
     }
 
-    // 마이페이지 내 친구들 보기 제공
-    @GetMapping("/mypage/friend")
-    public String friend() {
-        return "/mypage/friend";
-    }
-
-    // 마이페이지 내 설정 보기 페이지 제공
-    @GetMapping("/mypage/setting")
+    // user personal setting page
+    @GetMapping("/user/setting")
     public String setting() {
-        return "/mypage/setting";
+        return "user/setting";
     }
 
-    @PutMapping("/profile/image")
-    @ResponseBody
-    public ResponseEntity changeProfileImage(MultipartFile profileImage,
-                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
-        User currentUser = principalDetails.getUser();
-        String profileImagePath = userService.changeProfileImage(profileImage, currentUser.getUsername());
-        if (profileImagePath == null) {
-            return ResponseEntity.badRequest().body("프로필 사진 변경중 오류가 발행했습니다.");
-        }
-        // 시큐리티 컨텍스트 내부의 사용자 정보에도 반영되록함
-        currentUser.changeProfileImage(profileImagePath);
-        return ResponseEntity.ok().body(profileImagePath);
+//    @PutMapping("/profile/image")
+//    @ResponseBody
+//    public ResponseEntity changeProfileImage(MultipartFile profileImage,
+//                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+//        User currentUser = principalDetails.getUser();
+//        String profileImagePath = userService.changeProfileImage(profileImage, currentUser.getUsername());
+//        if (profileImagePath == null) {
+//            return ResponseEntity.badRequest().body("프로필 사진 변경중 오류가 발행했습니다.");
+//        }
+//        // 시큐리티 컨텍스트 내부의 사용자 정보에도 반영되록함
+//        currentUser.changeProfileImage(profileImagePath);
+//        return ResponseEntity.ok().body(profileImagePath);
+//    }
+
+    @ExceptionHandler({UserNotFoundException.class})
+    public String handleException(){
+        return "error/404";
     }
 }

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
+import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -15,9 +16,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Getter
 public class Bundle {
@@ -39,8 +37,21 @@ public class Bundle {
     private Tag tag;
 
     @OneToMany(mappedBy = "bundle")
-    @Builder.Default
     private List<Question> questions = new ArrayList<>();
+
+    @Builder
+    public Bundle(String name, String visibility, User user, Tag tag) {
+        this.name = name;
+        this.visibility = visibility;
+        this.user = user;
+        this.tag = tag;
+        this.createDate = LocalDate.now();
+        this.questions = new ArrayList<>();
+    }
+
+    protected Bundle() {
+
+    }
 
     public void addQuestion(Question question){
         this.questions.add(question);
@@ -58,15 +69,14 @@ public class Bundle {
                 .build();
     }
 
-    public BundleDTO.MyBundle toMyBundleDTO() {
-        return BundleDTO.MyBundle.builder()
+    public BundlePreviewDTO toBundlePreviewDTO() {
+        return BundlePreviewDTO.builder()
                 .bundleId(getId())
                 .bundleName(getName())
-                .createTime(getCreateDate())
-                .questionCount(getQuestions().size())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .visibility(getVisibility())
                 .build();
     }
+
 }

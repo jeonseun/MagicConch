@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+<!-- profile card -->
+<div th:fragment="profile(user, isMine, followed)" class="card text-center">
+    <div class="bg-image">
+        <img th:src="${user.profileImage}" class="img-fluid position-relative">
+        <th:block th:if="${isMine}">
+            <!-- profile image change button -->
+            <label for="profileImageChange"
+                   class="profile__icon d-flex justify-content-center align-items-center">
+                <i class="fas fa-camera text-white"></i>
+            </label>
+            <input type="file" id="profileImageChange">
+        </th:block>
+    </div>
+
+    <!-- profile image change button -->
+    <div class="card-header" th:text="${user.username}"></div>
+    <div class="card-body">
+        <h5 class="card-title" th:text="${user.name}"></h5>
+        <th:block th:if="${followed} != null">
+            <button th:text="${followed} ? '언팔로우' : '팔로우'" type="button" class="btn btn-primary"></button>
+        </th:block>
+    </div>
+</div>
+<!-- profile card -->
+
+<!-- bundle preview -->
+<li th:fragment="bundlePreview(bundle)" >
+    <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
+        <div class="card-header text-white" th:text="${bundle.tagName}"
+             th:styleappend="|background-color: ${bundle.tagColor}|">
+        </div>
+
+        <span class="badge bg-primary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PRIVATE'"
+              th:text="${bundle.visibility}"></span>
+        <span class="badge bg-success ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PUBLIC'"
+              th:text="${bundle.visibility}"></span>
+        <span class="badge bg-secondary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'FRIEND'"
+              th:text="${bundle.visibility}"></span>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
+        </div>
+    </a>
+</li>
+<!-- bundle preview -->
+
+</body>
+</html>

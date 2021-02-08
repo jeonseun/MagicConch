@@ -7,14 +7,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import team.univ.magic_conch.config.auth.CustomAuthenticationFailHandler;
+import team.univ.magic_conch.auth.LoginFailHandler;
 
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final CustomAuthenticationFailHandler authenticationFailHandler;
+    private final LoginFailHandler loginFailHandler;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -27,9 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/question/**")
                 .access("hasRole('ROLE_USER')")
-                .antMatchers("/mypage/**")
+                .antMatchers("/user/setting")
                 .access("hasRole('ROLE_USER')")
-                .antMatchers("/bundle/**")
+                .antMatchers("/bundle/createForm")
                 .access("hasRole('ROLE_USER')")
                 .anyRequest()
                 .permitAll()
@@ -38,7 +38,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/loginForm")
                 .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
-                .failureHandler(authenticationFailHandler);
+                .failureHandler(loginFailHandler);
 
         http.logout()
                 .logoutUrl("/logout")

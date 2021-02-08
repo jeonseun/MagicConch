@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import team.univ.magic_conch.config.auth.PrincipalDetails;
+import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.dto.SimpleUserDTO;
 

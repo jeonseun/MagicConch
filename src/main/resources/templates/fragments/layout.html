@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html th:fragment="layout(menu, head, main, leftSide, rightSide)" lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- MDB css -->
+    <link rel="stylesheet" href="/bootstrap/css/mdb.min.css"/>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css"/>
+    <!-- Google Fonts Roboto -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap"/>
+
+    <title>Magic Conch</title>
+    <th:block th:include="${head}"></th:block>
+
+</head>
+
+<body class="h-100">
+
+<!-- content wrapper -->
+<div id="wrapper" class="position-relative min-vh-100">
+    <!-- header -->
+    <header>
+
+        <!-- nav -->
+        <nav class="navbar navbar-dark navbar-expand-lg  bg-primary bg-gradient">
+
+            <!-- nav content container -->
+            <div class="container">
+                <a class="navbar-brand fw-bold" th:href="@{/}">Magic Conch</a>
+
+
+                <!-- collapse toggle button -->
+                <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-mdb-toggle="collapse"
+                        data-mdb-target="#navbarContent"
+                        aria-controls="navbarContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <!-- Collapsible wrapper -->
+                <div class="collapse navbar-collapse" id="navbarContent">
+
+                    <!-- left menus -->
+                    <div class="d-flex align-items-center">
+                        <form th:action="@{/question}">
+                            <div class="input-group">
+                                <input type="text" class="form-control"/>
+                                <button type="submit"
+                                        class="btn btn-primary d-flex align-items-center justify-content-center px-3">
+                                    <i class="fas fa-search ms-1"></i>
+                                </button>
+                            </div>
+                        </form>
+                        <a th:href="@{/question}"
+                           class="btn btn-success btn-rounded p-2 ms-2 d-flex align-items-center justify-content-center">
+                            <i class="fas fa-search ms-1"></i>
+                            질문하기
+                        </a>
+                        <a th:href="@{question/list}" type="button" class="btn btn-success btn-rounded p-2 ms-2">질문보기</a>
+                    </div>
+
+                    <!-- left menus -->
+
+                    <!-- collapsed divider -->
+                    <hr class="collapsed text-white">
+                    <!-- collapsed divider -->
+
+
+                    <!-- right menus -->
+                    <!-- menu if you are not logged in -->
+                    <th:block sec:authorize="isAnonymous()">
+                        <ul th:replace="fragments/menus :: unlogged_menu"></ul>
+                    </th:block>
+                    <!-- menu if you are not logged in -->
+
+                    <!-- menu if you are logged in -->
+                    <th:block sec:authorize="isAuthenticated()">
+                        <ul th:replace="fragments/menus :: logged_menu"></ul>
+                    </th:block>
+                    <!-- menu if you are logged in -->
+
+                    <!-- right menus -->
+                </div>
+                <!-- Collapsible wrapper -->
+
+            </div>
+            <!-- nav content container -->
+        </nav>
+        <!-- nav -->
+
+    </header>
+    <!-- header -->
+
+
+    <!-- left side nav -->
+    <aside th:replace="${leftSide}">
+    </aside>
+    <!-- left side nav -->
+
+    <!-- main -->
+    <main th:replace="${main}">
+    </main>
+    <!-- main -->
+
+    <!-- right side nav -->
+    <aside th:replace="${rightSide}">
+    </aside>
+    <!-- right side nav -->
+
+    <!-- footer -->
+    <footer class=" position-absolute bottom-0 w-100" style="background-color: #BBDEFB">
+
+        <!-- Copyright -->
+        <div class="text-center p-3">
+            © 2021 Copyright:
+            <span class="text-dark text-white-50 ">team.univ</span>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- footer -->
+</div>
+<!-- content wrapper -->
+
+<!-- MDB js -->
+<script type="text/javascript" src="/bootstrap/js/mdb.min.js"></script>
+</body>
+</html>
