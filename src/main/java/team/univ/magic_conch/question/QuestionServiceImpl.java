@@ -2,8 +2,10 @@ package team.univ.magic_conch.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.answer.AnswerRepository;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
@@ -12,7 +14,6 @@ import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.TagRepository;
-import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionRepository questionRepository;
     private final BundleRepository bundleRepository;
     private final TagRepository tagRepository;
+    private final AnswerRepository answerRepository;
 
     @Override
     public List<BundleDropBoxDTO> question(String username){
@@ -86,7 +88,13 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public List<Question> findByBundle(Bundle bundle) {
-        return questionRepository.findByBundleId(bundle.getId());
+    public long getQuestionCount(Long bundleId) {
+        return questionRepository.countByBundleId(bundleId);
+    }
+
+    @Override
+    public PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable) {
+        Page<Question> result = questionRepository.findAllByBundleId(bundle.getId(), pageable);
+        return null;
     }
 }

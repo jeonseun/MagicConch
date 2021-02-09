@@ -1,12 +1,12 @@
 package team.univ.magic_conch.question;
 
+import org.springframework.data.domain.Pageable;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
-import team.univ.magic_conch.utils.page.PageRequestDTO;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
@@ -66,9 +66,17 @@ public interface QuestionService {
     public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO);
 
     /**
-     * 해당 번들에 속해있는 질문 리스트 조회
-     * @param bundle
-     * @return question list
+     * 해당 번들에 속해있는 질문 개수 조회
+     * @param bundleId
+     * @return question count : long
      */
-    List<Question> findByBundle(Bundle bundle);
+    long getQuestionCount(Long bundleId);
+
+    /**
+     * 해당 번들에 속해있는 질문 페이징 조회
+     * @param bundle   질문이 속한 번들
+     * @param pageable 현재 페이지, 페이지당 사이즈, 정렬 기준
+     * @return 해당 번들에 속한 질문 페이징 DTO
+     */
+    PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable);
 }

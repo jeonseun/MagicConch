@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.bundle.dto.BundleCreateDTO;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
+import team.univ.magic_conch.bundle.exception.BundleNotFoundException;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.dto.TagDTO;
@@ -16,6 +17,7 @@ import team.univ.magic_conch.tag.dto.TagDTO;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SessionAttributes("bundleId")
 @RequiredArgsConstructor
 @Controller
 public class BundleController {
@@ -53,11 +55,18 @@ public class BundleController {
 
     }
 
+
+    @ModelAttribute("bundleId")
+    public void setBundleId(Model model) {
+        model.addAttribute("bundleId");
+    }
+
     // 번들 상세보기 화면
     @GetMapping("/bundle/{id}")
     public String showBundleDetails(@PathVariable Long id, Model model) {
-        BundleDTO.BundleDetails bundleDetails = bundleService.getBundleDetails(id);
-        model.addAttribute("bundle", bundleDetails);
+        Bundle findBundle = bundleService.findById(id).orElseThrow(BundleNotFoundException::new);
+        model.addAttribute("bundleId", findBundle.getId());
+        model.addAttribute("bundle", findBundle.toBundleHeaderDTO());
         return "/bundle/bundleDetails";
     }
 }

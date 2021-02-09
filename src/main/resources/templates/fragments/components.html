@@ -48,7 +48,7 @@
 
 <!-- bundle details card -->
 <li th:fragment="bundleDetails(bundle)">
-    <a th:href="@{|bundle/${bundle.bundleId}|}" class="card shadow mb-3">
+    <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
         <div class="card-header text-white" th:text="${bundle.tagName}"
              th:styleappend="|background-color: ${bundle.tagColor}|"></div>
         <div class="card-body">
@@ -61,6 +61,9 @@
 <!-- bundle details card -->
 
 <!-- question summary row -->
+<li th:fragment="questionSummary(question)">
+
+</li>
 <!-- question summary row -->
 </body>
 </html>

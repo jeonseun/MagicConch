@@ -18,5 +18,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, Quest
     @Query("select q from Question q where lower(q.user.username) like lower(concat('%', concat(:name, '%')))")
     Page<Question> findAllByUsername(@Param("name") String username, Pageable pageable);
 
-    List<Question> findByBundleId(Long bundleId);
+    long countByBundleId(Long bundleId);
+
+    Page<Question> findAllByBundleId(Long bundleId, Pageable pageable);
+
 }

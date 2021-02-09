@@ -88,7 +88,7 @@ public class UserController {
                     .tagName(findBundle.getTag().getName())
                     .tagColor(findBundle.getTag().getColor())
                     .createdDate(findBundle.getCreateDate())
-                    .questionCount(questionService.findByBundle(findBundle).size())
+                    .questionCount(questionService.getQuestionCount(findBundle.getId()))
                     .build();
             bundles.add(bundleDetailsDTO);
         }

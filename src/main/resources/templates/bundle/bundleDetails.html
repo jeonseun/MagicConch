@@ -1,29 +1,57 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>번들 상세보기</title>
-  </head>
-  <body>
-    <nav th:replace="layout/nav :: nav"></nav>
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('bundle detail', ~{}, ~{::main}, ~{}, ~{})">
 
-    <!-- 번들 상세보기 정보 -->
-    <div class="container shadow">
-      <span th:text="${bundle.bundleName}"></span>
-      <span th:text="${bundle.tagName}"></span>
-      <span th:text="${bundle.tagColor}"></span>
-      <span th:text="${bundle.createDate}"></span>
-      <ul class="list-group">
-        <h4>내 질문</h4>
-        <li class="list-group-item" th:each="question : ${bundle.questions}">
-          <a th:href="@{|/question/${question.id}|}"
-            ><h3 th:text="${question.title}"></h3
-          ></a>
-          <p th:text="${question.content}"></p>
-          <p th:text="${question.createTime}"></p>
-          <p th:text="${question.lastModifyTime}"></p>
-        </li>
-      </ul>
-    </div>
-  </body>
+<body>
+<main class="container mt-5 mx-auto">
+    <header class="container d-flex justify-content-between align-items-center">
+        <h3 class="rounded-3 p-2 text-white font-weight-bold" th:text="${bundle.bundleName}"
+            th:styleappend="|background-color: ${bundle.tagColor}|">
+        </h3>
+        <div>
+            <h3>
+            <span class="badge bg-primary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PRIVATE'"
+                  th:text="${bundle.visibility}"></span>
+                <span class="badge bg-success ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PUBLIC'"
+                      th:text="${bundle.visibility}"></span>
+                <span class="badge bg-secondary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'FRIEND'"
+                      th:text="${bundle.visibility}"></span>
+            </h3>
+            <span th:text="|생성 : ${bundle.createdDate}|"></span>
+        </div>
+    </header>
+    <table class="table ">
+        <thead class="table-primary">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-active">
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer>
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+                <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+        </nav>
+    </footer>
+</main>
+</body>
 </html>

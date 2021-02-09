@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
+import team.univ.magic_conch.bundle.dto.BundleHeaderDTO;
 import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
@@ -75,6 +76,16 @@ public class Bundle {
                 .bundleName(getName())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
+                .visibility(getVisibility())
+                .build();
+    }
+
+    public BundleHeaderDTO toBundleHeaderDTO() {
+        return BundleHeaderDTO.builder()
+                .bundleName(getName())
+                .tagName(getTag().getName())
+                .tagColor(getTag().getColor())
+                .createdDate(getCreateDate())
                 .visibility(getVisibility())
                 .build();
     }

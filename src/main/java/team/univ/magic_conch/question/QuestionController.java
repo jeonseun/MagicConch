@@ -1,6 +1,7 @@
 package team.univ.magic_conch.question;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import team.univ.magic_conch.utils.page.PageResultDTO;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -218,5 +220,14 @@ public class QuestionController {
         String myname = principalDetails == null ? "" : principalDetails.getUsername();
 
         return questionService.questionFollow(myname, new QuestionSearchDTO(1, null, null, null));
+    }
+
+    @GetMapping("/question/test")
+    @ResponseBody
+    public String getQuestionByBundleId(HttpSession httpSession, Pageable pageable) {
+        Long bundleId = (Long) httpSession.getAttribute("bundleId");
+        System.out.println(pageable);
+
+        return "test";
     }
 }

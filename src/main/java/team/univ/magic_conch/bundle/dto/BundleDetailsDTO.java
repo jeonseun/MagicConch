@@ -14,10 +14,10 @@ public class BundleDetailsDTO {
     private String tagName;
     private String tagColor;
     private LocalDate createdDate;
-    private int questionCount;
+    private long questionCount;
 
     @Builder
-    public BundleDetailsDTO(Long bundleId, String bundleName, String visibility, String tagName, String tagColor, LocalDate createdDate, int questionCount) {
+    public BundleDetailsDTO(Long bundleId, String bundleName, String visibility, String tagName, String tagColor, LocalDate createdDate, long questionCount) {
         this.bundleId = bundleId;
         this.bundleName = bundleName;
         this.visibility = visibility;
