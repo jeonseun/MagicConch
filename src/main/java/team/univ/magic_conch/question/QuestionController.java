@@ -45,6 +45,13 @@ public class QuestionController {
         return "/question/question";
     }
 
+    /**
+     * 질문 수정 페이지
+     * @param model
+     * @param questionNo
+     * @param principalDetails
+     * @return 질문 수정 페이지 view
+     */
     @GetMapping("/question/{questionNo}/modify")
     public String questionModify(Model model,
                                  @PathVariable Long questionNo,

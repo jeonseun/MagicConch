@@ -3,33 +3,45 @@ package team.univ.magic_conch.answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
 import team.univ.magic_conch.question.Question;
+import team.univ.magic_conch.question.QuestionRepository;
 import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.user.UserRepository;
 
-@RequiredArgsConstructor
-@Transactional
+import java.util.Optional;
+
 @Service
-public class AnswerServiceImpl implements AnswerService{
+@RequiredArgsConstructor
+@Transactional(readOnly = true)
+public class AnswerServiceImpl implements AnswerService {
 
     private final AnswerRepository answerRepository;
+    private final QuestionRepository questionRepository;
+    private final UserRepository userRepository;
 
-    /**
-     * 신규 답변 생성
-     * 특정 질문에 새로운 답변을 생성하고 저장한다.
-     *
-     * @param content  답변 내용
-     * @param user     답변 작성자
-     * @param question 답변이 달린 질문
-     * @return 생성된 답변 id (Long)
-     */
-    public Answer answer(String content, User user, Question question) {
-        Answer newAnswer = Answer.newAnswer(content, user, question);
-        answerRepository.save(newAnswer);
-        return newAnswer;
+    @Override
+    @Transactional(readOnly = false)
+    public Answer answer(CreateAnswerDTO createAnswerDTO) {
+
+        Optional<User> user = userRepository.findByUsername(createAnswerDTO.getUsername());
+        Optional<Question> question = questionRepository.findById(createAnswerDTO.getQuestionId());
+        Answer answer = null;
+
+        if(user.isPresent() && question.isPresent()){
+            answer = Answer.builder()
+                    .content(createAnswerDTO.getContent())
+                    .question(question.get())
+                    .user(user.get())
+                    .build();
+            answerRepository.save(answer);
+        }
+        return answer;
     }
 
     @Override
     public long getCountByQuestionID(Long questionId) {
         return answerRepository.countByQuestionId(questionId);
     }
+
 }
