@@ -47,3 +47,15 @@ function clickDelete(){
         }
     })
 }
+
+function clickComment(){
+    let commentBtn = document.getElementsByClassName('commentBtn').item(0);
+    let comments = document.getElementsByClassName('comment-wrapper').item(0);
+    if ($('.commentBtn').hasClass('active')){
+        commentBtn.classList.remove('active');
+        comments.classList.remove('active');
+    }else{
+        commentBtn.classList.add('active');
+        comments.classList.add('active');
+    }
+}

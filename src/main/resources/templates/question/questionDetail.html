@@ -9,14 +9,26 @@
             background: blue;
             color: white;
         }
+        .btn.active {
+            background: blue;
+            color: white;
+        }
+        .comment-wrapper {
+            display: none;
+        }
+        .comment-wrapper.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
 <nav th:replace="layout/nav :: nav"></nav>
 <div class="container col-md-6 shadow" style="border-radius: 10px">
+    <!-- 질문 제목 -->
     <h2 th:text="${question.title}" class="pt-4 mb-4">제목</h2>
     <div class="d-flex flex-row mb-3">
         <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+        <!-- 프로필 사진, 사용자 이름 -->
         <div class="p-2">
             <h6 th:text="${question.username}" style="font-size: small">
                 사용자이름
@@ -25,6 +37,7 @@
                 생성일
             </h6>
         </div>
+        <!-- 태그 이름, 번들 이름 -->
         <div class="ms-auto p-2">
             <h6
                     th:text="${question.tagName}"
@@ -43,6 +56,7 @@
         </div>
     </div>
     <hr/>
+    <!-- 질문 내용 -->
     <div th:utext="${question.content}" style="word-break: break-all"></div>
     <div class="d-flex justify-content-between" style="padding: 10px 5px">
         <i
@@ -64,12 +78,57 @@
         >0</i
         >
     </div>
-</div>
 
-<div class="container col-md-6 mt-2 text-end">
-    <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
-    <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" onclick="clickUpdate()">수정</button>
-    <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
+    <!-- 질문 추가, 수정, 삭제 버튼, 댓글 내리기 버튼 -->
+    <div class="mt-2 text-end">
+        <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
+        <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" onclick="clickUpdate()">수정</button>
+        <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
+        <button type="button" class="commentBtn btn btn-outline-primary" onclick="clickComment()">댓글 보기</button>
+    </div>
+
+    <hr>
+    <!-- 답변 -->
+    <div class="comment-wrapper">
+
+        <!-- 답변 보기 -->
+        <div class="d-flex align-items-center">
+            <div class="d-flex flex-column ps-2">
+                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+                <div class="text-center" th:text="q"></div>
+            </div>
+            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
+        </div>
+
+        <hr>
+
+        <div class="d-flex align-items-center">
+            <div class="d-flex flex-column ps-2">
+                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+                <div class="text-center" th:text="q"></div>
+            </div>
+            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
+        </div>
+
+        <hr>
+
+        <div class="d-flex align-items-center">
+            <div class="d-flex flex-column ps-2">
+                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+                <div class="text-center" th:text="q"></div>
+            </div>
+            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
+        </div>
+
+        <!-- 답변 쓰기 -->
+        <div class="text-end mt-4">
+            <div class="form-outline">
+                <textarea class="form-control" id="answerContent" rows="4"></textarea>
+                <label class="form-label" for="answerContent">답변 내용</label>
+            </div>
+            <button type="button" class="mt-2 mb-2 btn btn-outline-primary">작성</button>
+        </div>
+    </div>
 </div>
 
 <!-- Modal -->
@@ -81,23 +140,14 @@
             </div>
             <div class="modal-body">정말로 삭제하시겠습니까?</div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="clickDelete()">삭제</button>
                 <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
                     취소
                 </button>
+                <button type="button" class="btn btn-primary" onclick="clickDelete()">삭제</button>
             </div>
         </div>
     </div>
 </div>
 
-<div class="container col-md-6 shadow mt-4" style="border-radius: 10px">
-    답변
-</div>
-<div class="container col-md-6 shadow mt-4" style="border-radius: 10px">
-    답변
-</div>
-<div class="container col-md-6 shadow mt-4" style="border-radius: 10px">
-    답변
-</div>
 </body>
 </html>
