@@ -1,5 +1,6 @@
 package team.univ.magic_conch.question;
 
+import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
@@ -64,4 +65,10 @@ public interface QuestionService {
      */
     public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO);
 
+    /**
+     * 해당 번들에 속해있는 질문 리스트 조회
+     * @param bundle
+     * @return question list
+     */
+    List<Question> findByBundle(Bundle bundle);
 }

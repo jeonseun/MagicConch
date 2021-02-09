@@ -85,4 +85,8 @@ public class QuestionServiceImpl implements QuestionService{
         return new PageResultDTO<>(result, fn);
     }
 
+    @Override
+    public List<Question> findByBundle(Bundle bundle) {
+        return questionRepository.findByBundleId(bundle.getId());
+    }
 }

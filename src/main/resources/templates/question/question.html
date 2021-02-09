@@ -1,111 +1,106 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout('create question', ~{::head}, ~{::main}, ~{}, ~{})">
 <head>
-    <div th:replace="layout/base :: base"></div>
     <title>질문 작성 페이지</title>
     <script defer th:src="@{/js/question/question.js}"></script>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 </head>
 <body>
+<main>
+    <form th:action="@{/question}" th:method="post"
+          class="d-flex flex-column mb-3 container col-md-6 animation fade-in">
 
-<nav th:replace="layout/nav :: nav"></nav>
+        <p class="fs-1 text-center">질문 작성</p>
 
-<form th:action="@{/question}" th:method="post" class="d-flex flex-column mb-3 container col-md-6 animation fade-in">
+        <hr>
 
-    <p class="fs-1 text-center">질문 작성</p>
-
-    <hr>
-
-    <!--  제목  -->
-    <div class="form-outline mb-4">
-        <input type="text" id="form1" th:name="title" class="form-control"/>
-        <label class="form-label" for="form1">제목 입력</label>
-    </div>
-
-    <div class="d-flex flex-row mb-3">
-        <div class="input-group mb-3 me-4">
-            <!--  태그선택  -->
-            <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control"
-                   id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택"/>
-            <button
-                    class="btn btn-primary dropdown-toggle"
-                    id="tagDrop"
-                    type="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-            >
-                Dropdown
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end" id="tagBtn">
-                <li><a class="dropdown-item" href="#" onclick="selectTag('C')">C</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('C++')">C++</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('JAVA')">JAVA</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('PYTHON')">PYTHON</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('SPRING')">SPRING</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('JPA')">JPA</a></li>
-                <li><a class="dropdown-item" href="#" onclick="selectTag('DEFAULT')">DEFAULT</a></li>
-            </ul>
+        <!--  제목  -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form1" th:name="title" class="form-control"/>
+            <label class="form-label" for="form1">제목 입력</label>
         </div>
 
-        <div class="input-group mb-3 bundleDrop">
-            <!--  번들선택  -->
-            <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt"
-                   aria-label="Text input with dropdown button" placeholder="번들 선택"/>
-            <input readonly hidden th:name="bundleId" type="text" style="background-color: white;" class="form-control"
-                   id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1"/>
-            <button
-                    class="btn btn-primary dropdown-toggle"
-                    type="button"
-                    data-mdb-toggle="dropdown"
-                    aria-expanded="false"
-            >
-                Dropdown
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#" onclick="enableBundle('Default', 'DEFAULT', -1)">Default</a></li>
-                <li th:each="bundle : ${bundleList}"><a th:text="${bundle.bundleName}"
-                                                        th:onclick="disableBundle([[${bundle.bundleName}]], [[${bundle.tagName}]], [[${bundle.bundleId}]])"
-                                                        class="dropdown-item" href="#"></a></li>
-            </ul>
+        <div class="d-flex flex-row mb-3">
+            <div class="input-group mb-3 me-4">
+                <!--  태그선택  -->
+                <input readonly th:name="tagName" type="text" style="background-color: white" class="form-control"
+                       id="tagTxt" aria-label="Text input with dropdown button" placeholder="태그 선택"/>
+                <button class="btn btn-primary dropdown-toggle"
+                        id="tagDrop"
+                        type="button"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false">
+                    Dropdown
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" id="tagBtn">
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('C')">C</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('C++')">C++</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('JAVA')">JAVA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('PYTHON')">PYTHON</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('SPRING')">SPRING</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('JPA')">JPA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="selectTag('DEFAULT')">DEFAULT</a></li>
+                </ul>
+            </div>
+
+            <div class="input-group mb-3 bundleDrop">
+                <!--  번들선택  -->
+                <input readonly type="text" style="background-color: white;" class="form-control" id="bundleTxt"
+                       aria-label="Text input with dropdown button" placeholder="번들 선택"/>
+                <input readonly hidden th:name="bundleId" type="text" style="background-color: white;"
+                       class="form-control"
+                       id="bundleTxtHdn" aria-label="Text input with dropdown button" placeholder="번들 선택" value="-1"/>
+                <button
+                        class="btn btn-primary dropdown-toggle"
+                        type="button"
+                        data-mdb-toggle="dropdown"
+                        aria-expanded="false">
+                    Dropdown
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#" onclick="enableBundle('Default', 'DEFAULT', -1)">Default</a>
+                    </li>
+                    <li th:each="bundle : ${bundleList}">
+                        <a th:text="${bundle.bundleName}"
+                           th:onclick="disableBundle([[${bundle.bundleName}]], [[${bundle.tagName}]], [[${bundle.bundleId}]])"
+                           class="dropdown-item" href="#"></a></li>
+                </ul>
+            </div>
         </div>
-    </div>
 
-
-    <div class="form-outline">
-        <!--  내용  -->
-        <textarea name="content" id="summernote" class="summernote" th:name="content"></textarea>
-        <script>
-            $(document).ready(function() {
-                $('#summernote').summernote({
-                    height: 500, minHeight: null, maxHeight: null, lang : 'ko-KR'
+        <div class="form-outline">
+            <!--  내용  -->
+            <textarea name="content" id="summernote" class="summernote" th:name="content"></textarea>
+            <script>
+                $(document).ready(function () {
+                    $('#summernote').summernote({
+                        height: 500, minHeight: null, maxHeight: null, lang: 'ko-KR'
+                    });
                 });
-            });
-        </script>
-    </div>
+            </script>
+        </div>
 
-    <div class="d-flex flex-row mb-3 justify-content-center mt-4">
-        <button
-                type="submit"
-                class="btn btn-outline-primary btn-rounded me-3"
-                data-mdb-ripple-color="dark"
-        >
-            제출
-        </button>
+        <div class="d-flex flex-row mb-3 justify-content-center mt-4">
+            <button type="submit"
+                    class="btn btn-outline-primary btn-rounded me-3"
+                    data-mdb-ripple-color="dark">
+                제출
+            </button>
 
-        <a
-                th:href="@{/}"
-                type="button"
-                class="btn btn-outline-danger btn-rounded"
-                data-mdb-ripple-color="dark"
-        >
-            취소
-        </a>
-    </div>
-
-</form>
-
+            <a th:href="@{/}"
+               type="button"
+               class="btn btn-outline-danger btn-rounded"
+               data-mdb-ripple-color="dark">
+                취소
+            </a>
+        </div>
+    </form>
+</main>
 
 </div>
 </body>

@@ -55,34 +55,32 @@ public class Init implements CommandLineRunner {
         }
 
         /* bundle 추가 */
-        bundleService.save(
-                Bundle.builder()
-                        .name("자바 질문방")
-                        .user(user)
-                        .tag(tagService.findByName("JAVA"))
-                        .visibility("PRIVATE")
-                        .build()
-        );
-        bundleService.save(
-                Bundle.builder()
-                        .name("스프링 질문방")
-                        .user(user)
-                        .tag(tagService.findByName("SPRING"))
-                        .visibility("PUBLIC")
-                        .build()
-        );
-        bundleService.save(
-                Bundle.builder()
-                        .name("파이썬 질문방")
-                        .user(user)
-                        .tag(tagService.findByName("PYTHON"))
-                        .visibility("FRIEND")
-                        .build()
-        );
+        Bundle bundle1 = Bundle.builder()
+                .name("자바 질문방")
+                .user(user)
+                .tag(tagService.findByName("JAVA"))
+                .visibility("PRIVATE")
+                .build();
+        bundleService.save(bundle1);
 
+        Bundle bundle2 = Bundle.builder()
+                .name("스프링 질문방")
+                .user(user)
+                .tag(tagService.findByName("SPRING"))
+                .visibility("PUBLIC")
+                .build();
+        bundleService.save(bundle2);
+
+        Bundle bundle3 = Bundle.builder()
+                .name("파이썬 질문방")
+                .user(user)
+                .tag(tagService.findByName("PYTHON"))
+                .visibility("FRIEND")
+                .build();
+        bundleService.save(bundle3);
         /* question 추가 */
         for (int i = 0; i < 255; i++) {
-            Thread.sleep(10);
+//            Thread.sleep(10);
             if(i < 50) {
                 questionService.createQuestion(
                         Question.builder()
@@ -113,5 +111,30 @@ public class Init implements CommandLineRunner {
         followService.addFollow(userList.get(0), user);
         followService.addFollow(userList.get(1), user);
         followService.addFollow(userList.get(2), user);
+
+        /* 번들에 속하는 질문 생성 */
+        /* question 추가 */
+        for (int i = 0; i < 120; i++) {
+            if(i < 50) {
+                questionService.createQuestion(
+                        Question.builder()
+                                .title("제목" + i)
+                                .content("본문" + i)
+                                .bundle(bundle1)
+                                .tag(tagService.findByName(name[i % 7]))
+                                .user(user)
+                                .build()
+                );
+            }
+            questionService.createQuestion(
+                    Question.builder()
+                            .title("제목" + (254 - i))
+                            .content("본문" + (254 - i))
+                            .bundle(bundle2)
+                            .tag(tagService.findByName(name[i % 7]))
+                            .user(userList.get(i % 5))
+                            .build()
+            );
+        }
     }
 }

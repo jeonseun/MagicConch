@@ -47,7 +47,10 @@ public class BundleController {
                 .visibility(bundleCreateDTO.getVisibility())
                 .build();
         bundleService.save(newBundle);
-        return "redirect:/user/bundle";
+
+        String username = principalDetails.getUsername();
+        return "redirect:/user/bundle" + "?username=" + username;
+
     }
 
     // 번들 상세보기 화면

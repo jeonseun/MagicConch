@@ -26,7 +26,7 @@
 </div>
 <!-- profile card -->
 
-<!-- bundle preview -->
+<!-- bundle simple card -->
 <li th:fragment="bundlePreview(bundle)" >
     <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
         <div class="card-header text-white" th:text="${bundle.tagName}"
@@ -44,7 +44,23 @@
         </div>
     </a>
 </li>
-<!-- bundle preview -->
+<!-- bundle simple card -->
 
+<!-- bundle details card -->
+<li th:fragment="bundleDetails(bundle)">
+    <a th:href="@{|bundle/${bundle.bundleId}|}" class="card shadow mb-3">
+        <div class="card-header text-white" th:text="${bundle.tagName}"
+             th:styleappend="|background-color: ${bundle.tagColor}|"></div>
+        <div class="card-body">
+            <h5 class="card-title" th:text="${bundle.bundleName}"></h5>
+            <p class="card-text" th:text="|생성된 질문 : ${bundle.questionCount}건|"></p>
+        </div>
+        <div class="card-footer" th:text="${bundle.createdDate}"></div>
+    </a>
+</li>
+<!-- bundle details card -->
+
+<!-- question summary row -->
+<!-- question summary row -->
 </body>
 </html>
