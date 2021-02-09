@@ -112,7 +112,8 @@ function refreshList(params, pageNo = 1){
                 previous.setAttribute("onclick", 'previous(' + data.previous + ',' + data.startPage + ')');
                 next.setAttribute("onclick", 'next(' + data.next + ',' + data.startPage + ')');
             }
-            document.getElementsByClassName('page-item-no').item(pageNo - 1).classList.add('active');
+            console.log(pageNo);
+            document.getElementsByClassName('page-item-no').item((pageNo - 1) % 10).classList.add('active');
         }, error: function (xhr){
 
         }

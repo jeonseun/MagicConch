@@ -49,13 +49,13 @@
                 class="fas fa-heart"
                 id="like"
                 style="color: red; display: none"
-                onclick="clickLike('like')"
+                th:onclick="'clickLike(\'like\', ' + ${question.questionId} + ')'"
         ></i>
         <i
                 class="far fa-heart"
                 id="no-like"
                 style="color: #ff0000"
-                onclick="clickLike('noLike')"
+                th:onclick="'clickLike(\'noLike\', ' + ${question.questionId} + ')'"
         ></i>
         <i
                 th:text="${question.view}"

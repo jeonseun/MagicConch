@@ -1,11 +1,32 @@
-function clickLike(click){
+function clickLike(click, questionId){
     if(click == 'like'){
         $('#like').hide();
         $('#no-like').show();
+        $.ajax({
+            url: '/questionLike',
+            type: 'DELETE',
+            data: {'questionId' : questionId},
+            dataType: 'json',
+            success: function (data) {
+                console.log('성공');
+            }, error: function (xhr) {
+            }
+        })
+
     }
     else if(click == 'noLike'){
         $('#like').show();
         $('#no-like').hide();
+        $.ajax({
+            url: '/questionLike',
+            type: 'POST',
+            data: {'questionId' : questionId},
+            dataType: 'json',
+            success: function (data) {
+                console.log('성공');
+            }, error: function (xhr) {
+            }
+        })
     }
 }
 
