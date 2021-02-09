@@ -1,6 +1,9 @@
 package team.univ.magic_conch.answer;
 
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.user.User;
 
@@ -9,6 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Answer {
 
     @Id
@@ -16,6 +20,7 @@ public class Answer {
     @Column(name = "answer_id")
     private Long id;
 
+    @Column(length = 512)
     private String content;
     private LocalDateTime createTime;
     private LocalDateTime lastModifyTime;
@@ -32,23 +37,13 @@ public class Answer {
         this.question = question;
     }
 
-    /**
-     * 새로운 답변 생성 메소드
-     * 사용자가 질문에 답변을 달 때 몇 개의 정보(내용, 작성자, 질문)는 받고
-     * 몇 개의 정보(생성시간, 수정시간)는 메소드 내에서 생성하여 새로운 답변 엔티티를 생성한다.
-     *
-     * @param content  답변 본문
-     * @param user     답변 작성자
-     * @param question 답변이 달린 질문
-     * @return 생성된 answer 객체 (Answer Entity)
-     */
-    public static Answer newAnswer(String content, User user, Question question) {
-        Answer answer = new Answer();
-        answer.content = content;
-        answer.user = user;
-        answer.question = question;
-        answer.createTime = LocalDateTime.now();
-        answer.lastModifyTime = LocalDateTime.now();
-        return answer;
+    @Builder
+    public Answer(String content, User user, Question question) {
+        this.content = content;
+        this.createTime = LocalDateTime.now();
+        this.lastModifyTime = LocalDateTime.now();
+        this.user = user;
+        this.question = question;
     }
+
 }

@@ -13,10 +13,10 @@
             background: blue;
             color: white;
         }
-        .comment-wrapper {
+        .answer-wrapper {
             display: none;
         }
-        .comment-wrapper.active {
+        .answer-wrapper.active {
             display: block;
         }
     </style>
@@ -26,6 +26,7 @@
 <div class="container col-md-6 shadow" style="border-radius: 10px">
     <!-- 질문 제목 -->
     <h2 th:text="${question.title}" class="pt-4 mb-4">제목</h2>
+
     <div class="d-flex flex-row mb-3">
         <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
         <!-- 프로필 사진, 사용자 이름 -->
@@ -84,12 +85,12 @@
         <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" onclick="clickUpdate()">수정</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
-        <button type="button" class="commentBtn btn btn-outline-primary" onclick="clickComment()">댓글 보기</button>
+        <button type="button" class="answerBtn btn btn-outline-primary" onclick="clickAnswer()">댓글 보기</button>
     </div>
 
     <hr>
     <!-- 답변 -->
-    <div class="comment-wrapper">
+    <div class="answer-wrapper">
 
         <!-- 답변 보기 -->
         <div class="d-flex align-items-center">
@@ -123,11 +124,14 @@
         <!-- 답변 쓰기 -->
         <div class="text-end mt-4">
             <div class="form-outline">
-                <textarea class="form-control" id="answerContent" rows="4"></textarea>
+                <div style="display: none" id="question", th:text="${question.questionId}"></div>
+                <div style="display: none" id="user", th:text="${question.username}"></div>
+                <textarea class="form-control" id="answerContent" rows="4" name="content"></textarea>
                 <label class="form-label" for="answerContent">답변 내용</label>
             </div>
-            <button type="button" class="mt-2 mb-2 btn btn-outline-primary">작성</button>
+            <button type="button" class="mt-2 mb-2 btn btn-outline-primary" onclick="clickAnswerBtn()">작성</button>
         </div>
+
     </div>
 </div>
 

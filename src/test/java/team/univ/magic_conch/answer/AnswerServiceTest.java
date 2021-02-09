@@ -37,7 +37,7 @@ class AnswerServiceTest {
         }
     }
 
-    @Test
+    /*@Test
     public void 답변하기() throws Exception {
         // given
         String content = "답변입니다.";
@@ -51,5 +51,5 @@ class AnswerServiceTest {
         assertEquals(authorId, newAnswer.getUser().getId());
         assertEquals(questionId, newAnswer.getQuestion().getId());
         assertEquals(content, newAnswer.getContent());
-    }
+    }*/
 }

@@ -48,9 +48,9 @@ function clickDelete(){
     })
 }
 
-function clickComment(){
-    let commentBtn = document.getElementsByClassName('commentBtn').item(0);
-    let comments = document.getElementsByClassName('comment-wrapper').item(0);
+function clickAnswer(){
+    let commentBtn = document.getElementsByClassName('answerBtn').item(0);
+    let comments = document.getElementsByClassName('answer-wrapper').item(0);
     if ($('.commentBtn').hasClass('active')){
         commentBtn.classList.remove('active');
         comments.classList.remove('active');
@@ -58,4 +58,31 @@ function clickComment(){
         commentBtn.classList.add('active');
         comments.classList.add('active');
     }
+}
+
+function clickAnswerBtn(){
+
+    let question = $('#question').text();
+    let user = $('#user').text();
+    let content = $('#answerContent').val();
+
+    $.ajax({
+        url: '/answer',
+        type: 'POST',
+        data: {'questionId': question,  'username': user, 'content': content},
+        dataType: 'text',
+        success: function (data) {
+            if(data === 'success') {
+                $('.answer-wrapper').innerHTML =
+                    "<div class=\"d-flex align-items-center\">\n" +
+                    "    <div class=\"d-flex flex-column ps-2\">\n" +
+                    "        <i class=\"fas fa-user-circle p-2\" style=\"font-size: 35px\"></i>\n" +
+                    "        <div class=\"text-center\" th:text=\"q\"></div>\n" +
+                    "    </div>\n" +
+                    "    <div class=\"ps-3\" th:utext=\"\"></div>\n" +
+                    "</div>";
+            }
+        }, error: function (xhr) {
+        }
+    })
 }
