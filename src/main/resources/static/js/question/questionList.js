@@ -92,7 +92,7 @@ function refreshList(params, pageNo = 1){
                 tr.innerHTML =
                     '<td>' + (data.totalCnt - ((data.curPage - 1) * 10) - i) + '</td>' +
                     '<td style="text-shadow: 1px 1px 10px ' + data.dtoList[i].tagColor + '">' + data.dtoList[i].tagName + '</td>' +
-                    '<td><a href="/question/' + data.dtoList[i].questionId + '">' + data.dtoList[i].title + '</a></td>' +
+                    '<td>' + data.dtoList[i].title + '</a></td>' +
                     '<td style="text-align: center">' + data.dtoList[i].username + '</td>' +
                     '<td style="text-align: center">' + data.dtoList[i].createTime + '</td>' +
                     '<td style="text-align: center">' + data.dtoList[i].view + '</td>'
@@ -112,7 +112,6 @@ function refreshList(params, pageNo = 1){
                 previous.setAttribute("onclick", 'previous(' + data.previous + ',' + data.startPage + ')');
                 next.setAttribute("onclick", 'next(' + data.next + ',' + data.startPage + ')');
             }
-            console.log(pageNo);
             document.getElementsByClassName('page-item-no').item((pageNo - 1) % 10).classList.add('active');
         }, error: function (xhr){
 
