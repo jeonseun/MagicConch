@@ -51,7 +51,7 @@ function clickDelete(){
 function clickAnswer(){
     let commentBtn = document.getElementsByClassName('answerBtn').item(0);
     let comments = document.getElementsByClassName('answer-wrapper').item(0);
-    if ($('.commentBtn').hasClass('active')){
+    if ($('.answerBtn').hasClass('active')){
         commentBtn.classList.remove('active');
         comments.classList.remove('active');
     }else{
@@ -60,29 +60,53 @@ function clickAnswer(){
     }
 }
 
+function clickAnswerProfile(obj){
+    //location.href = '/user/info?username=';
+}
+
 function clickAnswerBtn(){
 
     let question = $('#question').text();
     let user = $('#user').text();
-    let content = $('#answerContent').val();
+    let content = $('#answerContent');
+    let answerWrapper = document.getElementsByClassName('answer-wrapper').item(0);
 
     $.ajax({
         url: '/answer',
         type: 'POST',
-        data: {'questionId': question,  'username': user, 'content': content},
-        dataType: 'text',
+        data: {'questionId': question,  'username': user, 'content': content.val()},
+        dataType: 'json',
         success: function (data) {
-            if(data === 'success') {
-                $('.answer-wrapper').innerHTML =
-                    "<div class=\"d-flex align-items-center\">\n" +
-                    "    <div class=\"d-flex flex-column ps-2\">\n" +
-                    "        <i class=\"fas fa-user-circle p-2\" style=\"font-size: 35px\"></i>\n" +
-                    "        <div class=\"text-center\" th:text=\"q\"></div>\n" +
+                answerWrapper.innerHTML +=
+                    "<div class='scroll'>\n" +
+                    "    <hr>\n" +
+                    "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
+                    "        <div class=\"d-flex flex-column ps-2\">\n" +
+                    "            <img src =" + data.profileImg + "\n" +
+                    "                 class=\"rounded-circle\"\n" +
+                    "                 height=\"35px\"\n" +
+                    "                 width=\"35px\">\n" +
+                    "            <div class=\"text-center\"> " + data.username + "</div>\n" +
+                    "        </div>\n" +
+                    "        <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
                     "    </div>\n" +
-                    "    <div class=\"ps-3\" th:utext=\"\"></div>\n" +
-                    "</div>";
-            }
+                    "</div>\n"
+                let offset = $('.scroll').offset();
+                $('html').animate({scrollTop : offset.top}, 10);
         }, error: function (xhr) {
         }
     })
+
+    content.val('');
+
+    if(!$('.answerBtn').hasClass('active')) {
+
+        let commentBtn = document.getElementsByClassName('answerBtn').item(0);
+        let comments = document.getElementsByClassName('answer-wrapper').item(0);
+
+        commentBtn.classList.add('active');
+        comments.classList.add('active');
+    }
+
+
 }

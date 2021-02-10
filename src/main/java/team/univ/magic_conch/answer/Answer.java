@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.user.User;
 
@@ -44,6 +45,15 @@ public class Answer {
         this.lastModifyTime = LocalDateTime.now();
         this.user = user;
         this.question = question;
+    }
+
+    public AnswerDTO entityToAnswerDTO(){
+        return AnswerDTO.builder()
+                .username(user.getUsername())
+                .profileImg(user.getProfileImg())
+                .answerId(getId())
+                .content(getContent())
+                .build();
     }
 
 }

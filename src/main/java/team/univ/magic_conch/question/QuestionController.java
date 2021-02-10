@@ -6,6 +6,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import team.univ.magic_conch.answer.AnswerService;
+import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
@@ -21,6 +23,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -30,6 +33,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final QuestionRepository questionRepository;
+    private final AnswerService answerService;
     private final TagService tagService;
     private final BundleService bundleService;
 
@@ -123,6 +127,7 @@ public class QuestionController {
                                  @PathVariable Long questionNo,
                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
         QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
+        List<AnswerDTO> answer = answerService.answer(questionNo);
 
         /* 조회수 중복방지 */
         Cookie[] cookies = req.getCookies();
@@ -143,6 +148,7 @@ public class QuestionController {
         }
 
         model.addAttribute("question", questionDetail);
+        model.addAttribute("answer", answer);
         return "/question/questionDetail";
     }
 

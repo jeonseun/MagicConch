@@ -81,57 +81,39 @@
     </div>
 
     <!-- 질문 추가, 수정, 삭제 버튼, 댓글 내리기 버튼 -->
-    <div class="mt-2 text-end">
+    <div class="mt-2 pb-2 text-end">
         <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" onclick="clickUpdate()">수정</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
         <button type="button" class="answerBtn btn btn-outline-primary" onclick="clickAnswer()">댓글 보기</button>
     </div>
 
-    <hr>
     <!-- 답변 -->
     <div class="answer-wrapper">
-
         <!-- 답변 보기 -->
-        <div class="d-flex align-items-center">
-            <div class="d-flex flex-column ps-2">
-                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
-                <div class="text-center" th:text="q"></div>
+        <div th:each="item : ${answer}">
+            <hr>
+            <div class="d-flex align-items-center" th:value="${item.username}" onclick="clickAnswerProfile(this)"s>
+                <div class="d-flex flex-column ps-2">
+                    <img th:src="${item.profileImg}"
+                         class="rounded-circle"
+                         height="35px"
+                         width="35px">
+                    <div class="text-center" style="font-size: 20px" th:text="${item.username}"></div>
+                </div>
+                <div class="ps-3" style="word-break:break-all" th:utext="${item.content}"></div>
             </div>
-            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
         </div>
-
-        <hr>
-
-        <div class="d-flex align-items-center">
-            <div class="d-flex flex-column ps-2">
-                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
-                <div class="text-center" th:text="q"></div>
-            </div>
-            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
+    </div>
+    <!-- 답변 쓰기 -->
+    <div class="text-end mt-4">
+        <div class="form-outline">
+            <div style="display: none" id="question", th:text="${question.questionId}"></div>
+            <div style="display: none" id="user", th:text="${question.username}"></div>
+            <textarea class="form-control" id="answerContent" rows="4" name="content"></textarea>
+            <label class="form-label" for="answerContent">답변 내용</label>
         </div>
-
-        <hr>
-
-        <div class="d-flex align-items-center">
-            <div class="d-flex flex-column ps-2">
-                <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
-                <div class="text-center" th:text="q"></div>
-            </div>
-            <div class="ps-3" th:utext="댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글댓글"></div>
-        </div>
-
-        <!-- 답변 쓰기 -->
-        <div class="text-end mt-4">
-            <div class="form-outline">
-                <div style="display: none" id="question", th:text="${question.questionId}"></div>
-                <div style="display: none" id="user", th:text="${question.username}"></div>
-                <textarea class="form-control" id="answerContent" rows="4" name="content"></textarea>
-                <label class="form-label" for="answerContent">답변 내용</label>
-            </div>
-            <button type="button" class="mt-2 mb-2 btn btn-outline-primary" onclick="clickAnswerBtn()">작성</button>
-        </div>
-
+        <button type="button" class="mt-2 mb-2 btn btn-outline-primary" onclick="clickAnswerBtn()">작성</button>
     </div>
 </div>
 
