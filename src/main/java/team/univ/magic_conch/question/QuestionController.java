@@ -10,6 +10,7 @@ import team.univ.magic_conch.answer.AnswerService;
 import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.auth.PrincipalDetails;
+import team.univ.magic_conch.like.QuestionLikeService;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
@@ -36,6 +37,7 @@ public class QuestionController {
     private final AnswerService answerService;
     private final TagService tagService;
     private final BundleService bundleService;
+    private final QuestionLikeService questionLikeService;
 
     /**
      * 질문 작성 페이지
@@ -127,7 +129,6 @@ public class QuestionController {
                                  @PathVariable Long questionNo,
                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
         QuestionDetailDTO questionDetail = questionService.questionDetail(questionNo);
-        List<AnswerDTO> answer = answerService.answer(questionNo);
 
         /* 조회수 중복방지 */
         Cookie[] cookies = req.getCookies();
@@ -148,7 +149,8 @@ public class QuestionController {
         }
 
         model.addAttribute("question", questionDetail);
-        model.addAttribute("answer", answer);
+        model.addAttribute("answer", answerService.answer(questionNo));
+        model.addAttribute("questionLike", questionLikeService.isQuestionLike(principalDetails.getUsername(), questionNo));
         return "/question/questionDetail";
     }
 

@@ -1,3 +1,14 @@
+$(document).ready(function (){
+    isQuestionLike = $('#isQuestionLike').text();
+    if(isQuestionLike === 'true'){
+        $('#like').hide();
+        $('#no-like').show();
+    }else{
+        $('#like').show();
+        $('#no-like').hide();
+    }
+})
+
 function clickLike(click, questionId){
     if(click == 'like'){
         $('#like').hide();

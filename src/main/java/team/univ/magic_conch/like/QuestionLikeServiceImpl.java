@@ -44,4 +44,15 @@ public class QuestionLikeServiceImpl implements QuestionLikeService{
         }
         return questionLike;
     }
+
+    @Override
+    public Boolean isQuestionLike(String username, Long questionId) {
+        Optional<User> user = userRepository.findByUsername(username);
+        Optional<Question> question = questionRepository.findById(questionId);
+        if(user.isPresent() && question.isPresent()) {
+            return questionLikeRepository.findByUserAndQuestion(user.get(), question.get()).isEmpty();
+        }else{
+            return true;
+        }
+    }
 }
