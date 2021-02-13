@@ -1,42 +1,22 @@
 .balloon {
-    position:relative;
     margin: 50px;
     width:550px;
-    height:170px;
+    height:180px;
     background:lightgray;
     border-radius: 10px;
 }
-.balloon:after {
-    border-top:15px solid lightgray;
-    border-left: 15px solid transparent;
-    border-right: 0px solid transparent;
-    border-bottom: 0px solid transparent;
-    content:"";
-    position:absolute;
-    top:10px;
-    left:-15px;
-}
+
 .balloon:hover {
     border: 4px solid;
 }
 .balloon2 {
-    position:relative;
     margin: 50px;
     width:550px;
-    height:170px;
+    height:180px;
     background:lightgray;
     border-radius: 10px;
 }
-.balloon2:after {
-    border-top:15px solid lightgray;
-    border-left: 0px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 0px solid transparent;
-    content:"";
-    position:absolute;
-    top:10px;
-    left:550px;
-}
+
 .balloon2:hover {
     border: 4px solid;
 }

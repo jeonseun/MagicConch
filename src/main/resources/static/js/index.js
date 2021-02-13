@@ -21,13 +21,18 @@ function questionInfo() {
                         "    <img src=\" " + data.dtoList[i].profileImg + "\" class=\"rounded-circle\" height=\"60px\" width=\"60px\">\n" +
                         "    <div class = \"text-center\"style=\"font-size: x-large;\">" + data.dtoList[i].username + "</div>\n" +
                         "  </div>\n" +
-                        "  <div onclick=\"location.href='/question/" + data.dtoList[i].questionId + "'\" class=\"balloon\" style=\"padding: 10px\">\n" +
-                        "    <div class=\"d-flex justify-content-between\">\n" +
-                        "      <a " + "style=\"font-size: large\">" + data.dtoList[i].title +"</a>\n" +
-                        "      <div style=\"font-size: large\">" + data.dtoList[i].beforeTime + "분 전" + "</div>\n" +
+                        "  <div class='d-flex'>\n" +
+                        "    <div onclick=\"location.href='/question/" + data.dtoList[i].questionId + "'\" class=\"balloon\" style='padding: 10px; word-break: break-all; overflow: auto'>\n" +
+                        "      <div class=\"d-flex justify-content-between\">\n" +
+                        "        <strong " + "style=\"font-size: large\">" + data.dtoList[i].title +"</strong>\n" +
+                        "        <strong style=\"font-size: large\">" + data.dtoList[i].beforeTime + "분 전" + "</strong>\n" +
+                        "      </div>\n" +
+                        "      <hr>\n" +
+                        "      <div>" + data.dtoList[i].content +"</div>\n" +
                         "    </div>\n" +
-                        "    <hr>\n" +
-                        "    <div style=\"position: relative\">" + data.dtoList[i].content +"</div>\n" +
+                        "    <div class='mt-5'>" +
+                        "      <button type=\"button\" class=\"answerBtn btn btn-outline-primary\">댓글 보기</button>" +
+                        "    </div>" +
                         "  </div>\n" +
                         "</div>"
                 }
@@ -38,13 +43,18 @@ function questionInfo() {
                         "    <img src=\" " + data.dtoList[i].profileImg + " \" class=\"rounded-circle\" height=\"60px\" width=\"60px\">\n" +
                         "    <div class = \"text-center\" style=\"font-size: x-large;\">" + data.dtoList[i].username + "</div>\n" +
                         "  </div>\n" +
-                        "  <div onclick=\"location.href='/question/" + data.dtoList[i].questionId + "'\" class=\"balloon2\" style=\"padding: 10px\">\n" +
-                        "    <div class=\"d-flex justify-content-between\">\n" +
-                        "      <a style=\"font-size: large\">" + data.dtoList[i].title +"</a>\n" +
-                        "      <div style=\"font-size: large\">" + data.dtoList[i].beforeTime + "분 전" + "</div>\n" +
+                        "  <div class='d-flex'>\n" +
+                        "    <div class='mt-5'>" +
+                        "      <button type=\"button\" class=\"answerBtn btn btn-outline-primary\">댓글 보기</button>" +
+                        "    </div>" +
+                        "    <div onclick=\"location.href='/question/" + data.dtoList[i].questionId + "'\" class=\"balloon2\" style='padding: 10px; word-break: break-all; overflow: auto'>\n" +
+                        "      <div class=\"d-flex justify-content-between\">\n" +
+                        "        <strong style=\"font-size: large\">" + data.dtoList[i].title +"</strong>\n" +
+                        "        <strong style=\"font-size: large\">" + data.dtoList[i].beforeTime + "분 전" + "</strong>\n" +
+                        "      </div>\n" +
+                        "      <hr>\n" +
+                        "      <div>" + data.dtoList[i].content +"</div>\n" +
                         "    </div>\n" +
-                        "    <hr>\n" +
-                        "    <div style=\"position: relative\">" + data.dtoList[i].content +"</div>\n" +
                         "  </div>\n" +
                         "</div>"
                 }

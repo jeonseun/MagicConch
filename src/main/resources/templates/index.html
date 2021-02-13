@@ -3,8 +3,23 @@
       th:replace="~{fragments/layout :: layout('index', ~{::head}, ~{::body}, ~{}, ~{})}" lang="en">
 
 <head>
-
   <script defer th:src="@{/js/index.js}"></script>
+  <style>
+    .btn:hover {
+      background: blue;
+      color: white;
+    }
+    .btn.active {
+      background: blue;
+      color: white;
+    }
+    .answer-wrapper {
+      display: none;
+    }
+    .answer-wrapper.active {
+      display: block;
+    }
+  </style>
 </head>
 
 <body>
@@ -12,7 +27,7 @@
     <!-- left -->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
     <!-- center -->
-    <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
+    <div id="index-center" class="d-flex flex-column p-4" style="flex-basis: 50%"></div>
     <!--right-->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
   </div>
