@@ -7,7 +7,7 @@
 }
 
 .balloon:hover {
-    border: 4px solid;
+    border: 2px solid;
 }
 .balloon2 {
     margin: 50px;
@@ -18,10 +18,10 @@
 }
 
 .balloon2:hover {
-    border: 4px solid;
+    border: 2px solid;
 }
 .rounded-circle:hover {
-    border: 4px solid;
+    border: 2px solid;
 }
 a {
     color: #000000;
