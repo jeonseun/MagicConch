@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <body>
+<!-- TODO 프로필 카드 리팩토링 필요 -->
 <!-- profile card -->
 <div th:fragment="profile(user, isMine, followed)" class="card text-center">
     <div class="bg-image">
@@ -26,6 +27,7 @@
 </div>
 <!-- profile card -->
 
+<!-- TODO user info 에 나오는 번들 리스트용 심플 번들 카드 리팩토링 필요-->
 <!-- bundle simple card -->
 <li th:fragment="bundlePreview(bundle)" >
     <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
@@ -46,6 +48,7 @@
 </li>
 <!-- bundle simple card -->
 
+<!-- TODO bundleOverview 에 보여줄 번들 상세 카드 리팩토링 필요 -->
 <!-- bundle details card -->
 <li th:fragment="bundleDetails(bundle)">
     <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
@@ -60,6 +63,7 @@
 </li>
 <!-- bundle details card -->
 
+<!-- TODO 질문 리스트에서 보여줄 질문 하나하나 리팩토링 필요-->
 <!-- question summary row -->
 <li th:fragment="questionSummary(question)">
 
