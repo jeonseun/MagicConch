@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html th:fragment="layout(menu, head, main, leftSide, rightSide)" lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html th:lang="${#locale.getLanguage()}"
+      xmlns:th="http://www.thymeleaf.org"
+      th:fragment="layout">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,116 +15,51 @@
     <!-- Google Fonts Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap"/>
-    <!-- global custom css -->
-    <link rel="stylesheet" th:href="@{/css/global.css}"}>
-    <!-- JQuery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.js"
-            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
-            crossorigin="anonymous">
-    </script>
-    <title>Magic Conch</title>
-    <th:block th:include="${head}"></th:block>
+    <!-- 공통 커스텀 CSS -->
+    <link rel="stylesheet" th:href="@{/css/global.css}" }>
+
+    <!-- 커스텀 메타 태그 -->
+    <th:block th:replace="${head} ? ${head} : ~{}"></th:block>
+    <!-- 커스텀 메타 태그 -->
+    <title th:text="${title} ? ${title} : 'Magic Conch'"></title>
+
+    <!-- 커스텀 CSS -->
+    <th:block th:replace="${css} ? ${css} : ~{}"></th:block>
+    <!-- 커스텀 CSS -->
 
 </head>
 
 <body class="h-100">
 
-<!-- content wrapper -->
+<!-- 컨텐츠 래퍼 -->
 <div id="wrapper" class="position-relative min-vh-100">
-    <!-- header -->
+    <!-- 페이지 헤더 -->
     <header>
 
-        <!-- nav -->
-        <nav class="navbar navbar-dark navbar-expand-lg  bg-primary bg-gradient">
-
-            <!-- nav content container -->
-            <div class="container">
-                <a class="navbar-brand fw-bold" th:href="@{/}">Magic Conch</a>
-
-
-                <!-- collapse toggle button -->
-                <button
-                        class="navbar-toggler"
-                        type="button"
-                        data-mdb-toggle="collapse"
-                        data-mdb-target="#navbarContent"
-                        aria-controls="navbarContent"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                    <i class="fas fa-bars"></i>
-                </button>
-
-                <!-- Collapsible wrapper -->
-                <div class="collapse navbar-collapse" id="navbarContent">
-
-                    <!-- left menus -->
-                    <div class="d-flex align-items-center">
-                        <form th:action="@{/question}">
-                            <div class="input-group">
-                                <input type="text" class="form-control"/>
-                                <button type="submit"
-                                        class="btn btn-primary d-flex align-items-center justify-content-center px-3">
-                                    <i class="fas fa-search ms-1"></i>
-                                </button>
-                            </div>
-                        </form>
-                        <a th:href="@{/question}"
-                           class="btn btn-success btn-rounded p-2 ms-2 d-flex align-items-center justify-content-center">
-                            <i class="fas fa-search ms-1"></i>
-                            질문하기
-                        </a>
-                        <a th:href="@{question/list}" type="button" class="btn btn-success btn-rounded p-2 ms-2">질문보기</a>
-                    </div>
-
-                    <!-- left menus -->
-
-                    <!-- collapsed divider -->
-                    <hr class="collapsed text-white">
-                    <!-- collapsed divider -->
-
-
-                    <!-- right menus -->
-                    <!-- menu if you are not logged in -->
-                    <th:block sec:authorize="isAnonymous()">
-                        <ul th:replace="fragments/menus :: unlogged_menu"></ul>
-                    </th:block>
-                    <!-- menu if you are not logged in -->
-
-                    <!-- menu if you are logged in -->
-                    <th:block sec:authorize="isAuthenticated()">
-                        <ul th:replace="fragments/menus :: logged_menu"></ul>
-                    </th:block>
-                    <!-- menu if you are logged in -->
-
-                    <!-- right menus -->
-                </div>
-                <!-- Collapsible wrapper -->
-
-            </div>
-            <!-- nav content container -->
-        </nav>
-        <!-- nav -->
+        <!-- 메인 네비게이션 -->
+        <nav th:replace="fragments/navs :: mainNav"></nav>
+        <!-- 메인 네비게이션 -->
 
     </header>
-    <!-- header -->
+    <!-- 페이지 헤더 -->
 
 
-    <!-- left side nav -->
-    <aside th:replace="${leftSide}">
+    <!-- 왼쪽 사이드 컨텐츠 -->
+    <aside th:replace="${leftSide} ? ${leftSide} : ~{}">
     </aside>
-    <!-- left side nav -->
+    <!-- 왼쪽 사이드 컨텐츠 -->
 
-    <!-- main -->
-    <main th:replace="${main}">
+    <!-- 메인 컨텐츠 -->
+    <main th:replace="${main} ? ${main} : ~{}">
     </main>
-    <!-- main -->
+    <!-- 메인 컨텐츠 -->
 
-    <!-- right side nav -->
-    <aside th:replace="${rightSide}">
+    <!-- 오른쪽 사이드 컨텐츠 -->
+    <aside th:replace="${rightSide} ? ${rightSide} :  ~{}">
     </aside>
-    <!-- right side nav -->
+    <!-- 오른쪽 사이드 컨텐츠 -->
 
-    <!-- footer -->
+    <!-- 페이지 푸터 -->
     <footer class=" position-absolute bottom-0 w-100" style="background-color: #BBDEFB">
 
         <!-- Copyright -->
@@ -133,11 +69,24 @@
         </div>
         <!-- Copyright -->
     </footer>
-    <!-- footer -->
+    <!-- 페이지 푸터 -->
 </div>
-<!-- content wrapper -->
+<!-- 컨텐츠 래퍼 -->
+
+
+<!-- JQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+        crossorigin="anonymous">
+</script>
+<!-- JQuery -->
 
 <!-- MDB js -->
 <script type="text/javascript" src="/bootstrap/js/mdb.min.js"></script>
+<!-- MDB js -->
+
+<!-- 커스텀 JS-->
+<th:block th:replace="${js} ? ${js} : ~{}"></th:block>
+<!-- 커스텀 JS-->
 </body>
 </html>

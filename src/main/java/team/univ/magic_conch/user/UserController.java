@@ -13,8 +13,6 @@ import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDetailsDTO;
 import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
 import team.univ.magic_conch.follow.FollowService;
-import team.univ.magic_conch.question.Question;
-import team.univ.magic_conch.question.QuestionRepository;
 import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
@@ -22,7 +20,6 @@ import team.univ.magic_conch.user.exception.UserNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -49,7 +46,7 @@ public class UserController {
         User findUser = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
         // user 정보 dto 변환
-        UserProfileDTO userDTO = findUser.toUserProfileDTO();
+        UserProfileDTO userDTO = findUser.entityToUserProfileDTO();
         model.addAttribute("user", userDTO);
 
         // bundle 정보 가져오기 및 dto 변환

@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout('index', ~{::head}, ~{::body}, ~{}, ~{})}" lang="en">
-
-<head>
-
-  <script defer th:src="@{/js/index.js}"></script>
-</head>
+      th:replace="~{fragments/layout :: layout(title='Welcome', main=~{::main}, js=~{::#customJS})}">
 
 <body>
-  <div class="d-flex flex-row mb-3">
+
+<!--TODO layout 프래그먼트의 wrapper 부분에 css 적용하여 left -> aside / center -> main / right -> aside 로 태그 변경 필요-->
+<main class="d-flex flex-row mb-3">
     <!-- left -->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
     <!-- center -->
     <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
     <!--right-->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
-  </div>
+</main>
+<th:block id="customJS">
+    <script th:src="@{/js/index.js}"></script>
+</th:block>
 </body>
 
 </html>
