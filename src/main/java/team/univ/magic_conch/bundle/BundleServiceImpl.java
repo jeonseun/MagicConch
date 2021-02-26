@@ -1,8 +1,13 @@
 package team.univ.magic_conch.bundle;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.bundle.dto.BundleDTO;
+import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.visibility.Visibility;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,27 +19,26 @@ public class BundleServiceImpl implements BundleService {
 
     private final BundleRepository bundleRepository;
 
-    /**
-     * 번들 생성
-     *
-     * @param bundle
-     */
-    @Override
-    public void save(Bundle bundle) {
-        bundleRepository.save(bundle);
-    }
-
-    /**
-     * 해당 ID로 검색
-     *
-     * @param id
-     * @return 해당 ID Bundle Entity
-     */
     @Override
     public Optional<Bundle> findById(Long id) {
         return bundleRepository.findWithQuestionsAndTagById(id);
     }
 
+    @Override
+    public void create(String name, Tag tag, User user, Visibility visibility) {
+        Bundle bundle = Bundle.builder()
+                .name(name)
+                .tag(tag)
+                .user(user)
+                .visibility(visibility)
+                .build();
+        bundleRepository.save(bundle);
+    }
+
+    @Override
+    public List<Bundle> getBundleByUsername(String username, Pageable pageable) {
+        return bundleRepository.findAllByUserUsername(username, pageable).getContent();
+    }
 
     @Override
     public BundleDTO.BundleDetails getBundleDetails(Long id) {

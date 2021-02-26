@@ -1,5 +1,7 @@
 package team.univ.magic_conch.bundle;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +21,7 @@ public interface BundleRepository extends JpaRepository<Bundle, Long> {
     @EntityGraph(attributePaths = {"questions", "tag"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Bundle> findWithQuestionsAndTagById(Long id);
 
+    @EntityGraph(attributePaths = {"tag"}, type = EntityGraph.EntityGraphType.LOAD)
+    Page<Bundle> findAllByUserUsername(@Param("username") String username, Pageable pageable);
 }
 
