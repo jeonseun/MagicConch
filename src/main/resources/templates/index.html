@@ -3,6 +3,7 @@
       th:replace="~{fragments/layout :: layout('index', ~{::head}, ~{::body}, ~{}, ~{})}" lang="en">
 
 <head>
+
   <script defer th:src="@{/js/index.js}"></script>
 </head>
 
@@ -11,7 +12,7 @@
     <!-- left -->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
     <!-- center -->
-    <div id="index-center" class="d-flex flex-column p-4" style="flex-basis: 50%"></div>
+    <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
     <!--right-->
     <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
   </div>

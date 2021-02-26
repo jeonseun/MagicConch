@@ -66,11 +66,11 @@ public class User {
                 .build();
     }
 
-    public UserProfileDTO toUserProfileDTO() {
+    public UserProfileDTO entityToUserProfileDTO() {
         return UserProfileDTO.builder()
                 .username(getUsername())
                 .name(getName())
-                .profileImage(getProfileImg())
+                .image(getProfileImg())
                 .build();
     }
 }

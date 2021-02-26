@@ -2,17 +2,21 @@ package team.univ.magic_conch.user.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class UserProfileDTO {
     private String username;
     private String name;
-    private String profileImage;
+    private String image;
+    private boolean followed;
 
     @Builder
-    public UserProfileDTO(String username, String name, String profileImage) {
+    public UserProfileDTO(String username, String name, String image, boolean followed) {
         this.username = username;
         this.name = name;
-        this.profileImage = profileImage;
+        this.image = image;
+        this.followed = followed;
     }
 }
