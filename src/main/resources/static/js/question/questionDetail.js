@@ -102,9 +102,24 @@ function clickAnswerBtn(){
                     "        <div class=\"d-flex flex-column\">" +
                     "            <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
                     "            <div class=\"ps-3\" style=\"font-size: 10px\">" + data.createTime + "</div>" +
-                    "        </div>" +
+                    "        </div>\n" +
+                    "        <div class=\"btn-group shadow-0 ms-auto\">\n" +
+                    "            <button\n" +
+                    "                    type=\"button\"\n" +
+                    "                    class=\"btn btn-link dropdown-toggle\"\n" +
+                    "                    data-mdb-toggle=\"dropdown\"\n" +
+                    "                    aria-expanded=\"false\"\n" +
+                    "                    style=\"color: lightgray\"\n" +
+                    "            >\n" +
+                    "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
+                    "            </button>\n" +
+                    "            <ul class=\"dropdown-menu\">\n" +
+                    "                <li><a class=\"dropdown-item\" href=\"#\">수정</a></li>\n" +
+                    "                <li><a class=\"dropdown-item\" href=\"#\">삭제</a></li>\n" +
+                    "            </ul>\n" +
+                    "        </div>\n" +
                     "    </div>\n" +
-                    "</div>\n"
+                    "</div>\n";
                 let offset = $('.scroll').offset();
                 $('html').animate({scrollTop : offset.top}, 10);
         }, error: function (xhr) {

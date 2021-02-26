@@ -5,11 +5,11 @@
     <title>질문보기</title>
     <script defer th:src="@{/js/question/questionDetail.js}"></script>
     <style>
-        .btn:hover {
+        .cus-btn:hover {
             background: blue;
             color: white;
         }
-        .btn.active {
+        .cus-btn.active {
             background: blue;
             color: white;
         }
@@ -84,9 +84,9 @@
     <!-- 질문 추가, 수정, 삭제 버튼, 댓글 내리기 버튼 -->
     <div class="mt-2 pb-2 text-end">
         <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
-        <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" onclick="clickUpdate()">수정</button>
-        <button th:if="${#authentication.name == question.username}" type="button" class="btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
-        <button type="button" class="answerBtn btn btn-outline-primary" onclick="clickAnswer()">댓글 보기</button>
+        <button th:if="${#authentication.name == question.username}" type="button" class="cus-btn btn btn-outline-primary" onclick="clickUpdate()">수정</button>
+        <button th:if="${#authentication.name == question.username}" type="button" class="cus-btn btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
+        <button type="button" class="cus-btn answerBtn btn btn-outline-primary" onclick="clickAnswer()">댓글 보기</button>
     </div>
 
     <!-- 답변 -->
@@ -95,6 +95,7 @@
         <div th:each="item : ${answer}">
             <hr>
             <div class="d-flex align-items-center" th:value="${item.username}" onclick="clickAnswerProfile(this)"s>
+                <!-- 프로필 -->
                 <div class="d-flex flex-column ps-2">
                     <img th:src="${item.profileImg}"
                          class="rounded-circle"
@@ -102,9 +103,28 @@
                          width="35px">
                     <div class="text-center" style="font-size: 20px" th:text="${item.username}"></div>
                 </div>
+                <!-- 내용 -->
                 <div class="d-flex flex-column">
                     <div class="ps-3" style="word-break:break-all" th:utext="${item.content}"></div>
                     <div class="ps-3" style="font-size: 10px" th:text="${item.createTime}"></div>
+                </div>
+                <!-- 신고, 수정, 삭제 토글 -->
+                <div class="btn-group shadow-0 ms-auto">
+                    <button
+                            type="button"
+                            class="btn btn-link dropdown-toggle"
+                            data-mdb-toggle="dropdown"
+                            aria-expanded="false"
+                            style="color: lightgray"
+                    >
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li th:if="${#authentication.name != item.username}"><a class="dropdown-item" href="#">신고</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#">수정</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#">삭제</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -113,7 +133,7 @@
     <div class="text-end mt-4">
         <div class="form-outline">
             <div style="display: none" id="question", th:text="${question.questionId}"></div>
-            <div style="display: none" id="user", th:text="${question.username}"></div>
+            <div style="display: none" id="user", th:text="${#authentication.name}"></div>
             <textarea class="form-control" id="answerContent" rows="4" name="content"></textarea>
             <label class="form-label" for="answerContent">답변 내용</label>
         </div>
