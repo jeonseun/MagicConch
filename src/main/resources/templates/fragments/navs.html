@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<body>
+<!-- 주 네비게이션 메뉴 -->
+<nav th:fragment="mainNav"
+     class="navbar navbar-dark navbar-expand-lg bg-primary bg-gradient">
+
+    <!-- 네비게이션 컨텐츠 컨테이너 -->
+    <div class="container">
+        <!-- 브랜드 로고 -->
+        <a class="navbar-brand fw-bold" th:href="@{/}">Magic Conch</a>
+        <!-- 브랜드 로고 -->
+
+        <!-- 컬렙스 토글 버튼 -->
+        <button
+                class="navbar-toggler"
+                type="button"
+                data-mdb-toggle="collapse"
+                data-mdb-target="#navbarContent"
+                aria-controls="navbarContent"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- 컬렙스 토글 버튼 -->
+
+        <!-- 컬렙스 메뉴 래퍼 -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- 네비게이션 왼쪽 메뉴 -->
+            <div class="d-flex align-items-center">
+                <form th:action="@{/question}" method="get">
+                    <div class="input-group">
+                        <input type="text" class="form-control"/>
+                        <button type="submit"
+                                class="btn btn-primary d-flex align-items-center justify-content-center px-3">
+                            <i class="fas fa-search ms-1"></i>
+                        </button>
+                    </div>
+                </form>
+                <a th:href="@{/question}"
+                   class="btn btn-success btn-rounded p-2 ms-2 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-search ms-1"></i>
+                    질문하기
+                </a>
+                <a th:href="@{question/list}" type="button"
+                   class="btn btn-success btn-rounded p-2 ms-2">질문보기</a>
+            </div>
+            <!-- 네비게이션 왼쪽 메뉴 -->
+
+            <!-- 접혀있을때 메뉴 간 구분선 -->
+            <hr class="collapsed text-white">
+            <!-- 접혀있을때 메뉴 간 구분선 -->
+
+
+            <!-- 비로그인 상태 네비게이션 메뉴 -->
+            <ul sec:authorize="isAnonymous()" class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a th:href="@{/loginForm}"
+                       class="btn btn-rounded btn-dark font-weight-bold">LOGIN</a>
+                </li>
+            </ul>
+            <!-- 비로그인 상태 네비게이션 메뉴 -->
+
+            <!-- 로그인 상태 네비게이션 메뉴 -->
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav ms-auto flex-row align-items-center">
+                <!-- 프로필 사진과 이름 (토글버튼 역할) -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="profile-dropdown"
+                       role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+                        <img id="navProfileImage"
+                             th:src="${#authentication.getPrincipal().getUser().getProfileImg()}"
+                             class="rounded-circle"
+                             height="25px"
+                             width="25px"/>
+                        <span sec:authentication="principal.user.name" class="ms-1 text-white"></span>
+                    </a>
+
+                    <!-- 프로필 드랍다운 메뉴 -->
+                    <ul class="dropdown-menu" aria-labelledby="profile-dropdown">
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{|/user/info?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                                Page</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{|/user/bundle?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                                Bundles</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{|/user/question?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                                Friends</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{|/user/friend?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                                Questions</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
+                               th:href="@{|/user/setting?username=${#authentication.getPrincipal().getUser().getUsername()}|}">Setting</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+
+                        <!-- 로그아웃 버튼 -->
+                        <li class="dropdown-item">
+                            <a class="text-black" href="#"
+                               onclick="document.getElementById('logout-dropdown').submit();">
+                                <span><i class="fas fa-sign-out-alt"></i> logout</span>
+                                <form id="logout-dropdown" th:action="@{/logout}" method="POST">
+                                    <inpout type="hidden"/>
+                                </form>
+                            </a>
+                        </li>
+                        <!-- 로그아웃 버튼 -->
+                    </ul>
+                    <!-- 프로필 드랍다운 메뉴 -->
+
+                </li>
+                <!-- 프로필 사진과 이름 (토글버튼 역할) -->
+
+                <!-- 알림 -->
+                <li class="nav-item">
+                    <a class="nav-link dropdown-toggle hidden-arrow"
+                       href="#"
+                       id="navbarDropdownMenuLink"
+                       role="button"
+                       data-mdb-toggle="dropdown"
+                       aria-expanded="false">
+                        <i class="fas fa-bell fa-lg" style="color: #e3f2fd"></i>
+                        <span class="badge rounded-pill badge-notification bg-danger"></span>
+                    </a>
+                </li>
+                <!-- 알림 -->
+
+                <!-- 로그아웃 버튼 -->
+                <li class="nav-item ms-2">
+                    <a href="#" onclick="document.getElementById('logout').submit();">
+                        <i class="fas fa-sign-out-alt fa-lg" style="color: #e3f2fd"></i>
+                    </a>
+                    <form id="logout" action="/logout" method="POST">
+                        <inpout type="hidden"/>
+                    </form>
+                </li>
+                <!-- 로그아웃 버튼 -->
+
+            </ul>
+            <!-- 로그인 상태 네비게이션 메뉴 -->
+
+        </div>
+        <!-- 컬렙스 메뉴 래퍼 -->
+    </div>
+    <!-- 네비게이션 컨텐츠 컨테이너 -->
+</nav>
+<!-- 주 네비게이션 메뉴 -->
+
+
+<!-- 유저 정보 페이지 네베게이션 메뉴 -->
+<ul th:fragment="user_info_menu(currentMenu)"
+    id="user-page__nav"
+    class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
+    <li class="nav-item">
+        <a th:href="@{/user/info}" class="nav-link"
+           th:classappend="${currentMenu} == 'info' ? 'disabled' : ''">
+            <i class="fas fa-info-circle"></i> INFO</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/bundle}" class="nav-link"
+           th:classappend="${currentMenu} == 'bundle' ? 'disabled' : ''">
+            <i class="fas fa-briefcase"></i> BUNDLE</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/question}" class="nav-link"
+           th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">
+            <i class="fas fa-question-circle"></i> QUESTION</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/friend}" class="nav-link"
+           th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
+            <i class="fas fa-user-friends"></i> FRIEND</a>
+    </li>
+    <li class="nav-item">
+        <a th:href="@{/user/setting}"  class="nav-link"
+           th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
+            <i class="fas fa-cog"></i> SETTING</a>
+    </li>
+    <!-- 좋은 방법이 떠오르면 바꿔야함 .. 좋지 않은 방법 -->
+    <input sec:authorize="isAuthenticated()"
+           th:value="${#authentication.getPrincipal().getUser().getUsername()}"
+           id="userChecker"
+           type="hidden">
+    <script>
+        let urlParams = window.location.href.split("?");
+        const username = urlParams[1].split("=")[1];
+        const userPageNav = document.getElementById("user-page__nav");
+        let links = userPageNav.getElementsByTagName("a");
+        for (let i = 0; i < links.length; i++) {
+            if(urlParams[1] != undefined) {
+                links[i].href += ('?' + urlParams[1]);
+            }
+        }
+
+        let settingLink = userPageNav.querySelector("li:nth-child(5)");
+        if (document.querySelector("#userChecker").value !== username) {
+            settingLink.remove();
+        }
+    </script>
+</ul>
+<!-- 유저 정보 페이지 네베게이션 메뉴 -->
+
+</body>
+</html>

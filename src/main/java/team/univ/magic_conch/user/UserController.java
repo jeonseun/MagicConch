@@ -13,8 +13,6 @@ import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDetailsDTO;
 import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
 import team.univ.magic_conch.follow.FollowService;
-import team.univ.magic_conch.question.Question;
-import team.univ.magic_conch.question.QuestionRepository;
 import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
@@ -22,7 +20,6 @@ import team.univ.magic_conch.user.exception.UserNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -48,27 +45,15 @@ public class UserController {
         // user 정보
         User findUser = userRepository.findByUsername(username)
                 .orElseThrow(UserNotFoundException::new);
-        // user 정보 dto 변환
-        UserProfileDTO userDTO = findUser.toUserProfileDTO();
-        model.addAttribute("user", userDTO);
+        // user 정보 profile dto 변환 (팔로우 여부 미포함)
+        UserProfileDTO userDTO = findUser.entityToUserProfileDTO();
 
-        // bundle 정보 가져오기 및 dto 변환
-        List<BundlePreviewDTO> bundleDTOs = bundleRepository.findAllByUserUsername(username)
-                .stream()
-                .map(Bundle::toBundlePreviewDTO)
-                .collect(Collectors.toList());
-        model.addAttribute("bundles", bundleDTOs);
-
-        // 로그인 된 경우
-        if (Objects.nonNull(principalDetails)) {
-            if (principalDetails.getUsername().equals(username)) {
-                model.addAttribute("isMine", true);
-            } else {
-                model.addAttribute("isMine", false);
-                boolean followed = followService.isFollowed(findUser, principalDetails.getUser());
-                model.addAttribute("followed", followed);
-            }
+        // profile dto 팔로우 여부 등록
+        if (principalDetails != null) {
+            boolean followed = followService.isFollowed(findUser, principalDetails.getUser());
+            userDTO.setFollowed(followed);
         }
+        model.addAttribute("profileDTO", userDTO);
         return "user/info";
     }
 
@@ -84,7 +69,7 @@ public class UserController {
             BundleDetailsDTO bundleDetailsDTO = BundleDetailsDTO.builder()
                     .bundleId(findBundle.getId())
                     .bundleName(findBundle.getName())
-                    .visibility(findBundle.getVisibility())
+                    .visibility(findBundle.getVisibility().toString())
                     .tagName(findBundle.getTag().getName())
                     .tagColor(findBundle.getTag().getColor())
                     .createdDate(findBundle.getCreateDate())
