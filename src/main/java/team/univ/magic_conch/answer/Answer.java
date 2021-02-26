@@ -10,6 +10,7 @@ import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -53,6 +54,7 @@ public class Answer {
                 .profileImg(user.getProfileImg())
                 .answerId(getId())
                 .content(getContent())
+                .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm")))
                 .build();
     }
 

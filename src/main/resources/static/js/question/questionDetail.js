@@ -99,7 +99,10 @@ function clickAnswerBtn(){
                     "                 width=\"35px\">\n" +
                     "            <div class=\"text-center\"> " + data.username + "</div>\n" +
                     "        </div>\n" +
-                    "        <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
+                    "        <div class=\"d-flex flex-column\">" +
+                    "            <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
+                    "            <div class=\"ps-3\" style=\"font-size: 10px\">" + data.createTime + "</div>" +
+                    "        </div>" +
                     "    </div>\n" +
                     "</div>\n"
                 let offset = $('.scroll').offset();

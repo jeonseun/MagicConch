@@ -15,5 +15,6 @@ public class AnswerDTO {
     String username;
     String profileImg;
     String content;
+    String createTime;
 
 }
