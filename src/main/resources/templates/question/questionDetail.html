@@ -1,9 +1,8 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='질문보기', head=~{::head}, main=~{::main}, js=~{::#customJS})">
 <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>질문보기</title>
-    <script defer th:src="@{/js/question/questionDetail.js}"></script>
+
     <style>
         .cus-btn:hover {
             background: blue;
@@ -22,8 +21,7 @@
     </style>
 </head>
 <body>
-<nav th:replace="layout/nav :: nav"></nav>
-<div class="container col-md-6 shadow" style="border-radius: 10px">
+<main class="container col-md-6 shadow" style="border-radius: 10px">
     <!-- 질문 제목 -->
     <h2 th:text="${question.title}" class="pt-4 mb-4">제목</h2>
 
@@ -139,7 +137,7 @@
         </div>
         <button type="button" class="mt-2 mb-2 btn btn-outline-primary" onclick="clickAnswerBtn()">작성</button>
     </div>
-</div>
+</main>
 
 <!-- Modal -->
 <div class="modal top fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
@@ -158,6 +156,8 @@
         </div>
     </div>
 </div>
-
+<th:block id="customJS">
+    <script defer th:src="@{/js/question/questionDetail.js}"></script>
+</th:block>
 </body>
 </html>
