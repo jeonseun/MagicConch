@@ -1,20 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='팔로우 질문보기',css=~{::#css},main=~{::main}, js=~{::#customJS})">
 <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>팔로우 질문보기</title>
-    <link rel="stylesheet" th:href="@{/css/global.css}"}>
-    <script defer th:src="@{/js/question/questionFollowList.js}"></script>
-    <style>
-        .page-item-no:active {
-            color: yellow;
-        }
-    </style>
+    <th:block id="css">
+        <style>
+            .page-item-no:active {
+                color: yellow;
+            }
+        </style>
+        <link rel="stylesheet" th:href="@{/css/global.css}" }>
+    </th:block>
 </head>
 <body>
-<nav th:replace="layout/nav :: nav"></nav>
-
-<div class="container col-md-10">
+<main class="container col-md-10">
 
     <!--  질문 목록 제목  -->
 
@@ -62,7 +60,7 @@
                     th:style="'text-shadow: 1px 1px 10px ' + ${tag.color} + '; display: none;'"
                     th:onclick="selectTagName(event, [[${tag.name}]])"
             ></button>
-            <input hidden type="text" id="tagList" />
+            <input hidden type="text" id="tagList"/>
         </div>
 
         <div class="d-flex flex-row mb-3">
@@ -116,7 +114,7 @@
         </div>
     </form>
 
-    <hr />
+    <hr/>
 
     <!--  질문 목록 리스트  -->
     <table class="table animation fade-in shadow" style="border-radius: 10px">
@@ -185,6 +183,9 @@
             </li>
         </ul>
     </div>
-</div>
+</main>
+<th:block id="customJS">
+    <script th:src="@{/js/question/questionFollowList.js}"></script>
+</th:block>
 </body>
 </html>

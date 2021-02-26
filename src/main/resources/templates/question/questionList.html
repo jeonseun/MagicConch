@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+ th:replace="fragments/layout :: layout(title='질문보기', css=~{::#css}, js=~{::#customJS}, main=~{::main})">
 <head>
-    <div th:replace="layout/base :: base"></div>
-    <title>질문보기</title>
+    <th:block id="css">
     <link rel="stylesheet" th:href="@{/css/global.css}" }>
-    <script defer th:src="@{/js/question/questionList.js}"></script>
+    </th:block>
+
 </head>
 <body>
-<nav th:replace="layout/nav :: nav"></nav>
-
-<div class="container col-md-10">
+<main class="container col-md-10">
 
     <!--  질문 목록 제목  -->
 
@@ -180,6 +179,9 @@
             </li>
         </ul>
     </div>
-</div>
+</main>
+<th:block id="customJS">
+    <script th:src="@{/js/question/questionList.js}"></script>
+</th:block>
 </body>
 </html>
