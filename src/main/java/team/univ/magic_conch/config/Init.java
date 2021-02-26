@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.BundleService;
 import team.univ.magic_conch.follow.FollowService;
 import team.univ.magic_conch.question.Question;
@@ -13,6 +14,7 @@ import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.TagService;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserService;
+import team.univ.magic_conch.visibility.Visibility;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -28,6 +30,7 @@ public class Init implements CommandLineRunner {
     private final TagService tagService;
     private final QuestionService questionService;
     private final FollowService followService;
+    private final BundleRepository bundleRepository;
 
     @Override
     public void run(String... args) throws Exception {
@@ -59,25 +62,40 @@ public class Init implements CommandLineRunner {
                 .name("자바 질문방")
                 .user(user)
                 .tag(tagService.findByName("JAVA"))
-                .visibility("PRIVATE")
+                .visibility(Visibility.PRIVATE)
                 .build();
-        bundleService.save(bundle1);
+        bundleRepository.save(bundle1);
 
         Bundle bundle2 = Bundle.builder()
                 .name("스프링 질문방")
                 .user(user)
                 .tag(tagService.findByName("SPRING"))
-                .visibility("PUBLIC")
+                .visibility(Visibility.PUBLIC)
                 .build();
-        bundleService.save(bundle2);
+        bundleRepository.save(bundle2);
 
         Bundle bundle3 = Bundle.builder()
                 .name("파이썬 질문방")
                 .user(user)
                 .tag(tagService.findByName("PYTHON"))
-                .visibility("FRIEND")
+                .visibility(Visibility.FRIEND)
                 .build();
-        bundleService.save(bundle3);
+        bundleRepository.save(bundle3);
+
+        /* 페이징용 번들 추가 */
+        User tester1 = userService.join("tester1", "q", "tester1");
+        User tester2 = userService.join("tester2", "q", "tester2");
+
+        for (int i = 0; i < 250; i++) {
+            Bundle bundle = Bundle.builder()
+                    .name("번들" + i + "번")
+                    .user(i % 2 == 0 ?  tester1 : tester2)
+                    .visibility(i % 2 == 0 ? Visibility.FRIEND : i % 3 == 0 ? Visibility.PRIVATE : Visibility.PUBLIC)
+                    .tag(tagService.findByName("PYTHON"))
+                    .build();
+            bundleRepository.save(bundle);
+        }
+
         /* question 추가 */
         for (int i = 0; i < 255; i++) {
 //            Thread.sleep(10);

@@ -1,31 +1,28 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<!-- TODO 프로필 카드 리팩토링 필요 -->
-<!-- profile card -->
-<div th:fragment="profile(user, isMine, followed)" class="card text-center">
+
+<!-- 프로필 정보 카드-->
+<div th:fragment="profileCard(profileDTO)" class="card text-center">
     <div class="bg-image">
-        <img th:src="${user.profileImage}" class="img-fluid position-relative">
-        <th:block th:if="${isMine}">
-            <!-- profile image change button -->
-            <label for="profileImageChange"
-                   class="profile__icon d-flex justify-content-center align-items-center">
-                <i class="fas fa-camera text-white"></i>
-            </label>
-            <input type="file" id="profileImageChange">
-        </th:block>
+        <img th:src="${profileDTO.image}" class="img-fluid position-relative">
+        <button class="btn btn-outline-block mx-auto mt-1" th:if="${#authentication.name} == ${profileDTO.username}">
+            <span>edit profile</span>
+        </button>
     </div>
 
-    <!-- profile image change button -->
-    <div class="card-header" th:text="${user.username}"></div>
+    <div class="card-header" th:text="${profileDTO.username}"></div>
     <div class="card-body">
-        <h5 class="card-title" th:text="${user.name}"></h5>
-        <th:block th:if="${followed} != null">
-            <button th:text="${followed} ? '언팔로우' : '팔로우'" type="button" class="btn btn-primary"></button>
+        <h5 class="card-title" th:text="${profileDTO.name}"></h5>
+        <th:block sec:authorize="isAuthenticated()">
+        <button th:unless="${#authentication.name} == ${profileDTO.username}">
+            <span th:text="${profileDTO.followed} ? '언팔로우' : '팔로우'"></span>
+        </button>
         </th:block>
     </div>
 </div>
-<!-- profile card -->
+<!-- 프로필 정보 카드-->
 
 <!-- TODO user info 에 나오는 번들 리스트용 심플 번들 카드 리팩토링 필요-->
 <!-- bundle simple card -->

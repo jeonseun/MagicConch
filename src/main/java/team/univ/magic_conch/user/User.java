@@ -70,7 +70,7 @@ public class User {
         return UserProfileDTO.builder()
                 .username(getUsername())
                 .name(getName())
-                .profileImage(getProfileImg())
+                .image(getProfileImg())
                 .build();
     }
 }

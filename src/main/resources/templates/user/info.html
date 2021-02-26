@@ -15,11 +15,9 @@
     <section class="col-12 col-md-4 col-lg-3">
         <!-- 프로필 -->
         <article>
-            <!-- user info -->
-            <!-- isMine true : own user info page -->
-            <!-- isMine false : another user info page -->
-            <div th:replace="fragments/components :: profile(${user}, ${isMine}, ${followed})"></div>
-            <!-- user info -->
+            <!-- 사용자 프로필 정보 -->
+            <div th:replace="fragments/components :: profileCard(${profileDTO})"></div>
+            <!-- 사용자 프로필 정보 -->
         </article>
         <!-- 프로필 -->
     </section>
@@ -36,7 +34,7 @@
                     <i class="fas fa-plus"> NEW BUNDLE</i>
                 </a>
             </div>
-            <ul class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3" style="list-style-type: none;">
+            <ul id="bundlePreviewList" class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-2 row-cols-xl-3" style="list-style-type: none;">
                 <li th:each="bundle : ${bundles}" th:include="fragments/components :: bundlePreview(${bundle})"></li>
             </ul>
         </article>
