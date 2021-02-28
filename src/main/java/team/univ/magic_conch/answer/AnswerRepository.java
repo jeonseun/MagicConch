@@ -10,6 +10,8 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
     long countByQuestionId(Long questionId);
 
+    void deleteById(Long answerId);
+
     @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
     Optional<Answer> findById(Long answerId);
 

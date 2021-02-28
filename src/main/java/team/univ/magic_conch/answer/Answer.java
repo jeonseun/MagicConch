@@ -39,6 +39,14 @@ public class Answer {
         this.question = question;
     }
 
+    public void changeContent(String content){
+        this.content = content;
+    }
+
+    public void refreshLastModifyTime(){
+        this.lastModifyTime = LocalDateTime.now();
+    }
+
     @Builder
     public Answer(String content, User user, Question question) {
         this.content = content;
