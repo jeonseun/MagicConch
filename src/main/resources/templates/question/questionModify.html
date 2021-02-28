@@ -83,13 +83,6 @@
             <!--  내용  -->
             <textarea name="content" id="summernote" class="summernote" th:name="content"
                       th:text="${questionInfo.content}"></textarea>
-            <script>
-                $(document).ready(function () {
-                    $('#summernote').summernote({
-                        height: 500, minHeight: null, maxHeight: null, lang: 'ko-KR'
-                    });
-                });
-            </script>
         </div>
 
         <!-- 수정, 취소 버튼 -->
@@ -117,6 +110,13 @@
 <th:block id="customJS">
     <script th:src="@{/js/question/question.js}"></script>
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#summernote').summernote({
+                height: 500, minHeight: null, maxHeight: null, lang: 'ko-KR'
+            });
+        });
+    </script>
 </th:block>
 </body>
 </html>
