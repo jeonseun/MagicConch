@@ -81,22 +81,22 @@
                     <ul class="dropdown-menu" aria-labelledby="profile-dropdown">
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/info?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/user/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Page</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/bundle?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/bundle/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Bundles</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/question?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/question/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Friends</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/friend?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/friend/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Questions</a>
                         </li>
                         <li>
@@ -165,22 +165,22 @@
     id="user-page__nav"
     class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
     <li class="nav-item">
-        <a th:href="@{/user/info}" class="nav-link"
+        <a th:href="@{/user/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'info' ? 'disabled' : ''">
-            <i class="fas fa-info-circle"></i> INFO</a>
+            <i class="fas fa-info-circle"></i> OVERVIEW</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/bundle}" class="nav-link"
+        <a th:href="@{/bundle/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'bundle' ? 'disabled' : ''">
             <i class="fas fa-briefcase"></i> BUNDLE</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/question}" class="nav-link"
+        <a th:href="@{/question/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">
             <i class="fas fa-question-circle"></i> QUESTION</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/friend}" class="nav-link"
+        <a th:href="@{/friend/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
             <i class="fas fa-user-friends"></i> FRIEND</a>
     </li>

@@ -13,7 +13,10 @@ public class UserRelationServiceImpl implements UserRelationService {
 
     @Override
     public UserRelation checkRelation(User requester, User target) {
-        if (requester == target) {
+        if (requester == null) {
+            return UserRelation.NO_RELATIONSHIP;
+        }
+        if (requester.getUsername().equals(target.getUsername())) {
             // 자기자신
             return UserRelation.MY_SELF;
         }

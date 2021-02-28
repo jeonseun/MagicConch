@@ -245,4 +245,14 @@ public class QuestionController {
 
         return "test";
     }
+
+    /**
+     * 해당 사용자의 질문 목록 페이지
+     * @return
+     */
+    @GetMapping("/question/overview")
+    public String overview() {
+        return "question/overview";
+    }
+
 }

@@ -90,7 +90,7 @@ public class Init implements CommandLineRunner {
             Bundle bundle = Bundle.builder()
                     .name("번들" + i + "번")
                     .user(i % 2 == 0 ?  tester1 : tester2)
-                    .visibility(i % 2 == 0 ? Visibility.FRIEND : i % 3 == 0 ? Visibility.PRIVATE : Visibility.PUBLIC)
+                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
                     .tag(tagService.findByName("PYTHON"))
                     .build();
             bundleRepository.save(bundle);

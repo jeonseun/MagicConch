@@ -24,12 +24,33 @@
 </div>
 <!-- 프로필 정보 카드-->
 
-<!-- TODO user info 에 나오는 번들 리스트용 심플 번들 카드 리팩토링 필요-->
-<!-- bundle simple card -->
+<!-- 번들 모아보기 카드 -->
+<div th:fragment="bundleCard(bundleDTO)">
+    <th:block th:if="bundleDTO != null">
+    <a class="card" th:href="@{|/bundle/${bundleDTO.bundleId}|}">
+        <header class="card-header d-flex justify-content-between"
+                th:styleappend="|background-color: ${bundleDTO.tagColor}|">
+            <span th:text="${bundleDTO.tagName}"></span>
+            <strong th:text="${bundleDTO.visibility}"></strong>
+        </header>
+        <div class="card-body">
+            <p th:text="${bundleDTO.bundleName}" class="card-text"></p>
+        </div>
+    </a>
+    </th:block>
+    <th:block th:if="bundleDTO == null">
+        <a class="card" href="#">
+            test
+        </a>
+    </th:block>
+</div>
+<!-- 번들 모아보기 카드 -->
+
+<!-- 번들 미리보기 샘플 카드 -->
 <li th:fragment="bundlePreview(bundle)" >
     <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
         <div class="card-header text-white" th:text="${bundle.tagName}"
-             th:styleappend="|background-color: ${bundle.tagColor}|">
+             >
         </div>
 
         <span class="badge bg-primary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PRIVATE'"
@@ -43,7 +64,7 @@
         </div>
     </a>
 </li>
-<!-- bundle simple card -->
+<!-- 번들 미리보기 샘플 카드 -->
 
 <!-- TODO bundleOverview 에 보여줄 번들 상세 카드 리팩토링 필요 -->
 <!-- bundle details card -->

@@ -67,4 +67,12 @@ public class FollowController {
         return followService.findAllByUserTo(principalDetails.getUser());
     }
 
+    /**
+     * 친구 모아보기 화면
+     * @return
+     */
+    @GetMapping("/friend/overview")
+    public String overview() {
+        return "friend/overview";
+    }
 }

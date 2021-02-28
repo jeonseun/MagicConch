@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -39,4 +40,5 @@ public class PageResultDTO<DTO, EN> {
         /* 다음 버튼 활성화 여부 */
         next = result.getTotalPages() / 10 != pageable.getPageNumber() / 10;
     }
+
 }
