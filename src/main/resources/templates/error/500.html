@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='Server Error',main=~{::main})">
 <body>
-internal server error
+<main class="container row mx-auto mt-5">
+    <h3>500 error</h3>
+</main>
 </body>
 </html>

@@ -56,18 +56,12 @@ public class BundleController {
         return "redirect:/bundle/overview" + "?username=" + username;
 
     }
-//
-//    @ModelAttribute("bundleId")
-//    public void setBundleId(Model model) {
-//        model.addAttribute("bundleId");
-//    }
 
     // 번들 상세보기 화면
     @GetMapping("/{id}")
     public String showBundleDetails(@PathVariable Long id, Model model) {
         Bundle findBundle = bundleService.findById(id).orElseThrow(BundleNotFoundException::new);
         model.addAttribute("bundleId", findBundle.getId());
-        model.addAttribute("bundle", findBundle.toBundleHeaderDTO());
         return "bundle/bundleDetail";
     }
 

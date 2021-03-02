@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='Bad Request',main=~{::main})">
+<body>
+<main class="container row mx-auto mt-5">
+    <section class="card text-center">
+        <!-- TODO 에러 발생한 것에 대한 정보 표시 -->
+        에러 발생 위치
+        <div></div>
+
+        <h3>400 Bad Request</h3>
+    </section>
+</main>
+</body>
+</html>

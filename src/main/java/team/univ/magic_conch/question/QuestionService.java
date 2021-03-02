@@ -65,12 +65,6 @@ public interface QuestionService {
      */
     public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO);
 
-    /**
-     * 해당 번들에 속해있는 질문 개수 조회
-     * @param bundleId
-     * @return question count : long
-     */
-    long getQuestionCount(Long bundleId);
 
     /**
      * 해당 번들에 속해있는 질문 페이징 조회

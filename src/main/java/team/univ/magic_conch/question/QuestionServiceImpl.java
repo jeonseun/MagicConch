@@ -29,7 +29,6 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionRepository questionRepository;
     private final BundleRepository bundleRepository;
     private final TagRepository tagRepository;
-    private final AnswerRepository answerRepository;
 
     @Override
     public List<BundleDropBoxDTO> question(String username){
@@ -88,13 +87,9 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public long getQuestionCount(Long bundleId) {
-        return questionRepository.countByBundleId(bundleId);
-    }
-
-    @Override
     public PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable) {
         Page<Question> result = questionRepository.findAllByBundleId(bundle.getId(), pageable);
+
         return null;
     }
 }

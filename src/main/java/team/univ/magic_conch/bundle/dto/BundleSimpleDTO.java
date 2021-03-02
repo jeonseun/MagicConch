@@ -5,6 +5,9 @@ import lombok.Getter;
 
 import java.time.LocalDate;
 
+/**
+ * 번들 자체에 관한 정보만을 가지는 DTO
+ */
 @Getter
 public class BundleSimpleDTO {
 

@@ -8,16 +8,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.univ.magic_conch.auth.PrincipalDetails;
-import team.univ.magic_conch.bundle.Bundle;
-import team.univ.magic_conch.bundle.BundleRepository;
-import team.univ.magic_conch.bundle.dto.BundleDetailsDTO;
 import team.univ.magic_conch.follow.FollowService;
-import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -69,9 +62,5 @@ public class UserController {
         return ResponseEntity.ok().body(profileImagePath);
     }
 
-    @ExceptionHandler({UserNotFoundException.class})
-    public String handleException() {
-        return "error/404";
-    }
 
 }
