@@ -161,9 +161,8 @@
 
 
 <!-- 유저 정보 페이지 네베게이션 메뉴 -->
-<ul th:fragment="user_info_menu(currentMenu)"
-    id="user-page__nav"
-    class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
+<th:block th:fragment="user_info_menu(currentMenu)">
+    <ul id="user-page__nav" class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
     <li class="nav-item">
         <a th:href="@{/user/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'info' ? 'disabled' : ''">
@@ -185,11 +184,11 @@
             <i class="fas fa-user-friends"></i> FRIEND</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/setting}"  class="nav-link"
+        <a th:href="@{/user/setting}" class="nav-link"
            th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
             <i class="fas fa-cog"></i> SETTING</a>
     </li>
-    <!-- 좋은 방법이 떠오르면 바꿔야함 .. 좋지 않은 방법 -->
+    <!-- 현재 접속자와 접속자가 접근한 페이지가 동일한지 판단하기 위한 값 -->
     <input sec:authorize="isAuthenticated()"
            th:value="${#authentication.getPrincipal().getUser().getUsername()}"
            id="userChecker"
@@ -200,17 +199,19 @@
         const userPageNav = document.getElementById("user-page__nav");
         let links = userPageNav.getElementsByTagName("a");
         for (let i = 0; i < links.length; i++) {
-            if(urlParams[1] != undefined) {
-                links[i].href += ('?' + urlParams[1]);
-            }
+            links[i].href += ('?' + urlParams[1]);
         }
 
         let settingLink = userPageNav.querySelector("li:nth-child(5)");
+        if (document.querySelector("#userChecker") === null) {
+            settingLink.remove();
+        }
         if (document.querySelector("#userChecker").value !== username) {
             settingLink.remove();
         }
     </script>
-</ul>
+    </ul>
+</th:block>
 <!-- 유저 정보 페이지 네베게이션 메뉴 -->
 
 </body>

@@ -26,13 +26,8 @@ public class UserController {
 
 
     private final UserRepository userRepository;
-    private final BundleRepository bundleRepository;
     private final FollowService followService;
     private final UserService userService;
-    private final QuestionService questionService;
-
-    // 마이페이지 관련 URL 예시
-    // url : http://{host_ip}:{port}/user/{페이지 이름}?username={대상 사용자}
 
     // user info overview 페이지
     @GetMapping("/overview")
@@ -53,6 +48,11 @@ public class UserController {
         }
         model.addAttribute("profileDTO", userDTO);
         return "user/overview";
+    }
+
+    @GetMapping("/setting")
+    public String setting() {
+        return "user/setting";
     }
 
     @PutMapping("/profile/image")
