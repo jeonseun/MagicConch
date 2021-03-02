@@ -46,10 +46,11 @@ public class AnswerController {
      * @param answerId
      */
     @DeleteMapping("/answer")
-    public void deleteAnswer(@RequestParam Long answerId){
+    @ResponseBody
+    public String deleteAnswer(@RequestParam Long answerId){
 
         answerService.deleteAnswer(answerId);
-
+        return "success";
     }
 
     /**

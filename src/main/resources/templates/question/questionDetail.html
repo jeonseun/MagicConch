@@ -90,7 +90,7 @@
     <!-- 답변 -->
     <div class="answer-wrapper">
         <!-- 답변 보기 -->
-        <div th:each="item : ${answer}">
+        <div th:each="item : ${answer}" th:id="${item.answerId}">
             <hr>
             <div class="d-flex align-items-center" th:value="${item.username}" onclick="clickAnswerProfile(this)"s>
                 <!-- 프로필 -->
@@ -121,7 +121,7 @@
                     <ul class="dropdown-menu">
                         <li th:if="${#authentication.name != item.username}"><a class="dropdown-item" href="#">신고</a></li>
                         <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#">수정</a></li>
-                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#">삭제</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#" th:onclick="'clickDeleteAnswer(' + ${item.answerId} + ')'">삭제</a></li>
                     </ul>
                 </div>
             </div>

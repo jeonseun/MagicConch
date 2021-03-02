@@ -75,6 +75,19 @@ function clickAnswerProfile(obj){
     //location.href = '/user/info?username=';
 }
 
+function clickDeleteAnswer(id){
+    $.ajax({
+        url: '/answer',
+        type: 'DELETE',
+        data: {'answerId' : id},
+        dataType: 'text',
+        success: function (data) {
+            $('#' + id).remove();
+        }, error: function (xhr) {
+        }
+    })
+}
+
 function clickAnswerBtn(){
 
     let question = $('#question').text();
@@ -89,7 +102,7 @@ function clickAnswerBtn(){
         dataType: 'json',
         success: function (data) {
                 answerWrapper.innerHTML +=
-                    "<div class='scroll'>\n" +
+                    "<div class='scroll' id= " + data.answerId + ">\n" +
                     "    <hr>\n" +
                     "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
                     "        <div class=\"d-flex flex-column ps-2\">\n" +
@@ -115,7 +128,7 @@ function clickAnswerBtn(){
                     "            </button>\n" +
                     "            <ul class=\"dropdown-menu\">\n" +
                     "                <li><a class=\"dropdown-item\" href=\"#\">수정</a></li>\n" +
-                    "                <li><a class=\"dropdown-item\" href=\"#\">삭제</a></li>\n" +
+                    "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
                     "            </ul>\n" +
                     "        </div>\n" +
                     "    </div>\n" +
