@@ -16,76 +16,34 @@
     <div class="card-body">
         <h5 class="card-title" th:text="${profileDTO.name}"></h5>
         <th:block sec:authorize="isAuthenticated()">
-        <button th:unless="${#authentication.name} == ${profileDTO.username}">
-            <span th:text="${profileDTO.followed} ? '언팔로우' : '팔로우'"></span>
-        </button>
+            <button th:unless="${#authentication.name} == ${profileDTO.username}">
+                <span th:text="${profileDTO.followed} ? '언팔로우' : '팔로우'"></span>
+            </button>
         </th:block>
     </div>
 </div>
 <!-- 프로필 정보 카드-->
 
-<!-- 번들 모아보기 카드 -->
-<div th:fragment="bundleCard(bundleDTO)">
-    <th:block th:if="bundleDTO != null">
-    <a class="card" th:href="@{|/bundle/${bundleDTO.bundleId}|}">
-        <header class="card-header d-flex justify-content-between"
-                th:styleappend="|background-color: ${bundleDTO.tagColor}|">
-            <span th:text="${bundleDTO.tagName}"></span>
-            <strong th:text="${bundleDTO.visibility}"></strong>
-        </header>
+<!-- 번들 정보 카드 -->
+<th:block th:fragment="bundleCard(bundle)">
+    <div class="card mb-3 shadow-1-strong ">
+        <div th:styleappend="|background-color:${bundle.tagColor}|"
+             class="card-header text-white d-flex justify-content-between pb-0">
+            <span th:text="${bundle.tagName}"></span>
+            <h3 class="badge"
+                th:classappend="${bundle.visibility} == 'PUBLIC' ? 'bg-success' : (${bundle.visibility} == 'FRIEND' ? 'bg-secondary' : 'bg-primary')"
+                th:text="${bundle.visibility}">
+            </h3>
+        </div>
         <div class="card-body">
-            <p th:text="${bundleDTO.bundleName}" class="card-text"></p>
+            <h5 class="card-title" th:text="${bundle.name}">Card title</h5>
+            <p th:text="|개설 : ${bundle.createdTime}|" class="card-text mb-2"></p>
+            <a th:href="@{|/bundle/${bundle.getBundleId()}|}" class="btn btn-link btn-block">go to
+                bundle</a>
         </div>
-    </a>
-    </th:block>
-    <th:block th:if="bundleDTO == null">
-        <a class="card" href="#">
-            test
-        </a>
-    </th:block>
-</div>
-<!-- 번들 모아보기 카드 -->
+    </div>
+</th:block>
+<!-- 번들 정보 카드 -->
 
-<!-- 번들 미리보기 샘플 카드 -->
-<li th:fragment="bundlePreview(bundle)" >
-    <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
-        <div class="card-header text-white" th:text="${bundle.tagName}"
-             >
-        </div>
-
-        <span class="badge bg-primary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PRIVATE'"
-              th:text="${bundle.visibility}"></span>
-        <span class="badge bg-success ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PUBLIC'"
-              th:text="${bundle.visibility}"></span>
-        <span class="badge bg-secondary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'FRIEND'"
-              th:text="${bundle.visibility}"></span>
-        <div class="card-body">
-            <h5 class="card-title" th:text="${bundle.bundleName}">번들 이름</h5>
-        </div>
-    </a>
-</li>
-<!-- 번들 미리보기 샘플 카드 -->
-
-<!-- TODO bundleOverview 에 보여줄 번들 상세 카드 리팩토링 필요 -->
-<!-- bundle details card -->
-<li th:fragment="bundleDetails(bundle)">
-    <a th:href="@{|/bundle/${bundle.bundleId}|}" class="card shadow mb-3">
-        <div class="card-header text-white" th:text="${bundle.tagName}"
-             th:styleappend="|background-color: ${bundle.tagColor}|"></div>
-        <div class="card-body">
-            <h5 class="card-title" th:text="${bundle.bundleName}"></h5>
-            <p class="card-text" th:text="|생성된 질문 : ${bundle.questionCount}건|"></p>
-        </div>
-        <div class="card-footer" th:text="${bundle.createdDate}"></div>
-    </a>
-</li>
-<!-- bundle details card -->
-
-<!-- TODO 질문 리스트에서 보여줄 질문 하나하나 리팩토링 필요-->
-<!-- question summary row -->
-<li th:fragment="questionSummary(question)">
-
-</li>
-<!-- question summary row -->
 </body>
 </html>

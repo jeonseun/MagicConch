@@ -86,7 +86,7 @@ public class Init implements CommandLineRunner {
         User tester1 = userService.join("tester1", "q", "tester1");
         User tester2 = userService.join("tester2", "q", "tester2");
 
-        for (int i = 0; i < 250; i++) {
+        for (int i = 0; i < 1000; i++) {
             Bundle bundle = Bundle.builder()
                     .name("번들" + i + "번")
                     .user(i % 2 == 0 ?  tester1 : tester2)
