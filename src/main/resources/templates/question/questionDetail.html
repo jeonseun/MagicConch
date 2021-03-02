@@ -120,7 +120,7 @@
 
                     <ul class="dropdown-menu">
                         <li th:if="${#authentication.name != item.username}"><a class="dropdown-item" href="#">신고</a></li>
-                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#">수정</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#" th:onclick="'clickUpdateAnswer(' + ${item.answerId} + ')'">수정</a></li>
                         <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#" th:onclick="'clickDeleteAnswer(' + ${item.answerId} + ')'">삭제</a></li>
                     </ul>
                 </div>

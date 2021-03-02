@@ -75,6 +75,22 @@ function clickAnswerProfile(obj){
     //location.href = '/user/info?username=';
 }
 
+function clickUpdateAnswer(id){
+    $('#' + id).children().remove();
+    $('#' + id).html(
+        "<div class=\"text-end mt-4\">\n" +
+        "    <div class=\"form-outline\">\n" +
+        "        <textarea class=\"form-control\" id=\"answerUpdateContent\" rows=\"4\" name=\"content\"></textarea>\n" +
+        "        <label class=\"form-label\" for=\"answerUpdateContent\">답변 내용</label>\n" +
+        "    </div>\n" +
+        "    <button type=\"button\" class=\"mt-2 mb-2 btn btn-outline-primary\" onclick=\"clickUpdateAnswerBtn(" + id + ")\">작성</button>\n" +
+        "</div>"
+    )
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
+}
+
 function clickDeleteAnswer(id){
     $.ajax({
         url: '/answer',
@@ -127,7 +143,7 @@ function clickAnswerBtn(){
                     "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
                     "            </button>\n" +
                     "            <ul class=\"dropdown-menu\">\n" +
-                    "                <li><a class=\"dropdown-item\" href=\"#\">수정</a></li>\n" +
+                    "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
                     "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
                     "            </ul>\n" +
                     "        </div>\n" +
@@ -150,5 +166,48 @@ function clickAnswerBtn(){
         comments.classList.add('active');
     }
 
+}
 
+function clickUpdateAnswerBtn(id){
+    $.ajax({
+        url: '/answer',
+        type: 'PUT',
+        data: {'answerId': id,  'content': $('#answerUpdateContent').val()},
+        dataType: 'json',
+        success: function (data) {
+            $('#' + id).children().remove();
+            $('#' + id).html(
+                "    <hr>\n" +
+                "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
+                "        <div class=\"d-flex flex-column ps-2\">\n" +
+                "            <img src =" + data.profileImg + "\n" +
+                "                 class=\"rounded-circle\"\n" +
+                "                 height=\"35px\"\n" +
+                "                 width=\"35px\">\n" +
+                "            <div class=\"text-center\"> " + data.username + "</div>\n" +
+                "        </div>\n" +
+                "        <div class=\"d-flex flex-column\">" +
+                "            <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
+                "            <div class=\"ps-3\" style=\"font-size: 10px\">" + data.createTime + "</div>" +
+                "        </div>\n" +
+                "        <div class=\"btn-group shadow-0 ms-auto\">\n" +
+                "            <button\n" +
+                "                    type=\"button\"\n" +
+                "                    class=\"btn btn-link dropdown-toggle\"\n" +
+                "                    data-mdb-toggle=\"dropdown\"\n" +
+                "                    aria-expanded=\"false\"\n" +
+                "                    style=\"color: lightgray\"\n" +
+                "            >\n" +
+                "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
+                "            </button>\n" +
+                "            <ul class=\"dropdown-menu\">\n" +
+                "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
+                "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
+                "            </ul>\n" +
+                "        </div>\n" +
+                "    </div>\n"
+        )
+        }, error: function (xhr) {
+        }
+    })
 }
