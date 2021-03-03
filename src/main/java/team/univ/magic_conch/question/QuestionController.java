@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.answer.AnswerService;
 import team.univ.magic_conch.answer.dto.AnswerDTO;
@@ -24,6 +25,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -74,17 +76,28 @@ public class QuestionController {
      * @return 작성한 질문 상세 페이지 view
      */
     @PostMapping("/question")
-    public String createQuestion(@ModelAttribute QuestionForm questionForm,
+    @ResponseBody
+    public String createQuestion(@Valid QuestionForm questionForm,
+                                 BindingResult bindingResult,
                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
-        Question question = Question.builder()
-                .title(questionForm.getTitle())
-                .content(questionForm.getContent())
-                .user(principalDetails.getUser())
-                .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
-                .tag(tagService.findByName(questionForm.getTagName()))
-                .build();
-        questionService.createQuestion(question);
-        return "redirect:/question/" + question.getId();
+
+        if(!bindingResult.hasErrors()) {
+            Question question = Question.builder()
+                    .title(questionForm.getTitle())
+                    .content(questionForm.getContent())
+                    .user(principalDetails.getUser())
+                    .bundle(bundleService.findById(questionForm.getBundleId()).orElse(null))
+                    .tag(tagService.findByName(questionForm.getTagName()))
+                    .build();
+            Long questionId = questionService.createQuestion(question);
+            return "success " + questionId;
+        }else{
+            StringBuffer errors = new StringBuffer();
+            bindingResult.getAllErrors().forEach(
+                    e -> errors.append(e.getDefaultMessage() + '\n')
+            );
+            return errors.toString();
+        }
     }
 
     /**

@@ -22,8 +22,9 @@ public interface QuestionService {
     /**
      * 질문하기(POST)
      * @param question
+     * @return 생성된 질문 id
      */
-    public void createQuestion(Question question);
+    public Long createQuestion(Question question);
 
     /**
      * 질문수정(PUT)

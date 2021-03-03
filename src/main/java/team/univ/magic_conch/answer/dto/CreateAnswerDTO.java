@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Getter @Setter
 public class CreateAnswerDTO {
 
-    @NotBlank(message = "내용 작성을 필수 입니다.")
+    @NotBlank(message = "내용 작성은 필수 입니다.")
     String content;
     @NotBlank
     String username;
