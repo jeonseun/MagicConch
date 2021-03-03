@@ -7,7 +7,6 @@
 <div th:fragment="profileCard(profileDTO)" class="card text-center">
     <div class="bg-image">
         <img th:src="${profileDTO.image}" class="img-fluid position-relative">
-        <!-- TODO 프로필 변경 기능 버튼 추가 (조건부로 현재 접속자가 자신의 마이페이지를 보는 경우에만 보여줌) -->
         <button class="btn btn-outline-block mx-auto mt-1" th:if="${#authentication.name} == ${profileDTO.username}">
             <span>edit profile</span>
         </button>

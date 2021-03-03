@@ -53,122 +53,122 @@ public class InitializerRunner implements CommandLineRunner {
                             .name(name[i])
                             .color(color[i])
                             .createDate(LocalDate.now())
-                            .image(tagImagePath + "/" +  tagImageUrl[i])
+                            .image(tagImagePath + "/" + tagImageUrl[i])
                             .build()
             );
         }
 
         // 기존 샘플 데이터 생성 코드
-        List<User> userList = new ArrayList<>();
-        /* user 추가 */
-        User user = userService.join("q", "q", "Hajoo");
-
-        for (int i = 0; i < 5; i++) {
-            userList.add(userService.join(String.valueOf((char) ('a' + i)), String.valueOf((char) ('a' + i)), "Hajoo" + (i + 2)));
-        }
-
-        /* bundle 추가 */
-        Bundle bundle1 = Bundle.builder()
-                .name("자바 질문방")
-                .user(user)
-                .tag(tagService.findByName("JAVA"))
-                .visibility(Visibility.PRIVATE)
-                .build();
-        bundleRepository.save(bundle1);
-
-        Bundle bundle2 = Bundle.builder()
-                .name("스프링 질문방")
-                .user(user)
-                .tag(tagService.findByName("SPRING"))
-                .visibility(Visibility.PUBLIC)
-                .build();
-        bundleRepository.save(bundle2);
-
-        Bundle bundle3 = Bundle.builder()
-                .name("파이썬 질문방")
-                .user(user)
-                .tag(tagService.findByName("PYTHON"))
-                .visibility(Visibility.FRIEND)
-                .build();
-        bundleRepository.save(bundle3);
-
-        /* 페이징용 번들 추가 */
-        User tester1 = userService.join("tester1", "q", "tester1");
-        User tester2 = userService.join("tester2", "q", "tester2");
-
-        for (int i = 0; i < 1000; i++) {
-            Bundle bundle = Bundle.builder()
-                    .name("번들" + i + "번")
-                    .user(i % 2 == 0 ? tester1 : tester2)
-                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
-                    .tag(tagService.findByName("PYTHON"))
-                    .build();
-            bundleRepository.save(bundle);
-        }
-
-        /* question 추가 */
-        for (int i = 0; i < 255; i++) {
-//            Thread.sleep(10);
-            if (i < 50) {
-                questionService.createQuestion(
-                        Question.builder()
-                                .title("제목" + i)
-                                .content("본문" + i)
-                                .bundle(null)
-                                .tag(tagService.findByName(name[i % 7]))
-                                .user(user)
-                                .build()
-                );
-            }
-            questionService.createQuestion(
-                    Question.builder()
-                            .title("제목" + (254 - i))
-                            .content("본문" + (254 - i))
-                            .bundle(null)
-                            .tag(tagService.findByName(name[i % 7]))
-                            .user(userList.get(i % 5))
-                            .build()
-            );
-        }
-
-        /* follow 추가 */
-        for (int i = 0; i < 5; i++) {
-            followService.addFollow(user, userList.get(i));
-        }
-
-        followService.addFollow(userList.get(0), user);
-        followService.addFollow(userList.get(1), user);
-        followService.addFollow(userList.get(2), user);
-
-        /* 번들에 속하는 질문 생성 */
-        /* question 추가 */
-        for (int i = 0; i < 120; i++) {
-            if (i < 50) {
-                questionService.createQuestion(
-                        Question.builder()
-                                .title("제목" + i)
-                                .content("본문" + i)
-                                .bundle(bundle1)
-                                .tag(tagService.findByName(name[i % 7]))
-                                .user(user)
-                                .build()
-                );
-            }
-            questionService.createQuestion(
-                    Question.builder()
-                            .title("제목" + (254 - i))
-                            .content("본문" + (254 - i))
-                            .bundle(bundle2)
-                            .tag(tagService.findByName(name[i % 7]))
-                            .user(userList.get(i % 5))
-                            .build()
-            );
-        }
+//        List<User> userList = new ArrayList<>();
+//        /* user 추가 */
+//        User user = userService.join("q", "q", "Hajoo");
+//
+//        for (int i = 0; i < 5; i++) {
+//            userList.add(userService.join(String.valueOf((char) ('a' + i)), String.valueOf((char) ('a' + i)), "Hajoo" + (i + 2)));
+//        }
+//
+//        /* bundle 추가 */
+//        Bundle bundle1 = Bundle.builder()
+//                .name("자바 질문방")
+//                .user(user)
+//                .tag(tagService.findByName("Java"))
+//                .visibility(Visibility.PRIVATE)
+//                .build();
+//        bundleRepository.save(bundle1);
+//
+//        Bundle bundle2 = Bundle.builder()
+//                .name("스프링 질문방")
+//                .user(user)
+//                .tag(tagService.findByName("Spring"))
+//                .visibility(Visibility.PUBLIC)
+//                .build();
+//        bundleRepository.save(bundle2);
+//
+//        Bundle bundle3 = Bundle.builder()
+//                .name("파이썬 질문방")
+//                .user(user)
+//                .tag(tagService.findByName("Python"))
+//                .visibility(Visibility.FRIEND)
+//                .build();
+//        bundleRepository.save(bundle3);
+//
+//        /* 페이징용 번들 추가 */
+//        User tester1 = userService.join("tester1", "q", "tester1");
+//        User tester2 = userService.join("tester2", "q", "tester2");
+//
+//        for (int i = 0; i < 1000; i++) {
+//            Bundle bundle = Bundle.builder()
+//                    .name("번들" + i + "번")
+//                    .user(i % 2 == 0 ? tester1 : tester2)
+//                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
+//                    .tag(tagService.findByName("Python"))
+//                    .build();
+//            bundleRepository.save(bundle);
+//        }
+//
+//        /* question 추가 */
+//        for (int i = 0; i < 255; i++) {
+////            Thread.sleep(10);
+//            if (i < 50) {
+//                questionService.createQuestion(
+//                        Question.builder()
+//                                .title("제목" + i)
+//                                .content("본문" + i)
+//                                .bundle(null)
+//                                .tag(tagService.findByName(name[i % 7]))
+//                                .user(user)
+//                                .build()
+//                );
+//            }
+//            questionService.createQuestion(
+//                    Question.builder()
+//                            .title("제목" + (254 - i))
+//                            .content("본문" + (254 - i))
+//                            .bundle(null)
+//                            .tag(tagService.findByName(name[i % 7]))
+//                            .user(userList.get(i % 5))
+//                            .build()
+//            );
+//        }
+//
+//        /* follow 추가 */
+//        for (int i = 0; i < 5; i++) {
+//            followService.addFollow(user, userList.get(i));
+//        }
+//
+//        followService.addFollow(userList.get(0), user);
+//        followService.addFollow(userList.get(1), user);
+//        followService.addFollow(userList.get(2), user);
+//
+//        /* 번들에 속하는 질문 생성 */
+//        /* question 추가 */
+//        for (int i = 0; i < 120; i++) {
+//            if (i < 50) {
+//                questionService.createQuestion(
+//                        Question.builder()
+//                                .title("제목" + i)
+//                                .content("본문" + i)
+//                                .bundle(bundle1)
+//                                .tag(tagService.findByName(name[i % 7]))
+//                                .user(user)
+//                                .build()
+//                );
+//            }
+//            questionService.createQuestion(
+//                    Question.builder()
+//                            .title("제목" + (254 - i))
+//                            .content("본문" + (254 - i))
+//                            .bundle(bundle2)
+//                            .tag(tagService.findByName(name[i % 7]))
+//                            .user(userList.get(i % 5))
+//                            .build()
+//            );
+//        }
 
         // 기존 샘플 데이터 생성 코드
 
         /* 테스트용 사용자 생성 */
-        String[] usernames = {"jeonseun", "joohyeon", "mingwang", "donghyeon", "jiyool", "jihoon"};
+        String[] usernames = {"q", "w", "e", "r", "t", "y"};
         String testPwd = "q";
         String[] names = {"전세운", "하주현", "송민광", "김동현", "박지율", "심지훈"};
 
@@ -182,6 +182,11 @@ public class InitializerRunner implements CommandLineRunner {
                 "Spring Study", "JPA Study"};
         for (int i = 0; i < 6; i++) {
             bundleService.create(bundleNames[i], tagService.findByName(name[i]), userService.getUser(usernames[i]),
+                    i % 2 == 0 ? Visibility.PUBLIC : i % 3 == 0 ? Visibility.PRIVATE : Visibility.FRIEND);
+        }
+
+        for (int i = 0; i < 60; i++) {
+            bundleService.create("번들" + i, tagService.findByName(name[i % 7]), userService.getUser("q"),
                     i % 2 == 0 ? Visibility.PUBLIC : i % 3 == 0 ? Visibility.PRIVATE : Visibility.FRIEND);
         }
 
@@ -207,8 +212,20 @@ public class InitializerRunner implements CommandLineRunner {
                     .content("테스트용 질문 " + i + " 의 내용")
                     .build());
         }
-        // C++번들에 추가
-        // JAVA 번들에 추가
+
+
+        followService.addFollow(userService.getUser("q"), userService.getUser("w"));
+        followService.addFollow(userService.getUser("q"), userService.getUser("e"));
+        followService.addFollow(userService.getUser("q"), userService.getUser("r"));
+        followService.addFollow(userService.getUser("q"), userService.getUser("t"));
+        followService.addFollow(userService.getUser("q"), userService.getUser("y"));
+
+        followService.addFollow(userService.getUser("w"), userService.getUser("q"));
+        followService.addFollow(userService.getUser("e"), userService.getUser("q"));
+        followService.addFollow(userService.getUser("r"), userService.getUser("q"));
+        followService.addFollow(userService.getUser("t"), userService.getUser("q"));
+        followService.addFollow(userService.getUser("y"), userService.getUser("q"));
+
 
     }
 }
