@@ -80,6 +80,7 @@ public class Bundle {
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .visibility(getVisibility().toString())
+                .tagImage(getTag().getImage())
                 .build();
     }
 }

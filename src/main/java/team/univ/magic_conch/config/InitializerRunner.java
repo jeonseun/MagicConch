@@ -1,6 +1,7 @@
 package team.univ.magic_conch.config;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.bundle.Bundle;
@@ -32,12 +33,19 @@ public class InitializerRunner implements CommandLineRunner {
     private final FollowService followService;
     private final BundleRepository bundleRepository;
 
+    @Value("${custom.file.tag-image-path}")
+    private String tagImagePath;
+
+    // TODO 태그 생성 코드 정리 필요함 태그 이미지 추가로 인한 코드 안좋아짐
     @Override
     public void run(String... args) throws Exception {
 
-        String[] name = new String[]{"C", "C++", "JAVA", "PYTHON", "SPRING", "JPA", "DEFAULT"};
-        String[] color = new String[]{"#FFB291", "#FF32B1", "#14148C", "#C964E2", "#147814", "#B246B2", "#8c8c8c"};
-
+        String[] name = new String[]{"C", "C++", "Java", "Python", "Spring", "Javascript", "DEFAULT"};
+        String[] color = new String[]{"#39C0ED", "#F93154", "#1e90ff", "#C964E2", "#00B74A", "#FFA900", "#FBFBFB"};
+        String[] tagImageUrl = {"c_icon.png",
+                "cpp_icon.png", "java_icon.png",
+                "python_icon.png", "spring_icon.jpg",
+                "js_icon.png", "default_tag_icon.png"};
         /* tag 추가 */
         for (int i = 0; i < name.length; i++) {
             tagRepository.save(
@@ -45,116 +53,117 @@ public class InitializerRunner implements CommandLineRunner {
                             .name(name[i])
                             .color(color[i])
                             .createDate(LocalDate.now())
+                            .image(tagImagePath + "/" +  tagImageUrl[i])
                             .build()
             );
         }
 
         // 기존 샘플 데이터 생성 코드
-//        List<User> userList = new ArrayList<>();
-//        /* user 추가 */
-//        User user = userService.join("q", "q", "Hajoo");
-//
-//        for (int i = 0; i < 5; i++) {
-//            userList.add(userService.join(String.valueOf((char) ('a' + i)), String.valueOf((char) ('a' + i)), "Hajoo" + (i + 2)));
-//        }
-//
-//        /* bundle 추가 */
-//        Bundle bundle1 = Bundle.builder()
-//                .name("자바 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("JAVA"))
-//                .visibility(Visibility.PRIVATE)
-//                .build();
-//        bundleRepository.save(bundle1);
-//
-//        Bundle bundle2 = Bundle.builder()
-//                .name("스프링 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("SPRING"))
-//                .visibility(Visibility.PUBLIC)
-//                .build();
-//        bundleRepository.save(bundle2);
-//
-//        Bundle bundle3 = Bundle.builder()
-//                .name("파이썬 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("PYTHON"))
-//                .visibility(Visibility.FRIEND)
-//                .build();
-//        bundleRepository.save(bundle3);
-//
-//        /* 페이징용 번들 추가 */
-//        User tester1 = userService.join("tester1", "q", "tester1");
-//        User tester2 = userService.join("tester2", "q", "tester2");
-//
-//        for (int i = 0; i < 1000; i++) {
-//            Bundle bundle = Bundle.builder()
-//                    .name("번들" + i + "번")
-//                    .user(i % 2 == 0 ? tester1 : tester2)
-//                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
-//                    .tag(tagService.findByName("PYTHON"))
-//                    .build();
-//            bundleRepository.save(bundle);
-//        }
-//
-//        /* question 추가 */
-//        for (int i = 0; i < 255; i++) {
-////            Thread.sleep(10);
-//            if (i < 50) {
-//                questionService.createQuestion(
-//                        Question.builder()
-//                                .title("제목" + i)
-//                                .content("본문" + i)
-//                                .bundle(null)
-//                                .tag(tagService.findByName(name[i % 7]))
-//                                .user(user)
-//                                .build()
-//                );
-//            }
-//            questionService.createQuestion(
-//                    Question.builder()
-//                            .title("제목" + (254 - i))
-//                            .content("본문" + (254 - i))
-//                            .bundle(null)
-//                            .tag(tagService.findByName(name[i % 7]))
-//                            .user(userList.get(i % 5))
-//                            .build()
-//            );
-//        }
-//
-//        /* follow 추가 */
-//        for (int i = 0; i < 5; i++) {
-//            followService.addFollow(user, userList.get(i));
-//        }
-//
-//        followService.addFollow(userList.get(0), user);
-//        followService.addFollow(userList.get(1), user);
-//        followService.addFollow(userList.get(2), user);
-//
-//        /* 번들에 속하는 질문 생성 */
-//        /* question 추가 */
-//        for (int i = 0; i < 120; i++) {
-//            if (i < 50) {
-//                questionService.createQuestion(
-//                        Question.builder()
-//                                .title("제목" + i)
-//                                .content("본문" + i)
-//                                .bundle(bundle1)
-//                                .tag(tagService.findByName(name[i % 7]))
-//                                .user(user)
-//                                .build()
-//                );
-//            }
-//            questionService.createQuestion(
-//                    Question.builder()
-//                            .title("제목" + (254 - i))
-//                            .content("본문" + (254 - i))
-//                            .bundle(bundle2)
-//                            .tag(tagService.findByName(name[i % 7]))
-//                            .user(userList.get(i % 5))
-//                            .build()
-//            );
-//        }
+        List<User> userList = new ArrayList<>();
+        /* user 추가 */
+        User user = userService.join("q", "q", "Hajoo");
+
+        for (int i = 0; i < 5; i++) {
+            userList.add(userService.join(String.valueOf((char) ('a' + i)), String.valueOf((char) ('a' + i)), "Hajoo" + (i + 2)));
+        }
+
+        /* bundle 추가 */
+        Bundle bundle1 = Bundle.builder()
+                .name("자바 질문방")
+                .user(user)
+                .tag(tagService.findByName("JAVA"))
+                .visibility(Visibility.PRIVATE)
+                .build();
+        bundleRepository.save(bundle1);
+
+        Bundle bundle2 = Bundle.builder()
+                .name("스프링 질문방")
+                .user(user)
+                .tag(tagService.findByName("SPRING"))
+                .visibility(Visibility.PUBLIC)
+                .build();
+        bundleRepository.save(bundle2);
+
+        Bundle bundle3 = Bundle.builder()
+                .name("파이썬 질문방")
+                .user(user)
+                .tag(tagService.findByName("PYTHON"))
+                .visibility(Visibility.FRIEND)
+                .build();
+        bundleRepository.save(bundle3);
+
+        /* 페이징용 번들 추가 */
+        User tester1 = userService.join("tester1", "q", "tester1");
+        User tester2 = userService.join("tester2", "q", "tester2");
+
+        for (int i = 0; i < 1000; i++) {
+            Bundle bundle = Bundle.builder()
+                    .name("번들" + i + "번")
+                    .user(i % 2 == 0 ? tester1 : tester2)
+                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
+                    .tag(tagService.findByName("PYTHON"))
+                    .build();
+            bundleRepository.save(bundle);
+        }
+
+        /* question 추가 */
+        for (int i = 0; i < 255; i++) {
+//            Thread.sleep(10);
+            if (i < 50) {
+                questionService.createQuestion(
+                        Question.builder()
+                                .title("제목" + i)
+                                .content("본문" + i)
+                                .bundle(null)
+                                .tag(tagService.findByName(name[i % 7]))
+                                .user(user)
+                                .build()
+                );
+            }
+            questionService.createQuestion(
+                    Question.builder()
+                            .title("제목" + (254 - i))
+                            .content("본문" + (254 - i))
+                            .bundle(null)
+                            .tag(tagService.findByName(name[i % 7]))
+                            .user(userList.get(i % 5))
+                            .build()
+            );
+        }
+
+        /* follow 추가 */
+        for (int i = 0; i < 5; i++) {
+            followService.addFollow(user, userList.get(i));
+        }
+
+        followService.addFollow(userList.get(0), user);
+        followService.addFollow(userList.get(1), user);
+        followService.addFollow(userList.get(2), user);
+
+        /* 번들에 속하는 질문 생성 */
+        /* question 추가 */
+        for (int i = 0; i < 120; i++) {
+            if (i < 50) {
+                questionService.createQuestion(
+                        Question.builder()
+                                .title("제목" + i)
+                                .content("본문" + i)
+                                .bundle(bundle1)
+                                .tag(tagService.findByName(name[i % 7]))
+                                .user(user)
+                                .build()
+                );
+            }
+            questionService.createQuestion(
+                    Question.builder()
+                            .title("제목" + (254 - i))
+                            .content("본문" + (254 - i))
+                            .bundle(bundle2)
+                            .tag(tagService.findByName(name[i % 7]))
+                            .user(userList.get(i % 5))
+                            .build()
+            );
+        }
 
         // 기존 샘플 데이터 생성 코드
 

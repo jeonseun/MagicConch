@@ -17,15 +17,17 @@ public class BundleInfoDTO {
     private LocalDate createdTime;
     private String tagColor;
     private String tagName;
+    private String tagImage;
 
     @Builder
-    public BundleInfoDTO(Long bundleId, String name, String visibility, LocalDate createdTime, String tagColor, String tagName) {
+    public BundleInfoDTO(Long bundleId, String name, String visibility, LocalDate createdTime, String tagColor, String tagName, String tagImage) {
         this.bundleId = bundleId;
         this.name = name;
         this.visibility = visibility;
         this.createdTime = createdTime;
         this.tagColor = tagColor;
         this.tagName = tagName;
+        this.tagImage = tagImage;
     }
 
     protected BundleInfoDTO() {

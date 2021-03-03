@@ -30,12 +30,14 @@
     <div class="card mb-3 shadow-1-strong ">
         <div th:styleappend="|background-color:${bundle.tagColor}|"
              class="card-header text-white d-flex justify-content-between">
-            <span th:text="${bundle.tagName}"></span>
+
+            <img th:src="@{${bundle.tagImage}}" width="25px" height="25px">
             <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})">
             </h3>
         </div>
         <div class="card-body">
             <h5 class="card-title" th:text="${bundle.name}">Card title</h5>
+            <span th:text="|주제 : ${bundle.tagName}|"></span>
             <p th:text="|개설 : ${bundle.createdTime}|" class="card-text mb-2"></p>
             <a th:href="@{|/bundle?bundleId=${bundle.getBundleId()}|}" class="btn btn-link btn-block">go to
                 bundle</a>
@@ -46,7 +48,7 @@
 <!-- 번들 정보 카드 -->
 
 <!-- 권한 뱃지 -->
-<h3 th:fragment="visibleBadge(visibility)" class="badge m-0"
+<h3 th:fragment="visibleBadge(visibility)" class="badge m-0 border border-white"
     th:classappend="${visibility} == 'PUBLIC' ? 'bg-success' : (${visibility} == 'FRIEND' ? 'bg-secondary' : 'bg-primary')"
     th:text="${visibility}">
 </h3>

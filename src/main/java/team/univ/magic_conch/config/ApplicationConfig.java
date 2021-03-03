@@ -5,21 +5,29 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import javax.annotation.PostConstruct;
-
 @Configuration
 public class ApplicationConfig implements WebMvcConfigurer {
 
-    @Value("${custom.file.path}")
-    private String path;
+    @Value("${custom.file.profile-path}")
+    private String profileImagePath;
 
-    @Value("${custom.file.location}")
-    private String location;
+    @Value("${custom.file.profile-location}")
+    private String profileImageLocation;
+
+    @Value("${custom.file.tag-image-path}")
+    private String tagImagePath;
+
+    @Value("${custom.file.tag-image-location}")
+    private String tagImageLocation;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(path + "/**")
-                .addResourceLocations("file:///" + location + "/")
+        registry.addResourceHandler(profileImagePath + "/**")
+                .addResourceLocations("file:///" + profileImageLocation + "/")
+                .setCachePeriod(3600);
+
+        registry.addResourceHandler(tagImagePath + "/**")
+                .addResourceLocations("file:///" + tagImageLocation + "/")
                 .setCachePeriod(3600);
     }
 

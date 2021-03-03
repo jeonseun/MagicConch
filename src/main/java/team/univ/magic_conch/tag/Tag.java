@@ -24,6 +24,8 @@ public class Tag {
     private String name;
     private LocalDate createDate;
     private String color;
+    @Builder.Default
+    private String image = "/image/tag/default_tag_icon.png";
 
     public TagDTO entityToTagDto(){
         return TagDTO.builder()

@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
     private final StorageService storageService;
 
     // 이미지 파일 저장 경로
-    @Value("${custom.file.location}")
+    @Value("${custom.file.profile-location}")
     private String location;
 
     @Override

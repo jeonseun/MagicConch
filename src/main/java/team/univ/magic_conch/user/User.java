@@ -43,7 +43,7 @@ public class User {
         this.name = name;
         userRole = UserRole.ROLE_USER;
         createdDate = LocalDate.now();
-        profileImg = "/image/default_profile_image.png";
+        profileImg = "/image/profile/default_profile_image.png";
     }
 
     protected User() { }
