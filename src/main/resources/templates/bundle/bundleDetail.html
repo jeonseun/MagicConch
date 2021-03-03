@@ -8,7 +8,7 @@
     <header class="container d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center">
             <figure>
-                <span th:text="${bundle.tagName}"></span>
+                <img class="me-2" th:src="@{${bundle.tagImage}}" th:alt="${bundle.tagName}" width="50px" height="50px">
             </figure>
             <h3 class="rounded-3 p-2 text-white font-weight-bold" th:text="${bundle.name}"
                 th:styleappend="|background-color: ${bundle.tagColor}|">
