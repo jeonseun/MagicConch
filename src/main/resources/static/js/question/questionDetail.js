@@ -80,11 +80,12 @@ function clickAnswerProfile(obj){
 }
 
 function clickUpdateAnswer(id){
+    let beforeText = $('#' + id +'  > div > div:nth-child(2) > div:nth-child(1)').text();
     $('#' + id).children().remove();
     $('#' + id).html(
         "<div class=\"text-end mt-4\">\n" +
         "    <div class=\"form-outline\">\n" +
-        "        <textarea class=\"form-control\" id=\"answerUpdateContent\" rows=\"4\" name=\"content\"></textarea>\n" +
+        "        <textarea class=\"form-control\" id=\"answerUpdateContent\" rows=\"4\" name=\"content\"> " + beforeText + " </textarea>\n" +
         "        <label class=\"form-label\" for=\"answerUpdateContent\">답변 내용</label>\n" +
         "    </div>\n" +
         "    <button type=\"button\" class=\"mt-2 mb-2 btn btn-outline-primary\" onclick=\"clickUpdateAnswerBtn(" + id + ")\">작성</button>\n" +
@@ -161,6 +162,7 @@ function clickAnswerBtn(){
             let offset = $('#' + data.answerId).offset();
             $('html').animate({scrollTop : offset.top}, 10);
         }, error: function (xhr) {
+            alert('글 작성에 실패하였습니다.');
         }
     })
 
