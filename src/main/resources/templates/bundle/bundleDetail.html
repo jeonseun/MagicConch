@@ -1,57 +1,100 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      th:replace="fragments/layout :: layout(title='bundle detail',main=~{::main})">
+      th:replace="fragments/layout :: layout(title='bundle detail',main=~{::main},  js=~{::#customJS})">
 
 <body>
 <main class="container mt-5 mx-auto">
+    <!-- 번들 자체의 특징을 나타내는 정보들 -->
     <header class="container d-flex justify-content-between align-items-center">
-        <h3 class="rounded-3 p-2 text-white font-weight-bold" th:text="${bundle.bundleName}"
-            th:styleappend="|background-color: ${bundle.tagColor}|">
-        </h3>
-        <div>
-            <h3>
-            <span class="badge bg-primary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PRIVATE'"
-                  th:text="${bundle.visibility}"></span>
-                <span class="badge bg-success ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'PUBLIC'"
-                      th:text="${bundle.visibility}"></span>
-                <span class="badge bg-secondary ms-auto me-2 mt-1" th:if="${bundle.visibility} == 'FRIEND'"
-                      th:text="${bundle.visibility}"></span>
+        <div class="d-flex align-items-center">
+            <figure>
+                <span th:text="${bundle.tagName}"></span>
+            </figure>
+            <h3 class="rounded-3 p-2 text-white font-weight-bold" th:text="${bundle.name}"
+                th:styleappend="|background-color: ${bundle.tagColor}|">
             </h3>
-            <span th:text="|생성 : ${bundle.createdDate}|"></span>
+
+        </div>
+
+        <div class="d-flex flex-column align-items-center border-primary border p-1">
+            <!-- 번들 질문하기 권한 레벨 -->
+            <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})"></h3>
+            <!-- 번들 질문하기 권한 레벨 -->
+
+            <!-- 번들 생성일 -->
+            <span>
+                <i class='far fa-calendar-alt'></i>
+                <span th:text="${bundle.createdTime}"></span>
+            </span>
+            <!-- 번들 생성일 -->
+
+            <!-- 번들에 질문 올린 사람 수 -->
+            <span>
+                <i class="fas fa-users"></i>
+                <span th:text="${contributors}" class="badge bg-primary rounded-pill"></span>
+            </span>
+            <!-- 번들에 질문 올린 사람 수 -->
         </div>
     </header>
-    <table class="table ">
-        <thead class="table-primary">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="table-active">
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-        </tr>
-        </tbody>
-    </table>
+    <!-- 번들 자체의 특징을 나타내는 정보들 -->
 
-    <footer>
-        <nav>
-            <ul class="pagination justify-content-center">
-                <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-left"></i></a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#"><i class="fa fa-angle-right"></i></a></li>
-            </ul>
-        </nav>
-    </footer>
+    <!-- 해당 번들에 속한 질문들 리스트 -->
+    <section>
+        <table class="table shadow" style="border-radius: 10px">
+            <thead class="table-primary">
+            <tr>
+                <th scope="col">No</th>
+                <th scope="col">제목</th>
+                <th scope="col">질문시기</th>
+                <th scope="col">상태</th>
+                <th scope="col">작성자</th>
+                <th scope="col">조회수</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="question, idx:${questions.dtoList}" style="cursor: pointer" th:onclick="|questionLink(${question.questionId})|"
+            class="hover-shadow">
+                <td th:text="${questions.totalCnt - ((questions.curPage - 1) * 10) - idx.index}"></td>
+                <td width="30%" th:text="${question.title}" style="text-overflow: ellipsis"></td>
+                <td th:text="${question.createdTime}"></td>
+                <td><div th:replace="fragments/components :: questionStatus(${question.status})"></div></td>
+                <td width="15%"><div th:replace="fragments/components :: userIcon(${question.author})"></div></td>
+                <td th:text="${question.views}"></td>
+            </tr>
+
+            </tbody>
+        </table>
+
+        <!-- 페이징 네브 -->
+        <footer class="d-flex justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li th:classappend="${!questions.isPrevious()} ? 'disabled'" class="page-item">
+                        <a class="page-link"
+                           th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.startPage - 2}|}" href="#"><i
+                                class="fas fa-angle-left"></i></a>
+                    </li>
+
+                    <li th:each="pageNo : ${#numbers.sequence(questions.getStartPage(), questions.getEndPage())}"
+                        class="page-item page-item-no"
+                        th:classappend="(${pageNo} == ${questions.curPage}) ? 'active': ''">
+                        <a class="page-link" th:text="${pageNo}"
+                           th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${pageNo - 1}|}">1</a>
+                    </li>
+
+                    <li th:classappend="${!questions.isNext()} ? 'disabled'" class="page-item">
+                        <a class="page-link" th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.endPage}|}"><i
+                                class="fas fa-angle-right"></i>
+                        </a></li>
+                </ul>
+            </nav>
+        </footer>
+        <!-- 페이징 네브 -->
+    </section>
+    <!-- 해당 번들에 속한 질문들 리스트 -->
 </main>
+<th:block id="customJS">
+    <script th:src="@{/js/mypage/bundle.js}"></script>
+</th:block>
 </body>
 </html>

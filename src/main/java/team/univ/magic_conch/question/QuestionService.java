@@ -72,5 +72,5 @@ public interface QuestionService {
      * @param pageable 현재 페이지, 페이지당 사이즈, 정렬 기준
      * @return 해당 번들에 속한 질문 페이징 DTO
      */
-    PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable);
+    PageResultDTO getQuestionsByBundleId(Long bundle, Pageable pageable);
 }

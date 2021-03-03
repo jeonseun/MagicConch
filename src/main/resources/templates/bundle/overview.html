@@ -8,9 +8,10 @@
 </head>
 <body>
 <main class="container row mx-auto mt-5">
-    <header class="mb-3">
+    <header class="mb-3 position-relative">
         <nav th:replace="fragments/navs :: user_info_menu('bundle')"></nav>
         <h3 class="mt-3 text-center">My Bundle</h3>
+        <a class="btn btn-success" th:if="${#authentication.name} == ${username}" th:href="@{/bundle/createForm}">NEW</a>
     </header>
 
     <!-- 번들 목록 -->

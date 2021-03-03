@@ -7,11 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
-import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -66,8 +64,8 @@ class FollowServiceTest {
             followRepository.save(new Follow(user2, user));
         }
         //when
-        List<SimpleUserDTO> resultByUserFrom = followService.findAllByUserFrom(user);
-        List<SimpleUserDTO> resultByUserTo = followService.findAllByUserTo(user);
+        List<UserSimpleDTO> resultByUserFrom = followService.findAllByUserFrom(user);
+        List<UserSimpleDTO> resultByUserTo = followService.findAllByUserTo(user);
         //then
         for (int i = 0; i < 10; i++) {
             Assertions.assertThat(resultByUserFrom.get(i).getUsername())

@@ -7,6 +7,7 @@
 <div th:fragment="profileCard(profileDTO)" class="card text-center">
     <div class="bg-image">
         <img th:src="${profileDTO.image}" class="img-fluid position-relative">
+        <!-- TODO 프로필 변경 기능 버튼 추가 (조건부로 현재 접속자가 자신의 마이페이지를 보는 경우에만 보여줌) -->
         <button class="btn btn-outline-block mx-auto mt-1" th:if="${#authentication.name} == ${profileDTO.username}">
             <span>edit profile</span>
         </button>
@@ -28,22 +29,42 @@
 <th:block th:fragment="bundleCard(bundle)">
     <div class="card mb-3 shadow-1-strong ">
         <div th:styleappend="|background-color:${bundle.tagColor}|"
-             class="card-header text-white d-flex justify-content-between pb-0">
+             class="card-header text-white d-flex justify-content-between">
             <span th:text="${bundle.tagName}"></span>
-            <h3 class="badge"
-                th:classappend="${bundle.visibility} == 'PUBLIC' ? 'bg-success' : (${bundle.visibility} == 'FRIEND' ? 'bg-secondary' : 'bg-primary')"
-                th:text="${bundle.visibility}">
+            <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})">
             </h3>
         </div>
         <div class="card-body">
             <h5 class="card-title" th:text="${bundle.name}">Card title</h5>
             <p th:text="|개설 : ${bundle.createdTime}|" class="card-text mb-2"></p>
-            <a th:href="@{|/bundle/${bundle.getBundleId()}|}" class="btn btn-link btn-block">go to
+            <a th:href="@{|/bundle?bundleId=${bundle.getBundleId()}|}" class="btn btn-link btn-block">go to
                 bundle</a>
         </div>
+
     </div>
 </th:block>
 <!-- 번들 정보 카드 -->
+
+<!-- 권한 뱃지 -->
+<h3 th:fragment="visibleBadge(visibility)" class="badge m-0"
+    th:classappend="${visibility} == 'PUBLIC' ? 'bg-success' : (${visibility} == 'FRIEND' ? 'bg-secondary' : 'bg-primary')"
+    th:text="${visibility}">
+</h3>
+<!-- 권한 뱃지 -->
+
+<!-- 사용자 아이콘 -->
+<div th:fragment="userIcon(user)">
+    <img class="rounded-circle" th:src="${user.profileImg}" width="25px" height="25px">
+    <span th:text="${user.username}"></span>
+</div>
+<!-- 사용자 아이콘 -->
+
+<!-- 질문 해결 완료 여부 아이콘-->
+<div th:fragment="questionStatus(status)">
+    <span th:if="${status} == 'END'"><i class="fas fa-check" style="color: #00B74A; font-size: 1.5rem"></i></span>
+    <span th:if="${status} == 'ING'"><i class="fas fa-running" style="color: #FFA900; font-size: 1.5rem"></i></span>
+</div>
+<!-- 질문 해결 완료 여부 아이콘-->
 
 </body>
 </html>

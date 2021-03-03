@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,7 +33,7 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public List<SimpleUserDTO> findAllByUserFrom(User userFrom) {
+    public List<UserSimpleDTO> findAllByUserFrom(User userFrom) {
         return followRepository.findAllByUserFrom(userFrom).stream()
                 .map(Follow::getUserTo)
                 .map(User::entityToSimpleUserDto)
@@ -41,7 +41,7 @@ public class FollowServiceImpl implements FollowService{
     }
 
     @Override
-    public List<SimpleUserDTO> findAllByUserTo(User userTo) {
+    public List<UserSimpleDTO> findAllByUserTo(User userTo) {
         return followRepository.findAllByUserTo(userTo).stream()
                 .map(Follow::getUserFrom)
                 .map(User::entityToSimpleUserDto)

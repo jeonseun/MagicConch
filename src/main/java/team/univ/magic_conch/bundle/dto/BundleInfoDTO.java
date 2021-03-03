@@ -6,10 +6,10 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 /**
- * 번들 자체에 관한 정보만을 가지는 DTO
+ * 번들 자체에 관한 정보만을 가지는 DTO (번들의 이름, 생성일과 접근 레벨, 태그 관련 정보 포함)
  */
 @Getter
-public class BundleSimpleDTO {
+public class BundleInfoDTO {
 
     private Long bundleId;
     private String name;
@@ -19,7 +19,7 @@ public class BundleSimpleDTO {
     private String tagName;
 
     @Builder
-    public BundleSimpleDTO(Long bundleId, String name, String visibility, LocalDate createdTime, String tagColor, String tagName) {
+    public BundleInfoDTO(Long bundleId, String name, String visibility, LocalDate createdTime, String tagColor, String tagName) {
         this.bundleId = bundleId;
         this.name = name;
         this.visibility = visibility;
@@ -28,7 +28,7 @@ public class BundleSimpleDTO {
         this.tagName = tagName;
     }
 
-    protected BundleSimpleDTO() {
+    protected BundleInfoDTO() {
 
     }
 }

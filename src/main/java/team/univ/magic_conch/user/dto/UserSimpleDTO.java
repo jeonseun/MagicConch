@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class SimpleUserDTO {
+public class UserSimpleDTO {
 
     private String username;
     private String profileImg;

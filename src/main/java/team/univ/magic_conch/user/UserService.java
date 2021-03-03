@@ -5,6 +5,13 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService {
 
     /**
+     * 유저 이름으로 해당 유저 검색
+     * @param username
+     * @return 검색된 User Entity
+     */
+    User getUser(String username);
+
+    /**
      * 새로운 회원을 등록
      *
      * @param username 신규 회원 ID

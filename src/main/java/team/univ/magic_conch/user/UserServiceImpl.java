@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+import team.univ.magic_conch.user.exception.UserNotFoundException;
 import team.univ.magic_conch.utils.file.StorageService;
 
 import java.io.IOException;
@@ -24,6 +25,11 @@ public class UserServiceImpl implements UserService{
     // 이미지 파일 저장 경로
     @Value("${custom.file.location}")
     private String location;
+
+    @Override
+    public User getUser(String username) {
+        return userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
+    }
 
     @Override
     public User join(String username, String password, String name) {

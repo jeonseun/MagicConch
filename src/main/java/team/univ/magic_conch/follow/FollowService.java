@@ -1,7 +1,7 @@
 package team.univ.magic_conch.follow;
 
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
 import java.util.List;
 
@@ -26,14 +26,14 @@ public interface FollowService {
      * @param userFrom
      * @return List<SimpleUserDTO>
      */
-    public List<SimpleUserDTO> findAllByUserFrom(User userFrom);
+    public List<UserSimpleDTO> findAllByUserFrom(User userFrom);
 
     /**
      * 나를 팔로우 한 사람들 목록
      * @param userTo
      * @return List<SimpleUserDTO>
      */
-    public List<SimpleUserDTO> findAllByUserTo(User userTo);
+    public List<UserSimpleDTO> findAllByUserTo(User userTo);
 
     /**
      * 팔로우 중인지 확인

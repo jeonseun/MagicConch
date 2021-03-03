@@ -5,12 +5,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team.univ.magic_conch.auth.PrincipalDetails;
+import team.univ.magic_conch.auth.dto.JoinDataDTO;
 import team.univ.magic_conch.follow.FollowService;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,6 +25,8 @@ public class UserController {
     private final UserRepository userRepository;
     private final FollowService followService;
     private final UserService userService;
+
+
 
     // user info overview 페이지
     @GetMapping("/overview")
@@ -61,6 +67,4 @@ public class UserController {
         currentUser.changeProfileImage(profileImagePath);
         return ResponseEntity.ok().body(profileImagePath);
     }
-
-
 }

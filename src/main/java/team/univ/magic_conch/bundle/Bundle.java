@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
-import team.univ.magic_conch.bundle.dto.BundleSimpleDTO;
+import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -72,8 +72,8 @@ public class Bundle {
                 .build();
     }
 
-    public BundleSimpleDTO entityToSimpleDTO() {
-        return BundleSimpleDTO.builder()
+    public BundleInfoDTO entityToInfoDTO() {
+        return BundleInfoDTO.builder()
                 .bundleId(getId())
                 .createdTime(getCreateDate())
                 .name(getName())

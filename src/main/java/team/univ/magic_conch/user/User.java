@@ -1,13 +1,10 @@
 package team.univ.magic_conch.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
 import java.time.LocalDate;
 
@@ -59,8 +56,8 @@ public class User {
         this.profileImg = profileImg;
     }
 
-    public SimpleUserDTO entityToSimpleUserDto(){
-        return SimpleUserDTO.builder()
+    public UserSimpleDTO entityToSimpleUserDto(){
+        return UserSimpleDTO.builder()
                 .username(getUsername())
                 .profileImg(getProfileImg())
                 .build();
