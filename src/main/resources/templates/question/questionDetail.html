@@ -84,7 +84,7 @@
         <button type="button" class="btn btn-outline-primary" onclick="location.href='/question'">추가</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="cus-btn btn btn-outline-primary" onclick="clickUpdate()">수정</button>
         <button th:if="${#authentication.name == question.username}" type="button" class="cus-btn btn btn-outline-primary" data-mdb-toggle="modal" data-mdb-target="#deleteModal">삭제</button>
-        <button type="button" class="cus-btn answerBtn btn btn-outline-primary" onclick="clickAnswer()">댓글 보기</button>
+        <button type="button" class="cus-btn answerBtn btn btn-outline-primary" onclick="clickAnswer()" th:text="'댓글 보기('+ ${answer.size()} + ')'" th:value="${answer.size()}">댓글 보기</button>
     </div>
 
     <!-- 답변 -->
@@ -119,9 +119,9 @@
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li th:if="${#authentication.name != item.username}"><a class="dropdown-item" href="#">신고</a></li>
-                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#" th:onclick="'clickUpdateAnswer(' + ${item.answerId} + ')'">수정</a></li>
-                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" href="#" th:onclick="'clickDeleteAnswer(' + ${item.answerId} + ')'">삭제</a></li>
+                        <li th:if="${#authentication.name != item.username}"><a class="dropdown-item">신고</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" th:onclick="'clickUpdateAnswer(' + ${item.answerId} + ')'">수정</a></li>
+                        <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" th:onclick="'clickDeleteAnswer(' + ${item.answerId} + ')'">삭제</a></li>
                     </ul>
                 </div>
             </div>

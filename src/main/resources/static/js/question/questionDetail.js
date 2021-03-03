@@ -1,4 +1,8 @@
+let answerBtnWithCnt = $('.answerBtn');
+let answerCnt = 0;
+
 $(document).ready(function (){
+    answerCnt = parseInt($('.answerBtn').val());
     isQuestionLike = $('#isQuestionLike').text();
     if(isQuestionLike === 'true'){
         $('#like').hide();
@@ -89,6 +93,8 @@ function clickUpdateAnswer(id){
     document.querySelectorAll('.form-outline').forEach((formOutline) => {
         new mdb.Input(formOutline).init();
     });
+    let offset = $('#' + id).offset();
+    $('html').animate({scrollTop : offset.top}, 10);
 }
 
 function clickDeleteAnswer(id){
@@ -98,6 +104,8 @@ function clickDeleteAnswer(id){
         data: {'answerId' : id},
         dataType: 'text',
         success: function (data) {
+            answerCnt -= 1;
+            answerBtnWithCnt.text('댓글 보기(' + answerCnt + ')');
             $('#' + id).remove();
         }, error: function (xhr) {
         }
@@ -105,7 +113,6 @@ function clickDeleteAnswer(id){
 }
 
 function clickAnswerBtn(){
-
     let question = $('#question').text();
     let user = $('#user').text();
     let content = $('#answerContent');
@@ -117,40 +124,42 @@ function clickAnswerBtn(){
         data: {'questionId': question,  'username': user, 'content': content.val()},
         dataType: 'json',
         success: function (data) {
-                answerWrapper.innerHTML +=
-                    "<div class='scroll' id= " + data.answerId + ">\n" +
-                    "    <hr>\n" +
-                    "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
-                    "        <div class=\"d-flex flex-column ps-2\">\n" +
-                    "            <img src =" + data.profileImg + "\n" +
-                    "                 class=\"rounded-circle\"\n" +
-                    "                 height=\"35px\"\n" +
-                    "                 width=\"35px\">\n" +
-                    "            <div class=\"text-center\"> " + data.username + "</div>\n" +
-                    "        </div>\n" +
-                    "        <div class=\"d-flex flex-column\">" +
-                    "            <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
-                    "            <div class=\"ps-3\" style=\"font-size: 10px\">" + data.createTime + "</div>" +
-                    "        </div>\n" +
-                    "        <div class=\"btn-group shadow-0 ms-auto\">\n" +
-                    "            <button\n" +
-                    "                    type=\"button\"\n" +
-                    "                    class=\"btn btn-link dropdown-toggle\"\n" +
-                    "                    data-mdb-toggle=\"dropdown\"\n" +
-                    "                    aria-expanded=\"false\"\n" +
-                    "                    style=\"color: lightgray\"\n" +
-                    "            >\n" +
-                    "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
-                    "            </button>\n" +
-                    "            <ul class=\"dropdown-menu\">\n" +
-                    "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
-                    "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
-                    "            </ul>\n" +
-                    "        </div>\n" +
-                    "    </div>\n" +
-                    "</div>\n";
-                let offset = $('.scroll').offset();
-                $('html').animate({scrollTop : offset.top}, 10);
+            answerCnt += 1
+            answerBtnWithCnt.text('댓글 보기(' + answerCnt + ')');
+            answerWrapper.innerHTML +=
+                "<div class='scroll' id= " + data.answerId + ">\n" +
+                "    <hr>\n" +
+                "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
+                "        <div class=\"d-flex flex-column ps-2\">\n" +
+                "            <img src =" + data.profileImg + "\n" +
+                "                 class=\"rounded-circle\"\n" +
+                "                 height=\"35px\"\n" +
+                "                 width=\"35px\">\n" +
+                "            <div class=\"text-center\"> " + data.username + "</div>\n" +
+                "        </div>\n" +
+                "        <div class=\"d-flex flex-column\">" +
+                "            <div class=\"ps-3\" style=\"word-break:break-all\" >" + data.content + "</div>\n" +
+                "            <div class=\"ps-3\" style=\"font-size: 10px\">" + data.createTime + "</div>" +
+                "        </div>\n" +
+                "        <div class=\"btn-group shadow-0 ms-auto\">\n" +
+                "            <button\n" +
+                "                    type=\"button\"\n" +
+                "                    class=\"btn btn-link dropdown-toggle\"\n" +
+                "                    data-mdb-toggle=\"dropdown\"\n" +
+                "                    aria-expanded=\"false\"\n" +
+                "                    style=\"color: lightgray\"\n" +
+                "            >\n" +
+                "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
+                "            </button>\n" +
+                "            <ul class=\"dropdown-menu\">\n" +
+                "                <li><a class=\"dropdown-item\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
+                "                <li><a class=\"dropdown-item\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
+                "            </ul>\n" +
+                "        </div>\n" +
+                "    </div>\n" +
+                "</div>\n";
+            let offset = $('#' + data.answerId).offset();
+            $('html').animate({scrollTop : offset.top}, 10);
         }, error: function (xhr) {
         }
     })
@@ -201,8 +210,8 @@ function clickUpdateAnswerBtn(id){
                 "                <i class=\"fas fa-ellipsis-v\"></i>\n" +
                 "            </button>\n" +
                 "            <ul class=\"dropdown-menu\">\n" +
-                "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
-                "                <li><a class=\"dropdown-item\" href=\"#\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
+                "                <li><a class=\"dropdown-item\" onclick=clickUpdateAnswer(" + data.answerId + ")>수정</a></li>\n" +
+                "                <li><a class=\"dropdown-item\" onclick=clickDeleteAnswer(" + data.answerId + ")>삭제</a></li>\n" +
                 "            </ul>\n" +
                 "        </div>\n" +
                 "    </div>\n"
