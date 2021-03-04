@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;500&display=swap"/>
     <!-- 공통 커스텀 CSS -->
     <link rel="stylesheet" th:href="@{/css/global.css}" }>
-
+    <link rel="stylesheet" th:href="@{/css/scrollbar.css}" }>
     <!-- 커스텀 메타 태그 -->
     <th:block th:replace="${head} ? ${head} : ~{}"></th:block>
     <!-- 커스텀 메타 태그 -->
@@ -60,13 +60,12 @@
     <!-- 오른쪽 사이드 컨텐츠 -->
 
     <!-- 페이지 푸터 -->
-    <footer class=" position-absolute bottom-0 w-100" style="background-color: #BBDEFB">
-
-        <!-- Copyright -->
-<!--        <div class="text-center p-3">-->
-<!--            © 2021 Copyright:-->
-<!--            <span class="text-dark text-white-50 ">team.univ</span>-->
-<!--        </div>-->
+    <footer id="footer">
+        <!-- Copyright-->
+        <div class="text-center p-3">
+            © 2021 Copyright:
+            <span class="text-dark text-white-50 ">team.univ</span>
+        </div>
         <!-- Copyright -->
     </footer>
     <!-- 페이지 푸터 -->

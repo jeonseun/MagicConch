@@ -10,10 +10,12 @@ import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionInfoDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.TagRepository;
+import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
@@ -29,7 +31,7 @@ public class QuestionServiceImpl implements QuestionService{
     private final QuestionRepository questionRepository;
     private final BundleRepository bundleRepository;
     private final TagRepository tagRepository;
-    private final AnswerRepository answerRepository;
+    private final UserRepository userRepository;
 
     @Override
     public List<BundleDropBoxDTO> question(String username){
@@ -88,13 +90,9 @@ public class QuestionServiceImpl implements QuestionService{
     }
 
     @Override
-    public long getQuestionCount(Long bundleId) {
-        return questionRepository.countByBundleId(bundleId);
-    }
-
-    @Override
-    public PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable) {
-        Page<Question> result = questionRepository.findAllByBundleId(bundle.getId(), pageable);
-        return null;
+    public PageResultDTO getQuestionsByBundleId(Long bundleId, Pageable pageable) {
+        Page<Question> result = questionRepository.findAllByBundleId(bundleId, pageable);
+        Function<Question, QuestionInfoDTO> fn = Question::entityToQuestionInfoDTO;
+        return new PageResultDTO(result, fn);
     }
 }

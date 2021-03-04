@@ -1,31 +1,35 @@
 .balloon {
     margin: 50px;
-    width:550px;
-    height:180px;
-    background:lightgray;
+    width: 550px;
+    height: 180px;
+    background: lightgray;
     border-radius: 10px;
 }
 
 .balloon:hover {
     border: 2px solid;
 }
+
 .balloon2 {
     margin: 50px;
-    width:550px;
-    height:180px;
-    background:lightgray;
+    width: 550px;
+    height: 180px;
+    background: lightgray;
     border-radius: 10px;
 }
 
 .balloon2:hover {
     border: 2px solid;
 }
+
 .rounded-circle:hover {
     border: 2px solid;
 }
+
 a {
     color: #000000;
 }
+
 a:hover {
     text-decoration: none;
     font-weight: bolder;
@@ -52,4 +56,17 @@ body, head {
     -khtml-user-select: none;
     -webkit-user-select: none;
     user-select: none;
+}
+
+#wrapper {
+    min-height:100%;
+    position:relative;
+    padding-bottom:100px;
+}
+#footer {
+    position: absolute;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    background-color: #BBDEFB;
 }

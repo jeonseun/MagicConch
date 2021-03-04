@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='bundle', main=~{::main}, css=~{::#css})">
+
+<body>
+<main class="container row mx-auto mt-5">
+    <header class="mb-3 position-relative">
+        <nav th:replace="fragments/navs :: user_info_menu('bundle')"></nav>
+        <h3 class="mt-3 text-center">My Bundle</h3>
+        <a class="position-absolute end-0 top-50 btn btn-floating btn-success align-items-center justify-content-center d-flex" th:if="${#authentication.name} == ${username}" th:href="@{/bundle/createForm}">NEW</a>
+    </header>
+
+    <!-- 번들 목록 -->
+    <section class="overflow-scroll scroll" style="height: 70vh">
+        <ul class="row row-cols-xl-4 row-cols-lg-3 row-cols-sm-2 p-0" style="list-style: none">
+            <li th:each="bundle : ${result.dtoList}">
+                <th:block th:replace="fragments/components :: bundleCard(${bundle})"></th:block>
+            </li>
+        </ul>
+    </section>
+    <!-- 번들 목록 -->
+
+    <!-- 페이징 네브 -->
+    <footer class="d-flex justify-content-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li th:classappend="${!result.isPrevious()} ? 'disabled'" class="page-item">
+                    <a class="page-link"
+                       th:href="@{|/bundle/overview?username=${username}&page=${result.startPage - 2}|}" href="#"><i
+                            class="fas fa-angle-left"></i></a>
+                </li>
+
+                <li th:each="pageNo : ${#numbers.sequence(result.getStartPage(), result.getEndPage())}"
+                    class="page-item page-item-no"
+                    th:classappend="(${pageNo} == ${result.curPage}) ? 'active': ''">
+                    <a class="page-link" th:text="${pageNo}"
+                       th:href="@{|/bundle/overview?username=${username}&page=${pageNo - 1}|}">1</a>
+                </li>
+
+                <li th:classappend="${!result.isNext()} ? 'disabled'" class="page-item">
+                    <a class="page-link" th:href="@{|/bundle/overview?username=${username}&page=${result.endPage}|}"><i
+                            class="fas fa-angle-right"></i>
+                    </a></li>
+            </ul>
+        </nav>
+    </footer>
+    <!-- 페이징 네브 -->
+</main>
+
+</body>
+</html>

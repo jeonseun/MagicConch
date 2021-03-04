@@ -73,6 +73,7 @@ public class QuestionController {
      * @param principalDetails
      * @return 작성한 질문 상세 페이지 view
      */
+    // TODO 다른 사람의 번들에 질문을 올리는 경우도 생각하여 조건 처리 코드 추가필요함
     @PostMapping("/question")
     public String createQuestion(@ModelAttribute QuestionForm questionForm,
                                  @AuthenticationPrincipal PrincipalDetails principalDetails){
@@ -245,4 +246,14 @@ public class QuestionController {
 
         return "test";
     }
+
+    /**
+     * 해당 사용자의 질문 목록 페이지
+     * @return
+     */
+    @GetMapping("/question/overview")
+    public String overview() {
+        return "question/overview";
+    }
+
 }
