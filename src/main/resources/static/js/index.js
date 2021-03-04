@@ -36,7 +36,7 @@ function questionInfo() {
                 else{
                     question.innerHTML +=
                         "<div class=\"d-flex flex-row-reverse mb-4 \">\n" +
-                        "  <div onclick=\"location.href='/user/info?username=" + data.dtoList[i].username + "'\">\n" +
+                        "  <div onclick=\"location.href='/user/overview?username=" + data.dtoList[i].username + "'\">\n" +
                         "    <img src=\" " + data.dtoList[i].profileImg + " \" class=\"rounded-circle\" height=\"60px\" width=\"60px\">\n" +
                         "    <div class = \"text-center\" style=\"font-size: x-large;\">" + data.dtoList[i].username + "</div>\n" +
                         "  </div>\n" +

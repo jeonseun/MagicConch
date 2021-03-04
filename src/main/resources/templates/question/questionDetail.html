@@ -26,7 +26,9 @@
     <h2 th:text="${question.title}" class="pt-4 mb-4">제목</h2>
 
     <div class="d-flex flex-row mb-3 align-items-center">
-        <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+        <a th:href="'/user/overview?username=' + ${question.username}">
+            <i class="fas fa-user-circle p-2" style="font-size: 35px"></i>
+        </a>
         <!-- 프로필 사진, 사용자 이름 -->
         <div class="p-2">
             <h6 th:text="${question.username}" style="font-size: small">
@@ -50,13 +52,15 @@
                     Tag
                 </h6>
             </div>
-            <h6
-                    th:text="${question.bundleName}"
-                    style="font-size: small"
-                    class="text-end"
-            >
-                Bundle
-            </h6>
+            <a th:href="'/bundle?bundleId=' + ${question.bundleId}">
+                <h6
+                        th:text="${question.bundleName}"
+                        style="font-size: small"
+                        class="text-end"
+                >
+                    Bundle
+                </h6>
+            </a>
         </div>
     </div>
     <hr/>

@@ -75,10 +75,6 @@ function clickAnswer(){
     }
 }
 
-function clickAnswerProfile(obj){
-    //location.href = '/user/info?username=';
-}
-
 function clickUpdateAnswer(id){
     let beforeText = $('#' + id +'  > div > div:nth-child(2) > div:nth-child(1)').text();
     $('#' + id).children().remove();
@@ -130,7 +126,7 @@ function clickAnswerBtn(){
             answerWrapper.innerHTML +=
                 "<div class='scroll' id= " + data.answerId + ">\n" +
                 "    <hr>\n" +
-                "    <div style='background-color: #efefef' class=\"d-flex align-items-center\">\n" +
+                "    <div style='background-color: #efefef; border-radius: 10px; padding: 10px' class=\"d-flex align-items-center\">\n" +
                 "        <div class=\"d-flex flex-column ps-2\">\n" +
                 "            <img src =" + data.profileImg + "\n" +
                 "                 class=\"rounded-circle\"\n" +
