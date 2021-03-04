@@ -20,7 +20,7 @@ public class BundleVisibilityChecker implements VisibilityChecker {
                 result = true;
                 break;
             case FRIEND:
-                if (relation == UserRelation.FRIEND) {
+                if (relation == UserRelation.FRIEND || relation == UserRelation.MY_SELF) {
                     result = true;
                 } else {
                     result = false;

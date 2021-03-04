@@ -5,7 +5,7 @@
 <body>
 <!-- 주 네비게이션 메뉴 -->
 <nav th:fragment="mainNav"
-     class="navbar navbar-dark navbar-expand-lg bg-primary bg-gradient">
+     class="mb-5 navbar navbar-dark navbar-expand-lg bg-primary bg-gradient">
 
     <!-- 네비게이션 컨텐츠 컨테이너 -->
     <div class="container">
@@ -44,7 +44,7 @@
                     <i class="fas fa-search ms-1"></i>
                     질문하기
                 </a>
-                <a th:href="@{question/list}" type="button"
+                <a th:href="@{/question/list}" type="button"
                    class="btn btn-success btn-rounded p-2 ms-2">질문보기</a>
             </div>
             <!-- 네비게이션 왼쪽 메뉴 -->
@@ -81,22 +81,22 @@
                     <ul class="dropdown-menu" aria-labelledby="profile-dropdown">
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/info?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/user/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Page</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/bundle?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/bundle/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Bundles</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/question?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/question/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Friends</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
-                               th:href="@{|/user/friend?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                               th:href="@{|/friend/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Questions</a>
                         </li>
                         <li>
@@ -161,35 +161,34 @@
 
 
 <!-- 유저 정보 페이지 네베게이션 메뉴 -->
-<ul th:fragment="user_info_menu(currentMenu)"
-    id="user-page__nav"
-    class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
+<th:block th:fragment="user_info_menu(currentMenu)">
+    <ul id="user-page__nav" class="nav d-flex justify-content-around bg-white shadow-5-strong rounded-3 font-weight-bold">
     <li class="nav-item">
-        <a th:href="@{/user/info}" class="nav-link"
+        <a th:href="@{/user/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'info' ? 'disabled' : ''">
-            <i class="fas fa-info-circle"></i> INFO</a>
+            <i class="fas fa-info-circle"></i> OVERVIEW</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/bundle}" class="nav-link"
+        <a th:href="@{/bundle/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'bundle' ? 'disabled' : ''">
             <i class="fas fa-briefcase"></i> BUNDLE</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/question}" class="nav-link"
+        <a th:href="@{/question/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">
             <i class="fas fa-question-circle"></i> QUESTION</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/friend}" class="nav-link"
+        <a th:href="@{/friend/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
             <i class="fas fa-user-friends"></i> FRIEND</a>
     </li>
     <li class="nav-item">
-        <a th:href="@{/user/setting}"  class="nav-link"
+        <a th:href="@{/user/setting}" class="nav-link"
            th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
             <i class="fas fa-cog"></i> SETTING</a>
     </li>
-    <!-- 좋은 방법이 떠오르면 바꿔야함 .. 좋지 않은 방법 -->
+    <!-- 현재 접속자와 접속자가 접근한 페이지가 동일한지 판단하기 위한 값 -->
     <input sec:authorize="isAuthenticated()"
            th:value="${#authentication.getPrincipal().getUser().getUsername()}"
            id="userChecker"
@@ -200,17 +199,19 @@
         const userPageNav = document.getElementById("user-page__nav");
         let links = userPageNav.getElementsByTagName("a");
         for (let i = 0; i < links.length; i++) {
-            if(urlParams[1] != undefined) {
-                links[i].href += ('?' + urlParams[1]);
-            }
+            links[i].href += ('?' + urlParams[1]);
         }
 
         let settingLink = userPageNav.querySelector("li:nth-child(5)");
+        if (document.querySelector("#userChecker") === null) {
+            settingLink.remove();
+        }
         if (document.querySelector("#userChecker").value !== username) {
             settingLink.remove();
         }
     </script>
-</ul>
+    </ul>
+</th:block>
 <!-- 유저 정보 페이지 네베게이션 메뉴 -->
 
 </body>

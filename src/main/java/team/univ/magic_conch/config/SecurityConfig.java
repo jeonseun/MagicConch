@@ -31,6 +31,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .access("hasRole('ROLE_USER')")
                 .antMatchers("/bundle/createForm")
                 .access("hasRole('ROLE_USER')")
+                .antMatchers("/*/overview")
+                .permitAll()
                 .anyRequest()
                 .permitAll()
                 .and()

@@ -2,6 +2,7 @@ package team.univ.magic_conch.answer;
 
 import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
+import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 
 import java.util.List;
 
@@ -15,6 +16,18 @@ public interface AnswerService {
      * @return 생성된 답변
      */
     public AnswerDTO createAnswer(CreateAnswerDTO createAnswerDTO);
+
+    /**
+     * 답변 수정
+     * @param updateAnswerDTO
+     */
+    public AnswerDTO updateAnswer(UpdateAnswerDTO updateAnswerDTO);
+
+    /**
+     * 답변 삭제
+     * @param answerId
+     */
+    public void deleteAnswer(Long answerId);
 
     /**
      * 게시글에 질문 보여주기

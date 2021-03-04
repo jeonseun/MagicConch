@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public class FileStorageService implements StorageService{
 
-    @Value("${custom.file.path}")
+    @Value("${custom.file.profile-path}")
     private String path;
 
     @Override

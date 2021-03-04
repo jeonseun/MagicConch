@@ -22,8 +22,9 @@ public interface QuestionService {
     /**
      * 질문하기(POST)
      * @param question
+     * @return 생성된 질문 id
      */
-    public void createQuestion(Question question);
+    public Long createQuestion(Question question);
 
     /**
      * 질문수정(PUT)
@@ -65,12 +66,6 @@ public interface QuestionService {
      */
     public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO);
 
-    /**
-     * 해당 번들에 속해있는 질문 개수 조회
-     * @param bundleId
-     * @return question count : long
-     */
-    long getQuestionCount(Long bundleId);
 
     /**
      * 해당 번들에 속해있는 질문 페이징 조회
@@ -78,5 +73,5 @@ public interface QuestionService {
      * @param pageable 현재 페이지, 페이지당 사이즈, 정렬 기준
      * @return 해당 번들에 속한 질문 페이징 DTO
      */
-    PageResultDTO getQuestionsByBundleId(Bundle bundle, Pageable pageable);
+    PageResultDTO getQuestionsByBundleId(Long bundle, Pageable pageable);
 }

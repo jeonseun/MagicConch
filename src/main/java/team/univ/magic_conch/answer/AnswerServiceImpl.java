@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
+import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.question.QuestionRepository;
 import team.univ.magic_conch.user.User;
@@ -41,6 +42,29 @@ public class AnswerServiceImpl implements AnswerService {
         }
 
         return answerRepository.findById(answer.getId()).get().entityToAnswerDTO();
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public AnswerDTO updateAnswer(UpdateAnswerDTO updateAnswerDTO) {
+
+        Optional<Answer> answer = answerRepository.findById(updateAnswerDTO.getAnswerId());
+        if(answer.isPresent()){
+            answer.get().changeContent(updateAnswerDTO.getContent());
+            answer.get().refreshLastModifyTime();
+        }
+
+        return answer.get().entityToAnswerDTO();
+
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public void deleteAnswer(Long answerId) {
+
+        Optional<Answer> answer = answerRepository.findById(answerId);
+        answerRepository.delete(answer.get());
+
     }
 
     @Override

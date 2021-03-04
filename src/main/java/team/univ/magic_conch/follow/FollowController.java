@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import team.univ.magic_conch.auth.PrincipalDetails;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.user.UserRepository;
-import team.univ.magic_conch.user.dto.SimpleUserDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
 import java.util.List;
 
@@ -52,7 +52,7 @@ public class FollowController {
      */
     @GetMapping("api/v1/follow/me")
     @ResponseBody
-    public List<SimpleUserDTO> followListByUserFrom(@AuthenticationPrincipal PrincipalDetails principalDetails){
+    public List<UserSimpleDTO> followListByUserFrom(@AuthenticationPrincipal PrincipalDetails principalDetails){
         return followService.findAllByUserFrom(principalDetails.getUser());
     }
 
@@ -63,8 +63,16 @@ public class FollowController {
      */
     @GetMapping("api/v1/follow/you")
     @ResponseBody
-    public List<SimpleUserDTO> followListByUserTo(@AuthenticationPrincipal PrincipalDetails principalDetails){
+    public List<UserSimpleDTO> followListByUserTo(@AuthenticationPrincipal PrincipalDetails principalDetails){
         return followService.findAllByUserTo(principalDetails.getUser());
     }
 
+    /**
+     * 친구 모아보기 화면
+     * @return
+     */
+    @GetMapping("/friend/overview")
+    public String overview() {
+        return "friend/overview";
+    }
 }

@@ -4,6 +4,7 @@ import lombok.*;
 import team.univ.magic_conch.answer.Answer;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
+import team.univ.magic_conch.question.dto.QuestionInfoDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -117,6 +118,18 @@ public class Question {
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .bundleId(getBundle() != null ? getBundle().getId() : 0)
+                .build();
+    }
+
+    public QuestionInfoDTO entityToQuestionInfoDTO() {
+        return QuestionInfoDTO.builder()
+                .questionId(getId())
+                .author(getUser().entityToSimpleUserDto())
+                .createdTime(getCreateTime())
+                .lastModifiedTime(getLastModifyTime())
+                .status(getStatus())
+                .views(getView())
+                .title(getTitle())
                 .build();
     }
 

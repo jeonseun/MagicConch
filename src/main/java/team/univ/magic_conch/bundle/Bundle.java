@@ -4,8 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
-import team.univ.magic_conch.bundle.dto.BundleHeaderDTO;
-import team.univ.magic_conch.bundle.dto.BundlePreviewDTO;
+import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
@@ -73,23 +72,15 @@ public class Bundle {
                 .build();
     }
 
-    public BundleHeaderDTO toBundleHeaderDTO() {
-        return BundleHeaderDTO.builder()
-                .bundleName(getName())
-                .tagName(getTag().getName())
-                .tagColor(getTag().getColor())
-                .createdDate(getCreateDate())
-                .visibility(getVisibility().toString())
-                .build();
-    }
-
-    public BundlePreviewDTO entityToPreviewDTO() {
-        return BundlePreviewDTO.builder()
+    public BundleInfoDTO entityToInfoDTO() {
+        return BundleInfoDTO.builder()
                 .bundleId(getId())
-                .bundleName(getName())
+                .createdTime(getCreateDate())
+                .name(getName())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .visibility(getVisibility().toString())
+                .tagImage(getTag().getImage())
                 .build();
     }
 }
