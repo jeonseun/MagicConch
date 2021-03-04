@@ -125,7 +125,7 @@
         </tr>
         </thead>
         <tbody class="list-wrapper">
-        <tr th:each="item, idx : ${questionList.dtoList}" th:onclick="'selectQuestion(' + ${item.questionId} + ')'">
+        <tr th:each="item, idx : ${questionList.dtoList}" th:onclick="'selectQuestion(' + ${item.questionId} + ')'" class="hover-shadow">
             <td
                     th:text="${questionList.totalCnt - ((questionList.curPage - 1) * 10) - idx.index}"
             ></td>
