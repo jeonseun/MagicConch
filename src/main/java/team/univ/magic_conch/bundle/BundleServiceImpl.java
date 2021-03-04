@@ -6,9 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.visibility.Visibility;
+import team.univ.magic_conch.team.AccessLevel;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,14 +22,15 @@ public class BundleServiceImpl implements BundleService {
     }
 
     @Override
-    public void create(String name, Tag tag, User user, Visibility visibility) {
+    public Bundle createBundle(String name, Tag tag, User user, AccessLevel accessLevel) {
         Bundle bundle = Bundle.builder()
                 .name(name)
                 .tag(tag)
                 .user(user)
-                .visibility(visibility)
+                .accessLevel(accessLevel)
                 .build();
         bundleRepository.save(bundle);
+        return bundle;
     }
 
     @Override

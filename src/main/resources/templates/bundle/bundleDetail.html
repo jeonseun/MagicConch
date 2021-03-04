@@ -18,7 +18,7 @@
 
         <div class="d-flex flex-column align-items-center border-primary border p-1">
             <!-- 번들 질문하기 권한 레벨 -->
-            <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})"></h3>
+            <h3 th:replace="fragments/components :: visibleBadge(${bundle.getAccessLevel})"></h3>
             <!-- 번들 질문하기 권한 레벨 -->
 
             <!-- 번들 생성일 -->

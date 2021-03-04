@@ -13,13 +13,11 @@ import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.TagService;
-import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.team.TeamService;
 import team.univ.magic_conch.user.UserService;
-import team.univ.magic_conch.visibility.Visibility;
+import team.univ.magic_conch.team.AccessLevel;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,7 +30,7 @@ public class InitializerRunner implements CommandLineRunner {
     private final QuestionService questionService;
     private final FollowService followService;
     private final BundleRepository bundleRepository;
-
+    private final TeamService teamService;
     @Value("${custom.file.tag-image-path}")
     private String tagImagePath;
 
@@ -58,115 +56,6 @@ public class InitializerRunner implements CommandLineRunner {
             );
         }
 
-        // 기존 샘플 데이터 생성 코드
-//        List<User> userList = new ArrayList<>();
-//        /* user 추가 */
-//        User user = userService.join("q", "q", "Hajoo");
-//
-//        for (int i = 0; i < 5; i++) {
-//            userList.add(userService.join(String.valueOf((char) ('a' + i)), String.valueOf((char) ('a' + i)), "Hajoo" + (i + 2)));
-//        }
-//
-//        /* bundle 추가 */
-//        Bundle bundle1 = Bundle.builder()
-//                .name("자바 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("Java"))
-//                .visibility(Visibility.PRIVATE)
-//                .build();
-//        bundleRepository.save(bundle1);
-//
-//        Bundle bundle2 = Bundle.builder()
-//                .name("스프링 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("Spring"))
-//                .visibility(Visibility.PUBLIC)
-//                .build();
-//        bundleRepository.save(bundle2);
-//
-//        Bundle bundle3 = Bundle.builder()
-//                .name("파이썬 질문방")
-//                .user(user)
-//                .tag(tagService.findByName("Python"))
-//                .visibility(Visibility.FRIEND)
-//                .build();
-//        bundleRepository.save(bundle3);
-//
-//        /* 페이징용 번들 추가 */
-//        User tester1 = userService.join("tester1", "q", "tester1");
-//        User tester2 = userService.join("tester2", "q", "tester2");
-//
-//        for (int i = 0; i < 1000; i++) {
-//            Bundle bundle = Bundle.builder()
-//                    .name("번들" + i + "번")
-//                    .user(i % 2 == 0 ? tester1 : tester2)
-//                    .visibility(i % 2 == 0 ? Visibility.FRIEND : Visibility.PUBLIC)
-//                    .tag(tagService.findByName("Python"))
-//                    .build();
-//            bundleRepository.save(bundle);
-//        }
-//
-//        /* question 추가 */
-//        for (int i = 0; i < 255; i++) {
-////            Thread.sleep(10);
-//            if (i < 50) {
-//                questionService.createQuestion(
-//                        Question.builder()
-//                                .title("제목" + i)
-//                                .content("본문" + i)
-//                                .bundle(null)
-//                                .tag(tagService.findByName(name[i % 7]))
-//                                .user(user)
-//                                .build()
-//                );
-//            }
-//            questionService.createQuestion(
-//                    Question.builder()
-//                            .title("제목" + (254 - i))
-//                            .content("본문" + (254 - i))
-//                            .bundle(null)
-//                            .tag(tagService.findByName(name[i % 7]))
-//                            .user(userList.get(i % 5))
-//                            .build()
-//            );
-//        }
-//
-//        /* follow 추가 */
-//        for (int i = 0; i < 5; i++) {
-//            followService.addFollow(user, userList.get(i));
-//        }
-//
-//        followService.addFollow(userList.get(0), user);
-//        followService.addFollow(userList.get(1), user);
-//        followService.addFollow(userList.get(2), user);
-//
-//        /* 번들에 속하는 질문 생성 */
-//        /* question 추가 */
-//        for (int i = 0; i < 120; i++) {
-//            if (i < 50) {
-//                questionService.createQuestion(
-//                        Question.builder()
-//                                .title("제목" + i)
-//                                .content("본문" + i)
-//                                .bundle(bundle1)
-//                                .tag(tagService.findByName(name[i % 7]))
-//                                .user(user)
-//                                .build()
-//                );
-//            }
-//            questionService.createQuestion(
-//                    Question.builder()
-//                            .title("제목" + (254 - i))
-//                            .content("본문" + (254 - i))
-//                            .bundle(bundle2)
-//                            .tag(tagService.findByName(name[i % 7]))
-//                            .user(userList.get(i % 5))
-//                            .build()
-//            );
-//        }
-
-        // 기존 샘플 데이터 생성 코드
-
         /* 테스트용 사용자 생성 */
         String[] usernames = {"q", "w", "e", "r", "t", "y"};
         String testPwd = "q";
@@ -181,13 +70,15 @@ public class InitializerRunner implements CommandLineRunner {
                 "Java Study", "Python Study",
                 "Spring Study", "JPA Study"};
         for (int i = 0; i < 6; i++) {
-            bundleService.create(bundleNames[i], tagService.findByName(name[i]), userService.getUser(usernames[i]),
-                    i % 2 == 0 ? Visibility.PUBLIC : i % 3 == 0 ? Visibility.PRIVATE : Visibility.FRIEND);
+            Bundle bundle = bundleService.createBundle(bundleNames[i], tagService.findByName(name[i]), userService.getUser(usernames[i]),
+                    i % 2 == 0 ? AccessLevel.PUBLIC : i % 3 == 0 ? AccessLevel.PRIVATE : AccessLevel.GROUP);
+            teamService.createTeam(bundle, userService.getUser(usernames[i]));
         }
 
         for (int i = 0; i < 60; i++) {
-            bundleService.create("번들" + i, tagService.findByName(name[i % 7]), userService.getUser("q"),
-                    i % 2 == 0 ? Visibility.PUBLIC : i % 3 == 0 ? Visibility.PRIVATE : Visibility.FRIEND);
+            Bundle bundle = bundleService.createBundle("번들" + i, tagService.findByName(name[i % 7]), userService.getUser("q"),
+                    i % 2 == 0 ? AccessLevel.PUBLIC : i % 3 == 0 ? AccessLevel.PRIVATE : AccessLevel.GROUP);
+            teamService.createTeam(bundle, userService.getUser("q"));
         }
 
         /* 테스트용 질문 생성 */

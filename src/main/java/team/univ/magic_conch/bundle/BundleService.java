@@ -4,9 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.visibility.Visibility;
+import team.univ.magic_conch.team.AccessLevel;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface BundleService {
@@ -23,9 +22,9 @@ public interface BundleService {
      * @param name
      * @param tag
      * @param user
-     * @param visibility
+     * @param accessLevel
      */
-    void create(String name, Tag tag, User user, Visibility visibility);
+    Bundle createBundle(String name, Tag tag, User user, AccessLevel accessLevel);
 
     /**
      * username 으로 해당 사용자가 생성한 번들 목록 반환

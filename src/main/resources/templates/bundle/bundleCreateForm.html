@@ -24,11 +24,12 @@
                                th:field="*{bundleName}"/>
                         <label for="bundleNameInput" class="form-label">번들 이름</label>
                     </div>
-                    <p class="text-muted">해당 번들의 공개범위를 설정합니다</p>
+                    <p class="text-muted">해당 번들의 접근범위를 설정합니다</p>
+                    <p class="text-muted">권한이 있는 사람은 해당 번들에 자신의 질문을 등록할 수 있습니다.</p>
                     <ul>
-                        <li>PRIVATE : 소유자만 열람가능</li>
-                        <li>FRIEND : 내가 팔로우하는 사람만 가능</li>
-                        <li>PUBLIC : 전체 공개</li>
+                        <li>PUBLIC : 누구나 질문 등록 가능</li>
+                        <li>PRIVATE : 소유자만 등록가능</li>
+                        <li>GROUP : 해당 번들에 그룹으로 등록된 사람만 가능</li>
                     </ul>
                     <div class="d-flex justify-content-around">
                         <div class="form-check form-check-inline mb-5">
@@ -37,26 +38,26 @@
                                    class="form-check-input"
                                    value="PUBLIC"
                                    name="visibilityOption"
-                                   th:field="*{visibility}"/>
+                                   th:field="*{accessLevel}"/>
                             <label for="publicRadio" class="form-label">PUBLIC</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input id="friendRadio"
                                    type="radio"
                                    class="form-check-input"
-                                   value="FRIEND"
+                                   value="PRIVATE"
                                    name="visibilityOption"
-                                   th:field="*{visibility}"/>
-                            <label for="friendRadio" class="form-label">FRIEND</label>
+                                   th:field="*{accessLevel}"/>
+                            <label for="friendRadio" class="form-label">PRIVATE</label>
                         </div>
                         <div class="form-check form-check-inline">
                             <input id="privateRadio"
                                    type="radio"
                                    class="form-check-input"
-                                   value="PUBLIC"
+                                   value="GROUP"
                                    name="visibilityOption"
-                                   th:field="*{visibility}"/>
-                            <label for="privateRadio" class="form-label">PRIVATE</label>
+                                   th:field="*{accessLevel}"/>
+                            <label for="privateRadio" class="form-label">GROUP</label>
                         </div>
                     </div>
 

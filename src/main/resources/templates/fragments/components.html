@@ -48,7 +48,7 @@
 
 <!-- 권한 뱃지 -->
 <h3 th:fragment="visibleBadge(visibility)" class="badge m-0 border border-white"
-    th:classappend="${visibility} == 'PUBLIC' ? 'bg-success' : (${visibility} == 'FRIEND' ? 'bg-secondary' : 'bg-primary')"
+    th:classappend="${visibility} == 'PUBLIC' ? 'bg-success' : (${visibility} == 'GROUP' ? 'bg-secondary' : 'bg-primary')"
     th:text="${visibility}">
 </h3>
 <!-- 권한 뱃지 -->

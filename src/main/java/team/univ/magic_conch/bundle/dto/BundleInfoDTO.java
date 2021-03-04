@@ -13,17 +13,17 @@ public class BundleInfoDTO {
 
     private Long bundleId;
     private String name;
-    private String visibility;
+    private String accessLevel;
     private LocalDate createdTime;
     private String tagColor;
     private String tagName;
     private String tagImage;
 
     @Builder
-    public BundleInfoDTO(Long bundleId, String name, String visibility, LocalDate createdTime, String tagColor, String tagName, String tagImage) {
+    public BundleInfoDTO(Long bundleId, String name, String accessLevel, LocalDate createdTime, String tagColor, String tagName, String tagImage) {
         this.bundleId = bundleId;
         this.name = name;
-        this.visibility = visibility;
+        this.accessLevel = accessLevel;
         this.createdTime = createdTime;
         this.tagColor = tagColor;
         this.tagName = tagName;
