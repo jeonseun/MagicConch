@@ -19,6 +19,7 @@ public class QuestionDetailDTO {
     private String username;
     private String tagName;
     private String tagColor;
+    private String tagImg;
     private Long bundleId;
     private String bundleName;
 

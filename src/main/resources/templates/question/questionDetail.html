@@ -38,13 +38,18 @@
         </div>
         <!-- 태그 이름, 번들 이름 -->
         <div class="ms-auto p-2">
-            <h6
-                    th:text="${question.tagName}"
-                    th:style="'font-size: small; text-shadow: 1px 1px 10px ' + ${question.tagColor}"
-                    class="text-end"
-            >
-                Tag
-            </h6>
+            <div class="d-flex p-2 justify-content-center">
+                <img th:src="${question.tagImg}"
+                     style="height: 18px; width: 18px; margin-right: 7px"
+                     alt="">
+                <h6
+                        th:text="${question.tagName}"
+                        th:style="'font-size: small; text-shadow: 1px 1px 10px ' + ${question.tagColor}"
+                        class="text-end"
+                >
+                    Tag
+                </h6>
+            </div>
             <h6
                     th:text="${question.bundleName}"
                     style="font-size: small"

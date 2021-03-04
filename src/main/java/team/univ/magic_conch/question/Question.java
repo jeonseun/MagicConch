@@ -117,7 +117,9 @@ public class Question {
                 .username(getUser().getUsername())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
+                .tagImg(getTag().getImage())
                 .bundleId(getBundle() != null ? getBundle().getId() : 0)
+                .bundleName(getBundle() != null ? getBundle().getName() : null)
                 .build();
     }
 
