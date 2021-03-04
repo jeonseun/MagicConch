@@ -42,8 +42,9 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Override
     @Transactional(readOnly = false)
-    public void createQuestion(Question question){
-        questionRepository.save(question);
+    public Long createQuestion(Question question){
+        Question q = questionRepository.save(question);
+        return q.getId();
     }
 
     @Override
