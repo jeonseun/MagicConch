@@ -7,6 +7,7 @@ import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.team.Team;
 import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
@@ -38,6 +39,10 @@ public class Bundle {
     @JoinColumn(name = "tag_id")
     private Tag tag;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "team_id")
+    private Team team;
+
     @OneToMany(mappedBy = "bundle")
     private List<Question> questions = new ArrayList<>();
 
@@ -53,6 +58,10 @@ public class Bundle {
 
     protected Bundle() {
 
+    }
+
+    public void changeTeam(Team team) {
+        this.team = team;
     }
 
     public void addQuestion(Question question){
