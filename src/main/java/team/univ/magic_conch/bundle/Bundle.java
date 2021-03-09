@@ -8,7 +8,6 @@ import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.team.AccessLevel;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -41,7 +40,6 @@ public class Bundle {
 
     @OneToMany(mappedBy = "bundle")
     private List<Question> questions = new ArrayList<>();
-
 
     @Builder
     public Bundle(String name, AccessLevel accessLevel, User user, Tag tag) {

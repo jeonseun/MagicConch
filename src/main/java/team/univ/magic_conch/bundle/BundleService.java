@@ -4,7 +4,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.team.AccessLevel;
 
 import java.util.Optional;
 

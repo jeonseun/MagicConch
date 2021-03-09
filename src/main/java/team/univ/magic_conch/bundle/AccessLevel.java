@@ -1,4 +1,4 @@
-package team.univ.magic_conch.team;
+package team.univ.magic_conch.bundle;
 
 public enum AccessLevel {
     PUBLIC,

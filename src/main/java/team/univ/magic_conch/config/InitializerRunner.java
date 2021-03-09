@@ -13,9 +13,8 @@ import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.TagService;
-import team.univ.magic_conch.team.TeamService;
 import team.univ.magic_conch.user.UserService;
-import team.univ.magic_conch.team.AccessLevel;
+import team.univ.magic_conch.bundle.AccessLevel;
 
 import java.time.LocalDate;
 
@@ -30,7 +29,7 @@ public class InitializerRunner implements CommandLineRunner {
     private final QuestionService questionService;
     private final FollowService followService;
     private final BundleRepository bundleRepository;
-    private final TeamService teamService;
+
     @Value("${custom.file.tag-image-path}")
     private String tagImagePath;
 
@@ -72,13 +71,11 @@ public class InitializerRunner implements CommandLineRunner {
         for (int i = 0; i < 6; i++) {
             Bundle bundle = bundleService.createBundle(bundleNames[i], tagService.findByName(name[i]), userService.getUser(usernames[i]),
                     i % 2 == 0 ? AccessLevel.PUBLIC : i % 3 == 0 ? AccessLevel.PRIVATE : AccessLevel.GROUP);
-            teamService.createTeam(bundle, userService.getUser(usernames[i]));
         }
 
         for (int i = 0; i < 60; i++) {
             Bundle bundle = bundleService.createBundle("번들" + i, tagService.findByName(name[i % 7]), userService.getUser("q"),
                     i % 2 == 0 ? AccessLevel.PUBLIC : i % 3 == 0 ? AccessLevel.PRIVATE : AccessLevel.GROUP);
-            teamService.createTeam(bundle, userService.getUser("q"));
         }
 
         /* 테스트용 질문 생성 */

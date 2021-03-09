@@ -15,12 +15,11 @@ import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.dto.TagDTO;
-import team.univ.magic_conch.team.TeamService;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
 import team.univ.magic_conch.utils.page.PageResultDTO;
-import team.univ.magic_conch.team.AccessLevel;
+import team.univ.magic_conch.bundle.AccessLevel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,7 +32,6 @@ public class BundleController {
     private final BundleService bundleService;
     private final UserRepository userRepository;
     private final QuestionService questionService;
-    private final TeamService teamService;
 
     // 번들 생성 폼 보여주기
     @GetMapping("/bundle/createForm")
@@ -56,7 +54,6 @@ public class BundleController {
                 findTag,
                 principalDetails.getUser(),
                 AccessLevel.valueOf(bundleCreateDTO.getAccessLevel()));
-        teamService.createTeam(createdBundle, principalDetails.getUser());
         String username = principalDetails.getUsername();
         return "redirect:/bundle/overview" + "?username=" + username;
     }
@@ -69,7 +66,6 @@ public class BundleController {
 
         Bundle findBundle = bundleService.findById(bundleId).orElseThrow(BundleNotFoundException::new);
         model.addAttribute("bundle", findBundle.entityToInfoDTO());
-        model.addAttribute("contributors", 5);
         model.addAttribute("questions", questionService.getQuestionsByBundleId(bundleId, pageable));
         return "bundle/bundleDetail";
     }

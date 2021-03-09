@@ -195,7 +195,8 @@
            type="hidden">
     <script>
         let urlParams = window.location.href.split("?");
-        const username = urlParams[1].split("=")[1];
+        let username = urlParams[1].split("=")[1];
+        username = username.split('&')[0];
         const userPageNav = document.getElementById("user-page__nav");
         let links = userPageNav.getElementsByTagName("a");
         for (let i = 0; i < links.length; i++) {

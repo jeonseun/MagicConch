@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.team.AccessLevel;
+import team.univ.magic_conch.bundle.AccessLevel;
 
 import java.util.Optional;
 

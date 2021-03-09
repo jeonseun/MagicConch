@@ -31,7 +31,7 @@
              class="card-header text-white d-flex justify-content-between">
 
             <img th:src="@{${bundle.tagImage}}" width="25px" height="25px">
-            <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})">
+            <h3 th:replace="fragments/components :: accessLevelBadge(${bundle.accessLevel})">
             </h3>
         </div>
         <div class="card-body">
@@ -47,7 +47,7 @@
 <!-- 번들 정보 카드 -->
 
 <!-- 권한 뱃지 -->
-<h3 th:fragment="visibleBadge(visibility)" class="badge m-0 border border-white"
+<h3 th:fragment="accessLevelBadge(visibility)" class="badge m-0 border border-white"
     th:classappend="${visibility} == 'PUBLIC' ? 'bg-success' : (${visibility} == 'GROUP' ? 'bg-secondary' : 'bg-primary')"
     th:text="${visibility}">
 </h3>

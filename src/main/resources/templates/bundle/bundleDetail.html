@@ -18,7 +18,7 @@
 
         <div class="d-flex flex-column align-items-center border-primary border p-1">
             <!-- 번들 질문하기 권한 레벨 -->
-            <h3 th:replace="fragments/components :: visibleBadge(${bundle.getAccessLevel})"></h3>
+            <h3 th:replace="fragments/components :: accessLevelBadge(${bundle.getAccessLevel})"></h3>
             <!-- 번들 질문하기 권한 레벨 -->
 
             <!-- 번들 생성일 -->
@@ -28,12 +28,11 @@
             </span>
             <!-- 번들 생성일 -->
 
-            <!-- 번들에 질문 올린 사람 수 -->
-            <span>
-                <i class="fas fa-users"></i>
-                <span th:text="${contributors}" class="badge bg-primary rounded-pill"></span>
-            </span>
-            <!-- 번들에 질문 올린 사람 수 -->
+            <!-- 팀 메뉴 링크 -->
+            <div>
+                <a th:href="@{/team/manage}">TEAM MANAGE</a>
+            </div>
+            <!-- 팀 메뉴 링크 -->
         </div>
     </header>
     <!-- 번들 자체의 특징을 나타내는 정보들 -->
