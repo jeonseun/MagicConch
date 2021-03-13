@@ -102,7 +102,7 @@ function refreshList(params, pageNo = 1){
                 }
                 tr.innerHTML +=
                     '<td style="text-align: center; text-shadow: 1px 1px 10px ' + data.dtoList[i].tagColor + '">' + data.dtoList[i].tagName + '</td>' +
-                    '<td>' + data.dtoList[i].title + '</a></td>' +
+                    '<td><span>' + data.dtoList[i].title + '</span><span style="color: red"> [' + data.dtoList[i].answerCnt +']</span></td>' +
                     '<td style="text-align: center">' + data.dtoList[i].username + '</td>' +
                     '<td style="text-align: center">' + data.dtoList[i].createTime + '</td>' +
                     '<td style="text-align: center">' + data.dtoList[i].view + '</td>'

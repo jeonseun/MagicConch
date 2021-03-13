@@ -134,7 +134,7 @@
                     th:text="${item.tagName}"
                     th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"
             ></td>
-            <td th:text="${item.title}"></td>
+            <td><span th:text="${item.title}"></span><span th:text="' [' + ${item.answerCnt} + ']'" style="color: red"></span></td>
             <td style="text-align: center" th:text="${item.username}"></td>
             <td style="text-align: center" th:text="${item.createTime}"></td>
             <td style="text-align: center" th:text="${item.view}"></td>

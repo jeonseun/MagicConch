@@ -106,6 +106,7 @@ public class Question {
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .status(getStatus().toString())
+                .answerCnt(getAnswers().size())
                 .build();
     }
 

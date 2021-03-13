@@ -22,5 +22,6 @@ public class QuestionListDTO {
     private String tagName;
     private String tagColor;
     private String status;
+    private int answerCnt;
 
 }
