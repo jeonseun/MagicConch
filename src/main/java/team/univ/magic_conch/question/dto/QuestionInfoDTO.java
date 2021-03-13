@@ -24,7 +24,6 @@ public class QuestionInfoDTO {
     private LocalDateTime lastModifiedTime;
     private String status;
     private UserSimpleDTO author;
-    private Period when;
 
     @Builder
     public QuestionInfoDTO(Long questionId, String title, int views, LocalDateTime createdTime, LocalDateTime lastModifiedTime, QuestionStatus status, UserSimpleDTO author) {
@@ -35,6 +34,5 @@ public class QuestionInfoDTO {
         this.lastModifiedTime = lastModifiedTime;
         this.status = status.toString();
         this.author = author;
-        when = Period.between(createdTime.toLocalDate(), lastModifiedTime.toLocalDate());
     }
 }

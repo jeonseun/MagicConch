@@ -89,9 +89,19 @@ function refreshList(params, pageNo = 1){
                 let tr = document.createElement("tr");
                 list.appendChild(tr);
                 tr.setAttribute('onclick', 'javascript:selectQuestion(' + data.dtoList[i].questionId + ')')
+                tr.classList.add('hover-shadow');
+                if(data.dtoList[i].status === 'END') {
+                    tr.style = 'background-color: #efefef;';
+                }
                 tr.innerHTML =
-                    '<td>' + (data.totalCnt - ((data.curPage - 1) * 10) - i) + '</td>' +
-                    '<td style="text-shadow: 1px 1px 10px ' + data.dtoList[i].tagColor + '">' + data.dtoList[i].tagName + '</td>' +
+                    '<td>' + (data.totalCnt - ((data.curPage - 1) * 10) - i) + '</td>';
+                if(data.dtoList[i].status === 'ING'){
+                    tr.innerHTML += '<td style="text-align: center"><i class="fas fa-running" style="color: #FFA900; font-size: 1.5rem"></i></td>';
+                }else if(data.dtoList[i].status === 'END'){
+                    tr.innerHTML += '<td style="text-align: center"><i class="fas fa-check" style="color: #00B74A; font-size: 1.5rem"></i></td>';
+                }
+                tr.innerHTML +=
+                    '<td style="text-align: center; text-shadow: 1px 1px 10px ' + data.dtoList[i].tagColor + '">' + data.dtoList[i].tagName + '</td>' +
                     '<td>' + data.dtoList[i].title + '</a></td>' +
                     '<td style="text-align: center">' + data.dtoList[i].username + '</td>' +
                     '<td style="text-align: center">' + data.dtoList[i].createTime + '</td>' +

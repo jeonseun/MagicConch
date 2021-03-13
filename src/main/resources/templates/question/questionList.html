@@ -5,7 +5,6 @@
     <th:block id="css">
     <link rel="stylesheet" th:href="@{/css/global.css}" }>
     </th:block>
-
 </head>
 <body>
 <main class="container col-md-10">
@@ -117,7 +116,8 @@
         <thead class="table-primary">
         <tr>
             <th>No</th>
-            <th>태그</th>
+            <th style="text-align: center">상태</th>
+            <th style="text-align: center">태그</th>
             <th style="text-align: center; width: 40%">제목</th>
             <th style="text-align: center">작성자</th>
             <th style="text-align: center">작성시간</th>
@@ -125,13 +125,14 @@
         </tr>
         </thead>
         <tbody class="list-wrapper">
-        <tr th:each="item, idx : ${questionList.dtoList}" th:onclick="'selectQuestion(' + ${item.questionId} + ')'" class="hover-shadow">
+        <tr th:each="item, idx : ${questionList.dtoList}" th:onclick="'selectQuestion(' + ${item.questionId} + ')'" class="hover-shadow" th:style="${item.status == 'END' ? 'background-color: #efefef;' : ''}">
             <td
                     th:text="${questionList.totalCnt - ((questionList.curPage - 1) * 10) - idx.index}"
             ></td>
+            <td style="text-align: center"><div th:replace="fragments/components :: questionStatus(${item.status})"></div></td>
             <td
                     th:text="${item.tagName}"
-                    th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor}"
+                    th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"
             ></td>
             <td th:text="${item.title}"></td>
             <td style="text-align: center" th:text="${item.username}"></td>

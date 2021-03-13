@@ -105,6 +105,7 @@ public class Question {
                 .profileImg(getUser().getProfileImg())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
+                .status(getStatus().toString())
                 .build();
     }
 

@@ -44,6 +44,7 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
                         !StringUtils.isEmpty(username) ? user.username.eq(username) : null,
                         !StringUtils.isEmpty(tagName) ? tag.name.eq(tagName) : null
                 )
+                .orderBy(question.status.desc())
                 .orderBy(question.createTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -80,6 +81,7 @@ public class QuestionRepositorySupportImpl implements QuestionRepositorySupport{
                         !StringUtils.isEmpty(title) ? question.title.contains(title) : null,
                         !StringUtils.isEmpty(username) ? user.username.eq(username) : null,
                         !StringUtils.isEmpty(tagName) ? tag.name.eq(tagName) : null)
+                .orderBy(question.status.desc())
                 .orderBy(question.createTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
