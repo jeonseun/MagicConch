@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='team overview',main=~{::main})">
+
+<body>
+<main class="container row mt-5 mx-auto">
+    <header class="mb-3">
+        <nav th:replace="fragments/navs :: user_info_menu('team')"></nav>
+    </header>
+
+    <!-- 팀 목록 부분 -->
+    <section>
+        <a th:if="${#authentication.name} == ${curPageUser}" th:href="@{/team/createForm}" class="mb-3 btn btn-success me-auto">팀 생성</a>
+        <ul style="list-style: none">
+            <h3 th:text="|${curPageUser}의 팀|"></h3>
+            <li th:each="team : ${ownTeams}">
+                <th:block th:replace="fragments/components :: teamCard(${team})"></th:block>
+            </li>
+
+            <h3 th:text="|${curPageUser}가 소속된 팀|"></h3>
+            <li th:each="team : ${myTeams}">
+                <th:block th:replace="fragments/components :: teamCard(${team})"></th:block>
+            </li>
+
+        </ul>
+    </section>
+    <!-- 팀 목록 부분 -->
+</main>
+</body>
+</html>

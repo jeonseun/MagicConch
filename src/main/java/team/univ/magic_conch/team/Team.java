@@ -3,6 +3,7 @@ package team.univ.magic_conch.team;
 import lombok.Builder;
 import lombok.Getter;
 import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.team.dto.TeamInfoDTO;
 import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
@@ -19,6 +20,8 @@ public class Team {
     @Column(name = "team_name")
     private String teamName;
 
+    private String description;
+
     // 팀 관리자 (별도의 설정이 없으면 최초로 팀을 만든 유저가 됨)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -33,9 +36,10 @@ public class Team {
     private List<Bundle> bundles;
 
     @Builder
-    public Team(String teamName, User user) {
+    public Team(String teamName, User user, String description) {
         this.teamName = teamName;
         this.user = user;
+        this.description = description;
         teamUsers = new ArrayList<>();
         bundles = new ArrayList<>();
     }
@@ -49,5 +53,13 @@ public class Team {
     public void addBundle(Bundle bundle) {
         bundles.add(bundle);
         bundle.changeTeam(this);
+    }
+
+    public TeamInfoDTO entityToTeamInfoDTO() {
+        return TeamInfoDTO.builder()
+                .teamId(getId())
+                .teamName(getTeamName())
+                .teamDescription(getDescription())
+                .build();
     }
 }

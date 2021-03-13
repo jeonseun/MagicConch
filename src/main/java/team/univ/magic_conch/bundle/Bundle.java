@@ -62,6 +62,7 @@ public class Bundle {
 
     public void changeTeam(Team team) {
         this.team = team;
+        team.getBundles().add(this);
     }
 
     public void addQuestion(Question question){

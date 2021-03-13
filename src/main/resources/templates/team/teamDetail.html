@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='team detail',main=~{::main}, js=~{::#customJS}, css=~{::#css})">
+<head>
+    <th:block id="css">
+        <link rel="stylesheet" th:href="@{/css/search.css}">
+    </th:block>
+</head>
+
+<body>
+<main class="container row mt-5 mx-auto">
+
+    <section>
+        <article>
+            <div class="search">
+                <input type="text" id="bundleInput" class="search__input">
+
+            </div>
+        </article>
+
+        <article>
+            팀원 추가
+            <input type="text" id="teamUserInput">
+        </article>
+    </section>
+</main>
+
+<th:block id="customJS">
+    <script th:src="@{/js/team/bundleSearch.js}"></script>
+</th:block>
+</body>
+</html>

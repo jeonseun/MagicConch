@@ -1,5 +1,6 @@
 package team.univ.magic_conch.team;
 
+import lombok.Builder;
 import lombok.Getter;
 import team.univ.magic_conch.user.User;
 
@@ -19,4 +20,13 @@ public class TeamUser {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @Builder
+    public TeamUser(User user, Team team) {
+        this.user = user;
+        this.team = team;
+    }
+
+    protected TeamUser() {
+    }
 }

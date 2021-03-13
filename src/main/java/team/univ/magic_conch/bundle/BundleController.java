@@ -4,12 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.bundle.dto.BundleCreateDTO;
+import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
 import team.univ.magic_conch.bundle.exception.BundleNotFoundException;
 import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
@@ -85,4 +87,14 @@ public class BundleController {
         return "bundle/overview";
     }
 
+    @GetMapping("/bundle/search")
+    @ResponseBody
+    public ResponseEntity<List<BundleInfoDTO>> searchBundle(@RequestParam String bundleName) {
+        List<Bundle> searchedBundles = bundleService.searchBundle(bundleName);
+        if (searchedBundles.size() == 0) {
+            return ResponseEntity.noContent().build();
+        }
+        List<BundleInfoDTO> bundles = searchedBundles.stream().map(Bundle::entityToInfoDTO).collect(Collectors.toList());
+        return ResponseEntity.ok().body(bundles);
+    }
 }

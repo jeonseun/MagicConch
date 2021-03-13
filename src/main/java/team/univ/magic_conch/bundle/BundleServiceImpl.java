@@ -8,6 +8,7 @@ import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.bundle.AccessLevel;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,6 +37,11 @@ public class BundleServiceImpl implements BundleService {
     @Override
     public Page<Bundle> getBundleByUsername(String username, Pageable pageable) {
         return bundleRepository.findAllByUserUsername(username, pageable);
+    }
+
+    @Override
+    public List<Bundle> searchBundle(String bundleName) {
+        return bundleRepository.findAllByNameContaining(bundleName);
     }
 
 

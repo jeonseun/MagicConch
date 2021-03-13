@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.user.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BundleService {
@@ -33,4 +34,10 @@ public interface BundleService {
      */
     Page<Bundle> getBundleByUsername(String username, Pageable pageable);
 
+    /**
+     * 번들 이름으로 번들 검색
+     * @param bundleName
+     * @return Bundle Entity List
+     */
+    List<Bundle> searchBundle(String bundleName);
 }

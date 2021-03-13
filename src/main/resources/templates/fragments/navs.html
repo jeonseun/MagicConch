@@ -101,6 +101,11 @@
                         </li>
                         <li>
                             <a class="dropdown-item"
+                               th:href="@{|/team/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
+                                Teams</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item"
                                th:href="@{|/user/setting?username=${#authentication.getPrincipal().getUser().getUsername()}|}">Setting</a>
                         </li>
                         <li>
@@ -183,6 +188,11 @@
            th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
             <i class="fas fa-user-friends"></i> FRIEND</a>
     </li>
+        <li class="nav-item">
+            <a th:href="@{/team/overview}" class="nav-link"
+               th:classappend="${currentMenu} == 'team' ? 'disabled' : ''">
+                <i class="fas fa-sitemap"></i> TEAM</a>
+        </li>
     <li class="nav-item">
         <a th:href="@{/user/setting}" class="nav-link"
            th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
@@ -203,7 +213,7 @@
             links[i].href += ('?' + urlParams[1]);
         }
 
-        let settingLink = userPageNav.querySelector("li:nth-child(5)");
+        let settingLink = userPageNav.querySelector("li:nth-child(6)");
         if (document.querySelector("#userChecker") === null) {
             settingLink.remove();
         }
