@@ -44,7 +44,7 @@ public class BundleController {
                 .map(Tag::entityToTagDto)
                 .collect(Collectors.toList());
         model.addAttribute("tags", tags);
-        return "bundleCreateForm";
+        return "bundle/bundleCreateForm";
     }
 
     // 번들 생성 처리 (생성 완료되면 마이페이지 오버뷰로 이동)
