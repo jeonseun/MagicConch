@@ -83,13 +83,13 @@ public class AnswerServiceImpl implements AnswerService {
         }else{
             return "fail";
         }
-        answer.ifPresent(value -> value.changeIsAdoption(true));
+        answer.ifPresent(value -> value.changeAdoption(true));
         return "success";
     }
 
     @Override
     public List<AnswerDTO> answer(Long questionId) {
-        return answerRepository.findAllByQuestionId(questionId).stream()
+        return answerRepository.findAllByQuestionIdOrderByAdoptedDesc(questionId).stream()
                 .map(Answer::entityToAnswerDTO)
                 .collect(Collectors.toList());
     }

@@ -16,5 +16,6 @@ public class AnswerDTO {
     String profileImg;
     String content;
     String createTime;
+    boolean adopted;
 
 }

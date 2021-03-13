@@ -101,7 +101,7 @@
         <!-- 답변 보기 -->
         <div th:each="item : ${answer}" th:id="${item.answerId}">
             <hr>
-            <div class="d-flex align-items-center" th:value="${item.username}">
+            <div class="d-flex align-items-center" th:id="${item.answerId} + '_inner'" th:value="${item.username}" th:style="${item.adopted ? 'border: 1px solid #BBDEFB; border-radius: 10px; padding: 10px' : 'padding: 10px'}">
                 <!-- 프로필 -->
                 <div class="d-flex flex-column ps-2">
                     <img th:src="${item.profileImg}"
@@ -116,8 +116,10 @@
                     <div class="ps-3" style="font-size: 10px" th:text="${item.createTime}"></div>
                 </div>
                 <!-- 신고, 수정, 삭제 토글 -->
-                <div class="btn-group shadow-0 ms-auto">
+                <div class="btn-group shadow-0 ms-auto" th:id="${item.answerId} + '_dropBtn'">
+                    <i th:if="${item.adopted == true}" class="fas fa-thumbs-up fa-2x" style="color: dodgerblue; padding: 10px 24px"></i>
                     <button
+                            th:if="${item.adopted == false}"
                             type="button"
                             class="btn btn-link dropdown-toggle"
                             data-mdb-toggle="dropdown"
@@ -148,7 +150,7 @@
         <button type="button" class="mt-2 mb-2 btn btn-outline-primary" onclick="clickAnswerBtn()">작성</button>
     </div>
     <!-- Modal -->
-    <div class="modal top fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+    <div class="modal top fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

@@ -27,7 +27,7 @@ public class Answer {
     private LocalDateTime createTime;
     private LocalDateTime lastModifyTime;
 
-    private boolean isAdoption;
+    private boolean adopted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -45,7 +45,7 @@ public class Answer {
         this.content = content;
     }
 
-    public void changeIsAdoption(boolean isAdoption) { this.isAdoption = isAdoption; }
+    public void changeAdoption(boolean isAdoption) { this.adopted = isAdoption; }
 
     public void refreshLastModifyTime(){
         this.lastModifyTime = LocalDateTime.now();
@@ -56,7 +56,7 @@ public class Answer {
         this.content = content;
         this.createTime = LocalDateTime.now();
         this.lastModifyTime = LocalDateTime.now();
-        this.isAdoption = false;
+        this.adopted = false;
         this.user = user;
         this.question = question;
     }
@@ -68,6 +68,7 @@ public class Answer {
                 .answerId(getId())
                 .content(getContent())
                 .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH.mm")))
+                .adopted(isAdopted())
                 .build();
     }
 

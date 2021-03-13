@@ -90,7 +90,7 @@ class AnswerServiceTest {
         answerService.adoptAnswer(question.getId(), answer.getId());
         //then
         Assertions.assertThat(question.getStatus()).isEqualTo(QuestionStatus.END);
-        Assertions.assertThat(answer.isAdoption()).isEqualTo(true);
+        Assertions.assertThat(answer.isAdopted()).isEqualTo(true);
 
     }
 }

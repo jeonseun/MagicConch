@@ -16,5 +16,5 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     Optional<Answer> findById(Long answerId);
 
     @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
-    List<Answer> findAllByQuestionId(Long questionId);
+    List<Answer> findAllByQuestionIdOrderByAdoptedDesc(Long questionId);
 }

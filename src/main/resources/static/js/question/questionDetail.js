@@ -110,6 +110,8 @@ function clickDeleteAnswer(id){
 }
 
 function clickAdoptAnswer(questionId, answerId){
+    const answerInner = document.getElementById(answerId + '_inner');
+    const answerDropBtn = $('#' + answerId + '_dropBtn');
     $.ajax({
         url: '/answer/adopt',
         type: 'POST',
@@ -118,6 +120,9 @@ function clickAdoptAnswer(questionId, answerId){
         success: function (data) {
             if (data === "success"){
                 alert("채택에 성공하였습니다.");
+                answerInner.style = "border: 1px solid #BBDEFB; border-radius: 10px; padding: 10px";
+                answerDropBtn.empty();
+                answerDropBtn.html('<i class="fas fa-thumbs-up fa-2x" style="color: dodgerblue; padding: 10px 24px"></i>');
             }else{
                 alert("채택에 실패하였습니다.");
             }

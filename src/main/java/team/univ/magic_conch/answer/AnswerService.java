@@ -37,6 +37,7 @@ public interface AnswerService {
 
     /**
      * 게시글에 질문 보여주기
+     * 채택이 된 질문부터 보여줌(역순)
      * @param questionId
      * @return 게시글에 달린 질문 목록
      */
