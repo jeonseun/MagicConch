@@ -101,7 +101,7 @@
         <!-- 답변 보기 -->
         <div th:each="item : ${answer}" th:id="${item.answerId}">
             <hr>
-            <div class="d-flex align-items-center" th:value="${item.username}" onclick="clickAnswerProfile(this)"s>
+            <div class="d-flex align-items-center" th:value="${item.username}">
                 <!-- 프로필 -->
                 <div class="d-flex flex-column ps-2">
                     <img th:src="${item.profileImg}"
@@ -128,7 +128,7 @@
                     </button>
 
                     <ul class="dropdown-menu">
-                        <li th:if="${#authentication.name == question.username}"><a class="dropdown-item">채택하기</a></li>
+                        <li th:if="${#authentication.name == question.username}"><a class="dropdown-item" th:onclick="'clickAdoptAnswer(' + ${question.questionId} + ',' + ${item.answerId} + ')'">채택하기</a></li>
                         <li th:if="${#authentication.name != item.username}"><a class="dropdown-item">신고</a></li>
                         <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" th:onclick="'clickUpdateAnswer(' + ${item.answerId} + ')'">수정</a></li>
                         <li th:if="${#authentication.name == item.username}"><a class="dropdown-item" th:onclick="'clickDeleteAnswer(' + ${item.answerId} + ')'">삭제</a></li>

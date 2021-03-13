@@ -33,7 +33,7 @@ public interface AnswerService {
      * 답변 채택
      * @param answerId
      */
-    public void adoptAnswer(Long questionId, Long answerId);
+    public String adoptAnswer(Long questionId, Long answerId);
 
     /**
      * 게시글에 질문 보여주기

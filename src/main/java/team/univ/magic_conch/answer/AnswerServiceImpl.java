@@ -69,13 +69,22 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public void adoptAnswer(Long questionId, Long answerId) {
+    @Transactional(readOnly = false)
+    public String adoptAnswer(Long questionId, Long answerId) {
 
         Optional<Question> question = questionRepository.findById(questionId);
         Optional<Answer> answer = answerRepository.findById(answerId);
-        question.ifPresent(value -> value.changeStatus(QuestionStatus.END));
+        if(question.isPresent()){
+            Question questionResult = question.get();
+            if(questionResult.getStatus() == QuestionStatus.END){
+                return "fail";
+            }
+            questionResult.changeStatus(QuestionStatus.END);
+        }else{
+            return "fail";
+        }
         answer.ifPresent(value -> value.changeIsAdoption(true));
-
+        return "success";
     }
 
     @Override

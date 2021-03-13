@@ -116,6 +116,11 @@ function clickAdoptAnswer(questionId, answerId){
         data: {'questionId' : questionId, 'answerId' : answerId},
         dataType: 'text',
         success: function (data) {
+            if (data === "success"){
+                alert("채택에 성공하였습니다.");
+            }else{
+                alert("채택에 실패하였습니다.");
+            }
         }, error: function (xhr) {
         }
     })

@@ -1,12 +1,14 @@
 package team.univ.magic_conch.answer;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.answer.dto.AnswerDTO;
 import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
 import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
+import team.univ.magic_conch.auth.PrincipalDetails;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -59,8 +61,7 @@ public class AnswerController {
     public String adoptAnswer(@RequestParam Long questionId,
                               @RequestParam Long answerId){
 
-        answerService.adoptAnswer(questionId, answerId);
-        return "success";
+        return answerService.adoptAnswer(questionId, answerId);
 
     }
 
