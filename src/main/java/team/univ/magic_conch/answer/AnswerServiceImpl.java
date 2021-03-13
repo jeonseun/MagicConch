@@ -8,6 +8,7 @@ import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
 import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.question.QuestionRepository;
+import team.univ.magic_conch.question.QuestionStatus;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 
@@ -63,7 +64,17 @@ public class AnswerServiceImpl implements AnswerService {
     public void deleteAnswer(Long answerId) {
 
         Optional<Answer> answer = answerRepository.findById(answerId);
-        answerRepository.delete(answer.get());
+        answer.ifPresent(answerRepository::delete);
+
+    }
+
+    @Override
+    public void adoptAnswer(Long questionId, Long answerId) {
+
+        Optional<Question> question = questionRepository.findById(questionId);
+        Optional<Answer> answer = answerRepository.findById(answerId);
+        question.ifPresent(value -> value.changeStatus(QuestionStatus.END));
+        answer.ifPresent(value -> value.changeIsAdoption(true));
 
     }
 

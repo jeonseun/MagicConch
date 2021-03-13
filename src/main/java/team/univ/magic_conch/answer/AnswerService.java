@@ -30,6 +30,12 @@ public interface AnswerService {
     public void deleteAnswer(Long answerId);
 
     /**
+     * 답변 채택
+     * @param answerId
+     */
+    public void adoptAnswer(Long questionId, Long answerId);
+
+    /**
      * 게시글에 질문 보여주기
      * @param questionId
      * @return 게시글에 달린 질문 목록

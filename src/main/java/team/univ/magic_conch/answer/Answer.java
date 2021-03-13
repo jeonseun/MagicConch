@@ -27,6 +27,8 @@ public class Answer {
     private LocalDateTime createTime;
     private LocalDateTime lastModifyTime;
 
+    private boolean isAdoption;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -43,6 +45,8 @@ public class Answer {
         this.content = content;
     }
 
+    public void changeIsAdoption(boolean isAdoption) { this.isAdoption = isAdoption; }
+
     public void refreshLastModifyTime(){
         this.lastModifyTime = LocalDateTime.now();
     }
@@ -52,6 +56,7 @@ public class Answer {
         this.content = content;
         this.createTime = LocalDateTime.now();
         this.lastModifyTime = LocalDateTime.now();
+        this.isAdoption = false;
         this.user = user;
         this.question = question;
     }

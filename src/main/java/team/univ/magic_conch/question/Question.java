@@ -81,6 +81,8 @@ public class Question {
         this.tag = tag;
     }
 
+    public void changeStatus(QuestionStatus status) { this.status = status; }
+
     public void changeBundle(Bundle bundle) {
         if(this.bundle != bundle){
             this.bundle = bundle;

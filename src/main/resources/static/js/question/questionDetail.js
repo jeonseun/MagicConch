@@ -109,6 +109,18 @@ function clickDeleteAnswer(id){
     })
 }
 
+function clickAdoptAnswer(questionId, answerId){
+    $.ajax({
+        url: '/answer/adopt',
+        type: 'POST',
+        data: {'questionId' : questionId, 'answerId' : answerId},
+        dataType: 'text',
+        success: function (data) {
+        }, error: function (xhr) {
+        }
+    })
+}
+
 function clickAnswerBtn(){
     let question = $('#question').text();
     let user = $('#user').text();

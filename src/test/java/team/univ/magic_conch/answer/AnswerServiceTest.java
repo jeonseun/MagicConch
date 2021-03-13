@@ -7,6 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 import team.univ.magic_conch.question.Question;
+import team.univ.magic_conch.question.QuestionRepository;
+import team.univ.magic_conch.question.QuestionStatus;
 import team.univ.magic_conch.user.User;
 
 import java.util.Optional;
@@ -21,6 +23,8 @@ class AnswerServiceTest {
     private AnswerService answerService;
     @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Test
     public void 질문수정() throws Exception {
@@ -63,7 +67,30 @@ class AnswerServiceTest {
         answerService.deleteAnswer(answer.getId());
         //then
         Optional<Answer> result = answerRepository.findById(answer.getId());
-        if(!result.isEmpty())
+        if(result.isPresent())
             Assertions.fail("질문이 삭제되지 않았습니다.");
+    }
+
+    @Test
+    public void 질문채택() throws Exception {
+        //given
+        User user = new User("test1", "testPw", "test");
+        Question question = Question.builder()
+                .title("title")
+                .user(user)
+                .build();
+        Answer answer = Answer.builder()
+                .content("이전 내용")
+                .user(user)
+                .question(question)
+                .build();
+        answerRepository.save(answer);
+        questionRepository.save(question);
+        //when
+        answerService.adoptAnswer(question.getId(), answer.getId());
+        //then
+        Assertions.assertThat(question.getStatus()).isEqualTo(QuestionStatus.END);
+        Assertions.assertThat(answer.isAdoption()).isEqualTo(true);
+
     }
 }

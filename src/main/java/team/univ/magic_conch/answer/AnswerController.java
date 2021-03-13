@@ -51,6 +51,17 @@ public class AnswerController {
 
         answerService.deleteAnswer(answerId);
         return "success";
+
+    }
+
+    @PostMapping("/answer/adopt")
+    @ResponseBody
+    public String adoptAnswer(@RequestParam Long questionId,
+                              @RequestParam Long answerId){
+
+        answerService.adoptAnswer(questionId, answerId);
+        return "success";
+
     }
 
     /**
