@@ -3,6 +3,7 @@ package team.univ.magic_conch.follow;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.follow.dto.BestFollowerDTO;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
@@ -51,5 +52,10 @@ public class FollowServiceImpl implements FollowService{
     @Override
     public boolean isFollowed(User userFrom, User userTo) {
         return followRepository.findByUserFromAndUserTo(userFrom, userTo).isPresent();
+    }
+
+    @Override
+    public List<BestFollowerDTO> findBestFollower() {
+        return null;
     }
 }

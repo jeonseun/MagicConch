@@ -1,5 +1,6 @@
 package team.univ.magic_conch.follow;
 
+import team.univ.magic_conch.follow.dto.BestFollowerDTO;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
@@ -42,4 +43,10 @@ public interface FollowService {
      * @return true : 팔로우 중, false : 팔로우 중 아님
      */
     boolean isFollowed(User userFrom, User userTo);
+
+    /**
+     * 팔로우가 가장 많은 5명의 유저 데이터 전달
+     * @return 팔로우가 가장 많은 5명을 담은 DTO 리스트
+     */
+    public List<BestFollowerDTO> findBestFollower();
 }
