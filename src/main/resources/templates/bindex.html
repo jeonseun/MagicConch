@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{fragments/layout :: layout(title='index',  main=~{::main},js=~{::#customJS})}" lang="en">
+
+<head>
+
+</head>
+
+<body>
+<main class="d-flex flex-row mb-3">
+    <!-- left -->
+    <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
+    <!-- center -->
+    <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
+    <!--right-->
+    <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
+</main>
+
+<th:block id="customJS">
+</th:block>
+</body>
+
+</html>
