@@ -32,7 +32,7 @@
                          aria-labelledby="headingOne"
                          data-mdb-parent="#questions">
                         <div class="accordion-body">
-                            <ul class="list-group">
+                            <ul class="list-group side-menu">
                                 <li th:each="question : ${questions}" class="list-group-item">
                                     <a th:href="@{|/question/${question.questionId}|}" class="d-flex">
                                         <i class="fas fa-chevron-circle-right" style="flex-basis: 10%"></i>
@@ -64,7 +64,7 @@
                          aria-labelledby="headingOne"
                          data-mdb-parent="#bundles">
                         <div class="accordion-body">
-                            <ul class="list-group">
+                            <ul class="list-group side-menu">
                                 <li th:each="bundle : ${bundles}"  class="list-group-item">
                                     <a th:href="@{|/bundle?bundleId=${bundle.bundleId}|}" class="d-flex">
                                         <img class="me-2" th:src="@{${bundle.tagImage}}" width="25px" height="25px" style="flex-basis: 10%">
@@ -74,30 +74,6 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="accordion mb-3" id="teams">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button"
-                                type="button"
-                                data-mdb-toggle="collapse"
-                                data-mdb-target="#collapseThree"
-                                aria-expanded="true"
-                                aria-controls="collapseThree">
-                            나의 팀
-                        </button>
-
-                    </h2>
-                    <div id="collapseThree"
-                         class="accordion-collapse collapse show"
-                         aria-labelledby="headingOne"
-                         data-mdb-parent="#teams">
-                        <div class="accordion-body">
-
                         </div>
                     </div>
                 </div>
