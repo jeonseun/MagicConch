@@ -5,6 +5,7 @@ import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.dto.QuestionMainDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.utils.page.PageResultDTO;
@@ -66,12 +67,17 @@ public interface QuestionService {
      */
     public PageResultDTO<QuestionListDTO, Question> questionFollow(String myname, QuestionSearchDTO questionSearchDTO);
 
-
     /**
      * 해당 번들에 속해있는 질문 페이징 조회
      * @param bundle   질문이 속한 번들
      * @param pageable 현재 페이지, 페이지당 사이즈, 정렬 기준
      * @return 해당 번들에 속한 질문 페이징 DTO
      */
-    PageResultDTO getQuestionsByBundleId(Long bundle, Pageable pageable);
+    public PageResultDTO getQuestionsByBundleId(Long bundle, Pageable pageable);
+
+    /**
+     * 메인 페이지 질문 조회
+     * 전체, 오늘 올라온, 미해결, 해결 글 수, 답변을 기다리는 글, 인기글, 팔로우 수
+     */
+    public QuestionMainDTO questionMain();
 }

@@ -7,10 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface QuestionRepository extends JpaRepository<Question, Long>, QuestionRepositorySupport {
+
     Optional<Question> findById(Long questionNo);
 
     @Query("select q from Question q where lower(q.title) like lower(concat('%', concat(:title, '%')))")
@@ -21,5 +23,16 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, Quest
 
     @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
     Page<Question> findAllByBundleId(Long bundleId, Pageable pageable);
+
+    @Override
+    long count();
+
+    @Query("select count(q) from Question q where q.createTime between :beforeTime and :afterTime")
+    long countbyTodayDate(@Param("beforeTime") LocalDateTime beforeTime,
+                           @Param("afterTime") LocalDateTime afterTime);
+
+    long countByStatus(QuestionStatus status);
+
+    List<Question> findTop8ByStatusOrderByCreateTimeAsc(QuestionStatus status);
 
 }

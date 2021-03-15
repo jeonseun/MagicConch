@@ -1,6 +1,7 @@
 package team.univ.magic_conch.follow;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import team.univ.magic_conch.user.User;
 
 import java.util.List;

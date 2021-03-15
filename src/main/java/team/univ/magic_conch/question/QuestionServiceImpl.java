@@ -9,15 +9,13 @@ import team.univ.magic_conch.answer.AnswerRepository;
 import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.bundle.BundleRepository;
 import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
-import team.univ.magic_conch.question.dto.QuestionDetailDTO;
-import team.univ.magic_conch.question.dto.QuestionInfoDTO;
-import team.univ.magic_conch.question.dto.QuestionListDTO;
-import team.univ.magic_conch.question.dto.QuestionSearchDTO;
+import team.univ.magic_conch.question.dto.*;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -95,5 +93,22 @@ public class QuestionServiceImpl implements QuestionService{
         Page<Question> result = questionRepository.findAllByBundleId(bundleId, pageable);
         Function<Question, QuestionInfoDTO> fn = Question::entityToQuestionInfoDTO;
         return new PageResultDTO(result, fn);
+    }
+
+    @Override
+    public QuestionMainDTO questionMain() {
+
+        QuestionMainDTO questionMainDTO = QuestionMainDTO.builder()
+                .total(questionRepository.count())
+                .todayTotal(questionRepository.countbyTodayDate(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0), LocalDateTime.now()))
+                .noSolvedTotal(questionRepository.countByStatus(QuestionStatus.ING))
+                .solvedTotal(questionRepository.countByStatus(QuestionStatus.END))
+                .questionList(questionRepository.findTop8ByStatusOrderByCreateTimeAsc(QuestionStatus.ING)
+                                .stream()
+                                .map(Question::entityToQuestionListDto)
+                                .collect(Collectors.toList()))
+                .build();
+
+        return questionMainDTO;
     }
 }
