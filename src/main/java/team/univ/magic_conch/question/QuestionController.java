@@ -75,7 +75,6 @@ public class QuestionController {
      * @param principalDetails
      * @return 작성한 질문 상세 페이지 view
      */
-    // TODO 다른 사람의 번들에 질문을 올리는 경우도 생각하여 조건 처리 코드 추가필요함
     @PostMapping("/question")
     @ResponseBody
     public String createQuestion(@Valid QuestionForm questionForm,

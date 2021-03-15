@@ -67,6 +67,13 @@ public class BundleController {
         Bundle findBundle = bundleService.findById(bundleId).orElseThrow(BundleNotFoundException::new);
         model.addAttribute("bundle", findBundle.entityToInfoDTO());
         model.addAttribute("questions", questionService.getQuestionsByBundleId(bundleId, pageable));
+        if (findBundle.getTeam() == null) {
+            model.addAttribute("contributors", 1);
+        } else {
+            int memberCount = findBundle.getTeam().getTeamUsers().size();
+            model.addAttribute("contributors", memberCount + 1);
+            model.addAttribute("team", findBundle.getTeam().entityToTeamInfoDTO());
+        }
         return "bundle/bundleDetail";
     }
 

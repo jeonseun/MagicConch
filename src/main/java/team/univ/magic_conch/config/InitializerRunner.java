@@ -33,7 +33,6 @@ public class InitializerRunner implements CommandLineRunner {
     @Value("${custom.file.tag-image-path}")
     private String tagImagePath;
 
-    // TODO 태그 생성 코드 정리 필요함 태그 이미지 추가로 인한 코드 안좋아짐
     @Override
     public void run(String... args) throws Exception {
 
