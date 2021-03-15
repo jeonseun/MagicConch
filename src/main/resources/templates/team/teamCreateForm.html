@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='team create',main=~{::main})">
+
+<body>
+<main class="container row mt-5 mx-auto">
+
+    <section class="mx-auto mt-5 col-lg-6 col-md-7 col-sm-9 col-11 card p-5 card-body">
+        <header class="card-header mb-3">
+            <h4 class="card-title">신규 팀 생성</h4>
+            <h6 class="card-subtitle mb-2 text-muted">팀 : 같은 목표를 가지고 질문 해나가는 사람끼리 모여 팀을 구성하세요</h6>
+        </header>
+        <article>
+            <form th:action="@{/team}" th:method="post" th:object="${createForm}">
+                <div class="form-outline mb-5 shadow">
+                    <input id="teamNameInput" type="text"
+                           class="form-control" required
+                    th:field="*{teamName}">
+                    <label for="teamNameInput" class="form-label">팀 이름</label>
+                </div>
+
+                <p class="text-muted">팀을 소개하는 말</p>
+                <div class="form-outline mb-5 shadow">
+                    <textarea class="form-control" id="teamDescriptionInput" rows="4"
+                    th:field="*{description}" required></textarea>
+                    <label class="form-label" for="teamDescriptionInput">팀 설명</label>
+                </div>
+
+                <div class="text-center">
+                    <input class="btn btn-rounded btn-outline-primary"
+                           type="submit"
+                           value="생성하기"/>
+                    <a th:href="@{/}" class="btn btn-rounded btn-outline-danger">취소하기</a>
+                </div>
+
+            </form>
+        </article>
+    </section>
+</main>
+</body>
+</html>

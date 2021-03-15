@@ -4,9 +4,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import team.univ.magic_conch.bundle.exception.BundleNotFoundException;
 import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.team.Team;
 import team.univ.magic_conch.user.User;
-import team.univ.magic_conch.visibility.Visibility;
+import team.univ.magic_conch.bundle.AccessLevel;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,14 +25,15 @@ public class BundleServiceImpl implements BundleService {
     }
 
     @Override
-    public void create(String name, Tag tag, User user, Visibility visibility) {
+    public Bundle createBundle(String name, Tag tag, User user, AccessLevel accessLevel) {
         Bundle bundle = Bundle.builder()
                 .name(name)
                 .tag(tag)
                 .user(user)
-                .visibility(visibility)
+                .accessLevel(accessLevel)
                 .build();
         bundleRepository.save(bundle);
+        return bundle;
     }
 
     @Override
@@ -38,5 +41,14 @@ public class BundleServiceImpl implements BundleService {
         return bundleRepository.findAllByUserUsername(username, pageable);
     }
 
+    @Override
+    public List<Bundle> searchBundle(String bundleName) {
+        return bundleRepository.findAllByNameContaining(bundleName);
+    }
+
+    @Override
+    public List<Bundle> getLinkedTeam(Team team) {
+        return bundleRepository.findAllByTeam(team);
+    }
 
 }

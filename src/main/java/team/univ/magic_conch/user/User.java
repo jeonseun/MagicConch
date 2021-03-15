@@ -2,6 +2,7 @@ package team.univ.magic_conch.user;
 
 import lombok.Builder;
 import lombok.Getter;
+import team.univ.magic_conch.user.dto.UserInfoDTO;
 import team.univ.magic_conch.user.dto.UserSimpleDTO;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
 
@@ -36,6 +37,12 @@ public class User {
     @Column(name = "user_profile_image")
     private String profileImg;
 
+    private String aboutMe;
+
+    private String interests;
+
+    private String career;
+
     @Builder
     public User(String username, String password, String name) {
         this.username = username;
@@ -46,17 +53,19 @@ public class User {
         profileImg = "/image/profile/default_profile_image.png";
     }
 
-    protected User() { }
+    protected User() {
+    }
 
     /**
      * 프로필 이미지 변경
+     *
      * @param profileImg 신규 프로필 이미지 경로
      */
     public void changeProfileImage(String profileImg) {
         this.profileImg = profileImg;
     }
 
-    public UserSimpleDTO entityToSimpleUserDto(){
+    public UserSimpleDTO entityToSimpleUserDto() {
         return UserSimpleDTO.builder()
                 .username(getUsername())
                 .profileImg(getProfileImg())
@@ -68,6 +77,27 @@ public class User {
                 .username(getUsername())
                 .name(getName())
                 .image(getProfileImg())
+                .build();
+    }
+
+    public void updateInfo(String aboutMe, String interests, String career) {
+        if (!aboutMe.isEmpty()) {
+            this.aboutMe = aboutMe;
+        }
+        if (!interests.isEmpty()) {
+            this.interests = interests;
+        }
+
+        if (!career.isEmpty()) {
+            this.career = career;
+        }
+    }
+
+    public UserInfoDTO entityToUserInfoDTO() {
+        return UserInfoDTO.builder()
+                .aboutMe(getAboutMe())
+                .interests(getInterests())
+                .career(getCareer())
                 .build();
     }
 }

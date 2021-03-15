@@ -3,11 +3,35 @@
       th:replace="fragments/layout :: layout(title='friend',main=~{::main})">
 <body>
 <main class="container row mx-auto mt-5">
-    <header class="mb-3">
+    <header class="mb-5">
         <nav th:replace="fragments/navs :: user_info_menu('friend')"></nav>
     </header>
 
+    <section>
+        <article>
+            <h3>내가 팔로우한 사람 목록</h3>
+            <ul style="list-style: none" class="row row-cols-xl-4  shadow rounded-3 p-5">
+                <li th:each="following : ${followings}" class="d-flex hover-zoom hover-shadow p-1 rounded-3 mb-2">
+                    <a th:href="@{|/user/overview?username=${following.username}|}">
+                        <img class="rounded-circle mx-5" th:src="${following.profileImg}" width="50px" height="50px">
+                        <span class="font-weight-bold" th:text="${following.username}"></span>
+                    </a>
+                </li>
+            </ul>
+        </article>
 
+        <article>
+            <h3>나를 팔로우한 사람 목록</h3>
+            <ul style="list-style: none" class="row row-cols-xl-4 shadow rounded-3 p-5">
+                <li th:each="follower : ${followers}" class="d-flex hover-zoom hover-shadow p-1 rounded-3 mb-2">
+                    <a th:href="@{|/user/info?username=${follower.username}|}">
+                        <img class="rounded-circle mx-5" th:src="${follower.profileImg}" width="50px" height="50px">
+                        <span class="font-weight-bold" th:text="${follower.username}"></span>
+                    </a>
+                </li>
+            </ul>
+        </article>
+    </section>
 </main>
 </body>
 </html>

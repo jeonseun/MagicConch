@@ -16,9 +16,9 @@
 
         </div>
 
-        <div class="d-flex flex-column align-items-center border-primary border p-1">
+        <div class="d-flex flex-column align-items-center p-1">
             <!-- 번들 질문하기 권한 레벨 -->
-            <h3 th:replace="fragments/components :: visibleBadge(${bundle.visibility})"></h3>
+            <h3 th:replace="fragments/components :: accessLevelBadge(${bundle.getAccessLevel})"></h3>
             <!-- 번들 질문하기 권한 레벨 -->
 
             <!-- 번들 생성일 -->
@@ -28,12 +28,22 @@
             </span>
             <!-- 번들 생성일 -->
 
-            <!-- 번들에 질문 올린 사람 수 -->
-            <span>
-                <i class="fas fa-users"></i>
-                <span th:text="${contributors}" class="badge bg-primary rounded-pill"></span>
-            </span>
-            <!-- 번들에 질문 올린 사람 수 -->
+            <!-- 팀원 수 -->
+            <div>
+                <div class="btn-info p-1">
+                    <span>참여자수</span>
+                    <i class="fas fa-users"></i>
+                    <span th:text="${contributors}"></span>
+                </div>
+
+                <a class="btn-success p-1" th:if="${team}" th:href="@{|/team?teamId=${team.teamId}|}">
+                    <span>팀 링크</span>
+                    <i class="fas fa-sitemap"></i>
+                    <span th:text="${team.teamName}"></span>
+
+                </a>
+            </div>
+            <!-- 팀원 수 -->
         </div>
     </header>
     <!-- 번들 자체의 특징을 나타내는 정보들 -->
@@ -52,13 +62,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="question, idx:${questions.dtoList}" style="cursor: pointer" th:onclick="|questionLink(${question.questionId})|"
-            class="hover-shadow">
+            <tr th:each="question, idx:${questions.dtoList}" style="cursor: pointer"
+                th:onclick="|questionLink(${question.questionId})|"
+                class="hover-shadow">
                 <td th:text="${questions.totalCnt - ((questions.curPage - 1) * 10) - idx.index}"></td>
                 <td width="30%" th:text="${question.title}" style="text-overflow: ellipsis"></td>
                 <td th:text="${question.createdTime}"></td>
-                <td><div th:replace="fragments/components :: questionStatus(${question.status})"></div></td>
-                <td width="15%"><div th:replace="fragments/components :: userIcon(${question.author})"></div></td>
+                <td>
+                    <div th:replace="fragments/components :: questionStatus(${question.status})"></div>
+                </td>
+                <td width="15%">
+                    <div th:replace="fragments/components :: userIcon(${question.author})"></div>
+                </td>
                 <td th:text="${question.views}"></td>
             </tr>
 
@@ -71,7 +86,8 @@
                 <ul class="pagination">
                     <li th:classappend="${!questions.isPrevious()} ? 'disabled'" class="page-item">
                         <a class="page-link"
-                           th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.startPage - 2}|}" href="#"><i
+                           th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.startPage - 2}|}"
+                           href="#"><i
                                 class="fas fa-angle-left"></i></a>
                     </li>
 
@@ -83,7 +99,8 @@
                     </li>
 
                     <li th:classappend="${!questions.isNext()} ? 'disabled'" class="page-item">
-                        <a class="page-link" th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.endPage}|}"><i
+                        <a class="page-link"
+                           th:href="@{|/bundle?bundleId=${bundle.bundleId}&page=${questions.endPage}|}"><i
                                 class="fas fa-angle-right"></i>
                         </a></li>
                 </ul>

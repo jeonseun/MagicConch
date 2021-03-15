@@ -1,0 +1,8 @@
+#index-left {
+    flex-basis: 25%;
+}
+
+.sideMenu {
+    width: 70%;
+    margin: 0px auto 0px 40px;
+}

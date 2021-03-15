@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class BundleCreateDTO {
 
     private String bundleName;
-    private String visibility;
+    private String accessLevel;
     private String tagName;
 
 }

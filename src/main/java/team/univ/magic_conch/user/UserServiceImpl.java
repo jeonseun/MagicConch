@@ -11,12 +11,13 @@ import team.univ.magic_conch.user.exception.UserNotFoundException;
 import team.univ.magic_conch.utils.file.StorageService;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Transactional
 @Service
-public class    UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService{
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -60,6 +61,11 @@ public class    UserServiceImpl implements UserService{
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<User> searchUserByUsername(String username) {
+        return userRepository.findAllByUsernameContaining(username);
     }
 
 }
