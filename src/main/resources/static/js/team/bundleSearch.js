@@ -1,25 +1,27 @@
 'use strict'
 
 const host = "http://localhost:8080";
-const uri = "/bundle/search"
+const uriBundleSearch = "/bundle/search"
 
 const bundleSearchInput = document.querySelector("#bundleInput");
-const searchContainer = document.querySelector(".search");
+const searchContainer = document.getElementsByClassName("search");
+const bundleSearchContainer = searchContainer[0];
+const teamId = document.querySelector("#teamId").value;
 
 function handleBundleInputEvent() {
     bundleSearchInput.addEventListener("keyup", () => {
         if (bundleSearchInput.value !== '') {
-            searchBundle(host, uri, 'bundleName=' + bundleSearchInput.value)
+            searchBundle(host, uriBundleSearch, 'bundleName=' + bundleSearchInput.value)
                 .then(function (data) {
-                    searchContainer.removeChild(bundleSearchInput.nextSibling);
+                    bundleSearchContainer.removeChild(bundleSearchInput.nextSibling);
 
                     const bundleSearchResult = document.createElement("div");
                     bundleSearchResult.classList.add('search__result');
-                    searchContainer.appendChild(bundleSearchResult);
+                    bundleSearchContainer.appendChild(bundleSearchResult);
 
                     if (data !== 'no data') {
                         for (let i = 0; i < data.length; i++) {
-                            let resultItem = createBundleSearchResult(data[i].name, data[i].tagName, data[i].tagImage, data[i].tagColor, data[i].accessLevel);
+                            let resultItem = createBundleSearchResult(data[i].name, data[i].tagName, data[i].tagImage, data[i].tagColor, data[i].accessLevel, data[i].bundleId);
                             bundleSearchResult.appendChild(resultItem);
                         }
                     } else {
@@ -45,7 +47,7 @@ async function searchBundle(host, uri, params) {
     }
 }
 
-function createBundleSearchResult(name, tag, image, color, accessLevel) {
+function createBundleSearchResult(name, tag, image, color, accessLevel, id) {
     const itemContainer = document.createElement("div");
     itemContainer.classList.add("search__result--bundle");
 
@@ -89,13 +91,14 @@ function createBundleSearchResult(name, tag, image, color, accessLevel) {
     bundleInfo.appendChild(bundleAccessLevel);
     bundleInfo.appendChild(bundleName);
 
-    const btnAddBundle = document.createElement("button");
-    btnAddBundle.classList.add('btn', 'btn-info');
-    btnAddBundle.innerText = '번들추가';
-    btnAddBundle.style.flexBasis = '120px'
+    const addBundleLink = document.createElement("a");
+    addBundleLink.classList.add('btn', 'btn-info');
+    addBundleLink.innerText = '번들추가';
+    addBundleLink.style.flexBasis = '120px'
+    addBundleLink.href = host + "/team/bundle?bundleId=" + id + "&teamId=" + teamId ;
     itemContainer.appendChild(bundleTag);
     itemContainer.appendChild(bundleInfo);
-    itemContainer.appendChild(btnAddBundle);
+    itemContainer.appendChild(addBundleLink);
     return itemContainer;
 }
 

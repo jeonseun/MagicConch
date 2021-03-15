@@ -10,18 +10,21 @@
 
     <!-- 팀 목록 부분 -->
     <section>
-        <a th:if="${#authentication.name} == ${curPageUser}" th:href="@{/team/createForm}" class="mb-3 btn btn-success me-auto">팀 생성</a>
-        <ul style="list-style: none">
-            <h3 th:text="|${curPageUser}의 팀|"></h3>
+        <a th:if="${#authentication.name} == ${curPageUser}" th:href="@{/team/createForm}"
+           class="mb-3 btn btn-success me-auto">팀 생성</a>
+        <h3 th:text="|${curPageUser}의 팀|"></h3>
+        <ul style="list-style: none" class="row row-cols-xl-4">
+
             <li th:each="team : ${ownTeams}">
                 <th:block th:replace="fragments/components :: teamCard(${team})"></th:block>
             </li>
+        </ul>
 
-            <h3 th:text="|${curPageUser}가 소속된 팀|"></h3>
+        <h3 th:text="|${curPageUser}가 소속된 팀|"></h3>
+        <ul style="list-style: none"  class="row row-cols-xl-4">
             <li th:each="team : ${myTeams}">
                 <th:block th:replace="fragments/components :: teamCard(${team})"></th:block>
             </li>
-
         </ul>
     </section>
     <!-- 팀 목록 부분 -->

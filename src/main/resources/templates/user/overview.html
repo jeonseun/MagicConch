@@ -45,13 +45,7 @@
                         aria-labelledby="headingOne"
                         data-mdb-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong> It is hidden by default,
-                        until the collapse plugin adds the appropriate classes that we use to style each
-                        element. These classes control the overall appearance, as well as the showing and
-                        hiding via CSS transitions. You can modify any of this with custom CSS or
-                        overriding our default variables. It's also worth noting that just about any HTML
-                        can go within the <strong>.accordion-body</strong>, though the transition does limit
-                        overflow.
+                        <p th:text="${info.aboutMe}"></p>
                     </div>
                 </div>
             </div>
@@ -73,13 +67,7 @@
                         aria-labelledby="headingTwo"
                         data-mdb-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong> It is hidden by
-                        default, until the collapse plugin adds the appropriate classes that we use to
-                        style each element. These classes control the overall appearance, as well as the
-                        showing and hiding via CSS transitions. You can modify any of this with custom CSS
-                        or overriding our default variables. It's also worth noting that just about any
-                        HTML can go within the <strong>.accordion-body</strong>, though the transition does
-                        limit overflow.
+                        <p th:text="${info.interests}"></p>
                     </div>
                 </div>
             </div>
@@ -101,13 +89,7 @@
                         aria-labelledby="headingThree"
                         data-mdb-parent="#accordionExample">
                     <div class="accordion-body">
-                        <strong>This is the third item's accordion body.</strong> It is hidden by default,
-                        until the collapse plugin adds the appropriate classes that we use to style each
-                        element. These classes control the overall appearance, as well as the showing and
-                        hiding via CSS transitions. You can modify any of this with custom CSS or
-                        overriding our default variables. It's also worth noting that just about any HTML
-                        can go within the <strong>.accordion-body</strong>, though the transition does limit
-                        overflow.
+                        <p th:text="${info.career}"></p>
                     </div>
                 </div>
             </div>
@@ -123,9 +105,6 @@
     <!-- 오른쪽 자기소개 부분 -->
 
 </main>
-<th:block id="customJS">
-    <!-- TODO 프로필 변경 기능 관련 AJAX 요청 js 작성 -->
-    <script th:src="@{/js/mypage/profile.js}"></script>
-</th:block>
+
 </body>
 </html>

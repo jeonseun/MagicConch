@@ -3,6 +3,7 @@ package team.univ.magic_conch.bundle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import team.univ.magic_conch.tag.Tag;
+import team.univ.magic_conch.team.Team;
 import team.univ.magic_conch.user.User;
 
 import java.util.List;
@@ -40,4 +41,12 @@ public interface BundleService {
      * @return Bundle Entity List
      */
     List<Bundle> searchBundle(String bundleName);
+
+
+    /**
+     * 해당 팀에 연결된 번들 리스트 반환
+     * @param team
+     * @return Bundle Entity List
+     */
+    List<Bundle> getLinkedTeam(Team team);
 }

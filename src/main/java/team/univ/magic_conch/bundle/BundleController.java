@@ -17,11 +17,9 @@ import team.univ.magic_conch.question.QuestionService;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.tag.dto.TagDTO;
-import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
 import team.univ.magic_conch.utils.page.PageResultDTO;
-import team.univ.magic_conch.bundle.AccessLevel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,7 +50,7 @@ public class BundleController {
     public String createBundle(@ModelAttribute BundleCreateDTO bundleCreateDTO,
                                @AuthenticationPrincipal PrincipalDetails principalDetails) {
         Tag findTag = tagRepository.findByName(bundleCreateDTO.getTagName());
-        Bundle createdBundle = bundleService.createBundle(bundleCreateDTO.getBundleName(),
+        bundleService.createBundle(bundleCreateDTO.getBundleName(),
                 findTag,
                 principalDetails.getUser(),
                 AccessLevel.valueOf(bundleCreateDTO.getAccessLevel()));
@@ -64,7 +62,7 @@ public class BundleController {
     // TODO 해당 번들에 질문을 올린 사용자 수 체킹 구현
     @GetMapping("/bundle")
     public String showBundleDetails(@RequestParam Long bundleId, Model model,
-                                    @PageableDefault(size = 10) Pageable pageable) {
+                                    @PageableDefault Pageable pageable) {
 
         Bundle findBundle = bundleService.findById(bundleId).orElseThrow(BundleNotFoundException::new);
         model.addAttribute("bundle", findBundle.entityToInfoDTO());
@@ -76,8 +74,7 @@ public class BundleController {
     public String overview(@RequestParam String username,
                            Pageable pageable, Model model) {
         // 열람 대상이 되는 유저
-        User targetUser = userRepository.findByUsername(username)
-                .orElseThrow(UserNotFoundException::new);
+        userRepository.findByUsername(username).orElseThrow(UserNotFoundException::new);
 
         // 대상 유저의 번들 가져오기
         Page<Bundle> result = bundleService.getBundleByUsername(username, pageable);

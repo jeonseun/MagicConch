@@ -9,9 +9,35 @@
 
 <body>
 <main class="container row mt-5 mx-auto">
-
+    <input id="teamId" type="hidden" th:value="${teamId}"/>
     <section>
-        <article>
+        <article class="mb-3 shadow-3 rounded">
+            <h3 class="text-center">팀이 사용중인 번들</h3>
+            <ul class="row row-cols-xl-4 p-3" style="list-style: none">
+                <li th:each="bundle : ${bundles}">
+                    <th:block th:replace="fragments/components :: bundleCard(${bundle})"></th:block>
+                </li>
+            </ul>
+        </article>
+
+        <article class="mb-3 shadow-3 rounded">
+            <h3 class="text-center">팀원 리스트</h3>
+
+            <ul class="row row-cols-xl-4 p-3" style="list-style: none">
+                <li th:each="member : ${members}">
+                    <a th:href="@{|/user/overview?username=${member.username}|}">
+                        <div class="border mb-3">
+                            <img class="rounded-circle" th:src="${member.profileImage}" width="25px" height="25px">
+                            <span th:text="${member.username}"></span>
+                            <span th:text="${member.name}"></span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </article>
+
+        <article class="mb-3">
+            <h3>번들 추가하기</h3>
             <div class="search">
                 <input type="text" id="bundleInput" class="search__input">
 
@@ -19,14 +45,23 @@
         </article>
 
         <article>
-            팀원 추가
-            <input type="text" id="teamUserInput">
+            <h3>멤버 추가하기</h3>
+            <div class="search">
+
+                <input type="text" id="userInput" class="search__input">
+                <div class="search__result" id="userSearchResult">
+
+                </div>
+            </div>
+
         </article>
     </section>
 </main>
 
 <th:block id="customJS">
     <script th:src="@{/js/team/bundleSearch.js}"></script>
+    <script th:src="@{/js/team/userSearch.js}"></script>
 </th:block>
 </body>
 </html>
+

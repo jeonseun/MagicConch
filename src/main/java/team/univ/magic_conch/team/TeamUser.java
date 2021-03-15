@@ -2,6 +2,7 @@ package team.univ.magic_conch.team;
 
 import lombok.Builder;
 import lombok.Getter;
+import team.univ.magic_conch.team.dto.TeamUserInfoDTO;
 import team.univ.magic_conch.user.User;
 
 import javax.persistence.*;
@@ -28,5 +29,13 @@ public class TeamUser {
     }
 
     protected TeamUser() {
+    }
+
+    public TeamUserInfoDTO entityToTeamUserInfoDTO() {
+        return TeamUserInfoDTO.builder()
+                .username(getUser().getUsername())
+                .name(getUser().getName())
+                .profileImage(getUser().getProfileImg())
+                .build();
     }
 }

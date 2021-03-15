@@ -1,5 +1,6 @@
 package team.univ.magic_conch.team;
 
+import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.user.User;
 
 import java.util.List;
@@ -35,5 +36,13 @@ public interface TeamService {
      * @return Team Entity
      */
     Team getTeam(Long teamId);
+
+    /**
+     * 팀에 번들 추가
+     * @param team
+     * @param bundle
+     * @return 번들이 추가된 상태의 Team Entity
+     */
+    Team addBundle(Team team, Bundle bundle);
 
 }

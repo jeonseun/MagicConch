@@ -16,7 +16,7 @@
 
         </div>
 
-        <div class="d-flex flex-column align-items-center border-primary border p-1">
+        <div class="d-flex flex-column align-items-center p-1">
             <!-- 번들 질문하기 권한 레벨 -->
             <h3 th:replace="fragments/components :: accessLevelBadge(${bundle.getAccessLevel})"></h3>
             <!-- 번들 질문하기 권한 레벨 -->
@@ -28,11 +28,11 @@
             </span>
             <!-- 번들 생성일 -->
 
-            <!-- 팀 메뉴 링크 -->
-            <div>
-                <a th:href="@{/team/manage}">TEAM MANAGE</a>
-            </div>
-            <!-- 팀 메뉴 링크 -->
+<!--            &lt;!&ndash; 팀 메뉴 링크 &ndash;&gt;-->
+<!--            <div>-->
+<!--                <a th:href="@{/team/manage}">TEAM MANAGE</a>-->
+<!--            </div>-->
+<!--            &lt;!&ndash; 팀 메뉴 링크 &ndash;&gt;-->
         </div>
     </header>
     <!-- 번들 자체의 특징을 나타내는 정보들 -->

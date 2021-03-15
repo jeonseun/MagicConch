@@ -2,6 +2,8 @@ package team.univ.magic_conch.user;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface UserService {
 
     /**
@@ -36,4 +38,11 @@ public interface UserService {
      * @return 변경된 프로필 이미지 접근 경로
      */
     String changeProfileImage(MultipartFile multipartFile, String username);
+
+    /**
+     * 사용자 id로 사용자 검색
+     * @param username
+     * @return User List
+     */
+    List<User> searchUserByUsername(String username);
 }

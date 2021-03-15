@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="fragments/layout :: layout(title='user manage', css=~{::#customCSS}, main=~{::main}, js=~{::#customJS})">
+<head>
+    <th:block id="customCSS">
+        <link rel="stylesheet" th:href="@{/css/profile.css}">
+    </th:block>
+</head>
+<body>
+<main class="container row mx-auto mt-5">
+    <header class="mb-3">
+        <a th:href="@{/}"><i class="fas fa-angle-double-left"></i> go to main</a>
+    </header>
+
+    <section>
+        <article>
+            <form th:action="@{/user/info}" th:method="post" enctype="multipart/form-data">
+                <div class="form-outline mb-3">
+                    <textarea class="form-control" name="aboutMe" id="aboutMe" rows="4"></textarea>
+                    <label class="form-label" for="aboutMe">자기소개</label>
+                </div>
+                <div class="form-outline mb-3">
+                    <textarea class="form-control" name="interests" id="interests" rows="4"></textarea>
+                    <label class="form-label" for="interests">관심분야</label>
+                </div>
+                <div class="form-outline mb-3">
+                    <textarea class="form-control" name="career" id="career" rows="4"></textarea>
+                    <label class="form-label" for="career">주요경력</label>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="profileImage">프로필 사진</label>
+                    <input type="file" name="profileImage" class="form-control" id="profileImage"/>
+                </div>
+                <input class="btn btn-primary" type="submit" value="수정하기"/>
+            </form>
+        </article>
+    </section>
+
+</main>
+</body>
+</html>

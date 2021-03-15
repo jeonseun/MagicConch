@@ -6,9 +6,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import team.univ.magic_conch.auth.PrincipalDetails;
+import team.univ.magic_conch.bundle.Bundle;
+import team.univ.magic_conch.bundle.BundleService;
+import team.univ.magic_conch.bundle.dto.BundleInfoDTO;
+import team.univ.magic_conch.bundle.exception.BundleNotFoundException;
 import team.univ.magic_conch.team.dto.TeamCreateDTO;
 import team.univ.magic_conch.team.dto.TeamInfoDTO;
+import team.univ.magic_conch.team.dto.TeamUserInfoDTO;
 import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.user.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,6 +25,9 @@ import java.util.stream.Collectors;
 public class TeamController {
 
     private final TeamService teamService;
+    private final BundleService bundleService;
+    private final UserService userService;
+    private final TeamUserService teamUserService;
 
     // 팀 오버뷰 페이지 반환
     @GetMapping("/overview")
@@ -59,8 +68,38 @@ public class TeamController {
     @GetMapping
     public String teamDetail(@RequestParam Long teamId,
                              Model model) {
-        model.addAttribute("team", teamService.getTeam(teamId));
+        Team findTeam = teamService.getTeam(teamId);
+        model.addAttribute("team", findTeam.entityToTeamInfoDTO());
+        model.addAttribute("teamId", teamId);
+
+        List<TeamUser> findMembers = teamUserService.getMembers(findTeam);
+        List<TeamUserInfoDTO> members = findMembers.stream().map(TeamUser::entityToTeamUserInfoDTO).collect(Collectors.toList());
+
+        List<Bundle> linkedBundles = bundleService.getLinkedTeam(findTeam);
+        List<BundleInfoDTO> bundles = linkedBundles.stream().map(Bundle::entityToInfoDTO).collect(Collectors.toList());
+        model.addAttribute("members", members);
+        model.addAttribute("bundles", bundles);
         return "team/teamDetail";
+    }
+
+    // 팀에 번들 추가
+    @GetMapping("/bundle")
+    public String addBundle(@RequestParam Long bundleId,
+                            @RequestParam Long teamId) {
+        Team findTeam = teamService.getTeam(teamId);
+        Bundle findBundle = bundleService.findById(bundleId).orElseThrow(BundleNotFoundException::new);
+        teamService.addBundle(findTeam, findBundle);
+        return "redirect:/team?teamId=" + teamId;
+    }
+
+    // 팀에 유저 추가
+    @GetMapping("/user")
+    public String addMember(@RequestParam String username,
+                            @RequestParam Long teamId) {
+        User findUser = userService.getUser(username);
+        Team findTeam = teamService.getTeam(teamId);
+        teamUserService.addMember(findTeam, findUser);
+        return "redirect:/team?teamId=" + teamId;
     }
 
 }

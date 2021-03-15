@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import team.univ.magic_conch.user.User;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class TeamUserServiceImpl implements TeamUserService{
@@ -16,5 +18,10 @@ public class TeamUserServiceImpl implements TeamUserService{
                 .team(team)
                 .user(user)
                 .build());
+    }
+
+    @Override
+    public List<TeamUser> getMembers(Team team) {
+        return teamUserRepository.findAllByTeam(team);
     }
 }

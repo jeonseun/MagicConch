@@ -2,6 +2,7 @@ package team.univ.magic_conch.team;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import team.univ.magic_conch.bundle.Bundle;
 import team.univ.magic_conch.team.exception.TeamNotFoundException;
 import team.univ.magic_conch.user.User;
 
@@ -37,4 +38,11 @@ public class TeamServiceImpl implements TeamService{
     public Team getTeam(Long teamId) {
         return teamRepository.findById(teamId).orElseThrow(TeamNotFoundException::new);
     }
+
+    @Override
+    public Team addBundle(Team team, Bundle bundle) {
+        team.addBundle(bundle);
+        return teamRepository.save(team);
+    }
+
 }

@@ -12,9 +12,12 @@ import team.univ.magic_conch.auth.PrincipalDetails;
 import team.univ.magic_conch.auth.dto.JoinDataDTO;
 import team.univ.magic_conch.follow.FollowService;
 import team.univ.magic_conch.user.dto.UserProfileDTO;
+import team.univ.magic_conch.user.dto.UserSimpleDTO;
 import team.univ.magic_conch.user.exception.UserNotFoundException;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Controller
@@ -25,8 +28,6 @@ public class UserController {
     private final UserRepository userRepository;
     private final FollowService followService;
     private final UserService userService;
-
-
 
     // user info overview 페이지
     @GetMapping("/overview")
@@ -46,25 +47,47 @@ public class UserController {
             userDTO.setFollowed(followed);
         }
         model.addAttribute("profileDTO", userDTO);
+
+        model.addAttribute("info", findUser.entityToUserInfoDTO());
         return "user/overview";
     }
 
-    @GetMapping("/setting")
-    public String setting() {
-        return "user/setting";
+    @GetMapping("/search")
+    @ResponseBody
+    public ResponseEntity<List<UserSimpleDTO>> searchUser(@RequestParam String username) {
+        List<User> users = userService.searchUserByUsername(username);
+        if (users.size() == 0) {
+            return ResponseEntity.noContent().build();
+        }
+        List<UserSimpleDTO> userSimpleDTOS = users.stream()
+                .map(User::entityToSimpleUserDto)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(userSimpleDTOS);
     }
 
-    @PutMapping("/profile/image")
-    @ResponseBody
-    public ResponseEntity changeProfileImage(MultipartFile profileImage,
-                                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
+    @PostMapping("/info")
+    public String updateInfo(@RequestParam String aboutMe,
+                             @RequestParam String interests,
+                             @RequestParam String career,
+                             MultipartFile profileImage,
+                             @AuthenticationPrincipal PrincipalDetails principalDetails) {
         User currentUser = principalDetails.getUser();
-        String profileImagePath = userService.changeProfileImage(profileImage, currentUser.getUsername());
-        if (profileImagePath == null) {
-            return ResponseEntity.badRequest().body("프로필 사진 변경중 오류가 발행했습니다.");
+        currentUser.updateInfo(aboutMe, interests, career);
+
+        if (!profileImage.isEmpty()) {
+            String profileImagePath = userService.changeProfileImage(profileImage, currentUser.getUsername());
+            // 시큐리티 컨텍스트 내부의 사용자 정보에도 반영되록함
+            currentUser.changeProfileImage(profileImagePath);
         }
-        // 시큐리티 컨텍스트 내부의 사용자 정보에도 반영되록함
-        currentUser.changeProfileImage(profileImagePath);
-        return ResponseEntity.ok().body(profileImagePath);
+
+        userRepository.save(currentUser);
+        return "redirect:/user/overview?username=" + currentUser.getUsername();
+    }
+
+
+    @GetMapping("/profile/manage")
+    public String profileUpdatePage() {
+        return "user/manage";
     }
 }

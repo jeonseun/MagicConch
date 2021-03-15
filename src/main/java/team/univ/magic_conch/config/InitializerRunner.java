@@ -115,5 +115,10 @@ public class InitializerRunner implements CommandLineRunner {
         followService.addFollow(userService.getUser("y"), userService.getUser("q"));
 
 
+        /* 유저 검색 테스트용 사용자 생성 */
+        for (int i = 0; i < 20; i++) {
+            userService.join("a" + i, testPwd, "test");
+        }
+
     }
 }

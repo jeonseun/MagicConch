@@ -8,7 +8,7 @@
     <div class="bg-image">
         <img th:src="${profileDTO.image}" class="img-fluid position-relative">
         <button class="btn btn-outline-block mx-auto mt-1" th:if="${#authentication.name} == ${profileDTO.username}">
-            <span>edit profile</span>
+            <a th:href="@{/user/profile/manage}">edit profile</a>
         </button>
     </div>
 
@@ -16,11 +16,13 @@
     <div class="card-body">
         <h5 class="card-title" th:text="${profileDTO.name}"></h5>
         <th:block sec:authorize="isAuthenticated()">
-            <button th:unless="${#authentication.name} == ${profileDTO.username}">
+            <button id="btnFollow" th:onclick="followClick([[${profileDTO.username}]])" th:unless="${#authentication.name} == ${profileDTO.username}">
                 <span th:text="${profileDTO.followed} ? '언팔로우' : '팔로우'"></span>
             </button>
         </th:block>
     </div>
+
+    <script th:src="@{/js/mypage/overview.js}"></script>
 </div>
 <!-- 프로필 정보 카드-->
 
@@ -41,7 +43,6 @@
             <a th:href="@{|/bundle?bundleId=${bundle.getBundleId()}|}" class="btn btn-link btn-block">go to
                 bundle</a>
         </div>
-
     </div>
 </th:block>
 <!-- 번들 정보 카드 -->
@@ -66,7 +67,6 @@
     <span th:if="${status} == 'ING'"><i class="fas fa-running" style="color: #FFA900; font-size: 1.5rem"></i></span>
 </div>
 <!-- 질문 해결 완료 여부 아이콘-->
-
 
 <!-- 팀 정보 카드 -->
 <th:block th:fragment="teamCard(team)">

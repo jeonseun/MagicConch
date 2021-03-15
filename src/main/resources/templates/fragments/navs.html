@@ -89,25 +89,25 @@
                                th:href="@{|/bundle/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Bundles</a>
                         </li>
-                        <li>
-                            <a class="dropdown-item"
-                               th:href="@{|/question/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
-                                Friends</a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a class="dropdown-item"-->
+<!--                               th:href="@{|/question/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My-->
+<!--                                Question</a>-->
+<!--                        </li>-->
                         <li>
                             <a class="dropdown-item"
                                th:href="@{|/friend/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
-                                Questions</a>
+                                Friends</a>
                         </li>
                         <li>
                             <a class="dropdown-item"
                                th:href="@{|/team/overview?username=${#authentication.getPrincipal().getUser().getUsername()}|}">My
                                 Teams</a>
                         </li>
-                        <li>
-                            <a class="dropdown-item"
-                               th:href="@{|/user/setting?username=${#authentication.getPrincipal().getUser().getUsername()}|}">Setting</a>
-                        </li>
+<!--                        <li>-->
+<!--                            <a class="dropdown-item"-->
+<!--                               th:href="@{|/user/setting?username=${#authentication.getPrincipal().getUser().getUsername()}|}">Setting</a>-->
+<!--                        </li>-->
                         <li>
                             <hr class="dropdown-divider"/>
                         </li>
@@ -178,11 +178,11 @@
            th:classappend="${currentMenu} == 'bundle' ? 'disabled' : ''">
             <i class="fas fa-briefcase"></i> BUNDLE</a>
     </li>
-    <li class="nav-item">
-        <a th:href="@{/question/overview}" class="nav-link"
-           th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">
-            <i class="fas fa-question-circle"></i> QUESTION</a>
-    </li>
+<!--    <li class="nav-item">-->
+<!--        <a th:href="@{/question/overview}" class="nav-link"-->
+<!--           th:classappend="${currentMenu} == 'question' ? 'disabled' : ''">-->
+<!--            <i class="fas fa-question-circle"></i> QUESTION</a>-->
+<!--    </li>-->
     <li class="nav-item">
         <a th:href="@{/friend/overview}" class="nav-link"
            th:classappend="${currentMenu} == 'friend' ? 'disabled' : ''">
@@ -193,11 +193,11 @@
                th:classappend="${currentMenu} == 'team' ? 'disabled' : ''">
                 <i class="fas fa-sitemap"></i> TEAM</a>
         </li>
-    <li class="nav-item">
-        <a th:href="@{/user/setting}" class="nav-link"
-           th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">
-            <i class="fas fa-cog"></i> SETTING</a>
-    </li>
+<!--    <li class="nav-item">-->
+<!--        <a th:href="@{/user/setting}" class="nav-link"-->
+<!--           th:classappend="${currentMenu} == 'setting' ? 'disabled' : ''">-->
+<!--            <i class="fas fa-cog"></i> SETTING</a>-->
+<!--    </li>-->
     <!-- 현재 접속자와 접속자가 접근한 페이지가 동일한지 판단하기 위한 값 -->
     <input sec:authorize="isAuthenticated()"
            th:value="${#authentication.getPrincipal().getUser().getUsername()}"
@@ -212,14 +212,14 @@
         for (let i = 0; i < links.length; i++) {
             links[i].href += ('?' + urlParams[1]);
         }
-
-        let settingLink = userPageNav.querySelector("li:nth-child(6)");
-        if (document.querySelector("#userChecker") === null) {
-            settingLink.remove();
-        }
-        if (document.querySelector("#userChecker").value !== username) {
-            settingLink.remove();
-        }
+        //
+        // let settingLink = userPageNav.querySelector("li:nth-child(6)");
+        // if (document.querySelector("#userChecker") === null) {
+        //     settingLink.remove();
+        // }
+        // if (document.querySelector("#userChecker").value !== username) {
+        //     settingLink.remove();
+        // }
     </script>
     </ul>
 </th:block>
