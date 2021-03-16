@@ -19,5 +19,6 @@ public class QuestionMainDTO {
     private long noSolvedTotal;
     private long solvedTotal;
     private List<QuestionListDTO> questionList;
+    private List<QuestionListDTO> bestQuestionList;
 
 }

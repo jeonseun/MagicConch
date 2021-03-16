@@ -5,12 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.answer.dto.BestAdoptedDTO;
 import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 import team.univ.magic_conch.question.Question;
 import team.univ.magic_conch.question.QuestionRepository;
 import team.univ.magic_conch.question.QuestionStatus;
 import team.univ.magic_conch.user.User;
+import team.univ.magic_conch.user.UserRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +30,8 @@ class AnswerServiceTest {
     private AnswerRepository answerRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Test
     public void 질문수정() throws Exception {
@@ -92,5 +99,36 @@ class AnswerServiceTest {
         Assertions.assertThat(question.getStatus()).isEqualTo(QuestionStatus.END);
         Assertions.assertThat(answer.isAdopted()).isEqualTo(true);
 
+    }
+
+    @Test
+    public void 채택탑5() throws Exception {
+        //given
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            User user = User.builder().username("test" + i).build();
+            userRepository.save(user);
+            users.add(user);
+        }
+        for (int i = 0; i < 5; i++) {
+            for (int j = i; j < 5; j++) {
+                Answer answer = Answer.builder().user(users.get(i)).build();
+                answer.changeAdoption(true);
+                answerRepository.save(answer);
+            }
+        }
+        //when
+        List<BestAdoptedDTO> result = answerService.findBestAdopted();
+        //then
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .ignoringFields("profileImg")
+                .isEqualTo(Arrays.asList(
+                   new BestAdoptedDTO("test0", null, 5L),
+                   new BestAdoptedDTO("test1", null, 4L),
+                   new BestAdoptedDTO("test2", null, 3L),
+                   new BestAdoptedDTO("test3", null, 2L),
+                   new BestAdoptedDTO("test4", null, 1L)
+                ));
     }
 }

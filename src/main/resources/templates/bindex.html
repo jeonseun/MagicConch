@@ -14,7 +14,7 @@
     <div id="index-center">
         <!-- center-top -->
         <div class="d-flex justify-content-center">
-            <div class="d-flex flex-column m-5">
+            <div class="d-flex flex-column m-5 ps-5">
                 <div class="center_top_txt mb-3">전체 글 수</div>
                 <div class="center_bottom_txt text-center" th:text="${question.total}"></div>
             </div>
@@ -26,13 +26,13 @@
                 <div class="center_top_txt mb-3">미해결 글 수</div>
                 <div class="center_bottom_txt text-center" th:text="${question.noSolvedTotal}"></div>
             </div>
-            <div class="d-flex flex-column m-5">
+            <div class="d-flex flex-column m-5 pe-5">
                 <div class="center_top_txt mb-3">해결된 글 수</div>
                 <div class="center_bottom_txt text-center" th:text="${question.solvedTotal}"></div>
             </div>
         </div>
         <!-- center-center -->
-        <table class="table animation fade-in shadow" style="border-radius: 10px">
+        <table class="table animation fade-in shadow mb-5 table-hover" style="border-radius: 10px">
             <thead class="table-primary">
             <tr>
                 <th style="text-align: center">상태</th>
@@ -42,7 +42,7 @@
             </tr>
             </thead>
             <tbody class="list-wrapper">
-            <tr th:each="item, idx : ${question.questionList}" class="hover-shadow" th:onclick="'selectQuestion(' + ${item.questionId} + ')'">
+            <tr valign="middle" th:each="item, idx : ${question.questionList}" th:onclick="'selectQuestion(' + ${item.questionId} + ')'">
                 <td style="text-align: center"><div th:replace="fragments/components :: questionStatus(${item.status})"></div></td>
                 <td
                         th:text="${item.tagName}"
@@ -53,11 +53,54 @@
             </tr>
             </tbody>
         </table>
-        <div></div>
         <!-- center-bottom -->
-        <div>
-            <div></div>
-            <div></div>
+        <div class="d-flex justify-content-between">
+            <!-- center-bottom-top -->
+            <div>
+                <table class="table animation fade-in shadow" style="border-radius: 10px">
+                    <thead class="table-primary">
+                    <tr>
+                        <th style="text-align: center">닉네임</th>
+                        <th style="text-align: center">채택 수</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list-wrapper">
+                    <tr align="center" valign="middle" th:each="item, idx : ${answer}">
+                        <td style="text-align: center">
+                            <img th:src="${item.profileImg}"
+                                 class="rounded-circle"
+                                 height="35px"
+                                 width="35px">
+                            <div th:text="${item.username}"></div>
+                        </td>
+                        <td style="text-align: center" th:text="${item.adoptedCnt}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- center-bottom-bottom -->
+            <div>
+                <table class="table animation fade-in shadow" style="border-radius: 10px">
+                    <thead class="table-primary">
+                    <tr>
+                        <th style="text-align: center">닉네임</th>
+                        <th style="text-align: center">팔로우 수</th>
+                    </tr>
+                    </thead>
+                    <tbody class="list-wrapper">
+                    <tr align="center" valign="middle" th:each="item, idx : ${follow}">
+                        <td style="text-align: center">
+                            <img th:src="${item.profileImg}"
+                                 class="rounded-circle"
+                                 height="35px"
+                                 width="35px">
+                            <div th:text="${item.username}"></div>
+                        </td>
+                        <td style="text-align: center" th:text="${item.followCnt}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </main>

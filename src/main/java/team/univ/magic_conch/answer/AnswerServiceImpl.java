@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import team.univ.magic_conch.answer.dto.AnswerDTO;
+import team.univ.magic_conch.answer.dto.BestAdoptedDTO;
 import team.univ.magic_conch.answer.dto.CreateAnswerDTO;
 import team.univ.magic_conch.answer.dto.UpdateAnswerDTO;
 import team.univ.magic_conch.question.Question;
@@ -12,6 +13,7 @@ import team.univ.magic_conch.question.QuestionStatus;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -97,6 +99,16 @@ public class AnswerServiceImpl implements AnswerService {
     @Override
     public long getCountByQuestionID(Long questionId) {
         return answerRepository.countByQuestionId(questionId);
+    }
+
+    @Override
+    public List<BestAdoptedDTO> findBestAdopted() {
+        List<BestAdoptedDTO> adpteds = answerRepository.findAllBestAdopted();
+        List<BestAdoptedDTO> result = new ArrayList<>();
+        for (int i = 0; i < Math.min(adpteds.size(), 5); i++) {
+            result.add(adpteds.get(i));
+        }
+        return result;
     }
 
 }
