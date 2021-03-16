@@ -103,7 +103,7 @@ public class QuestionServiceImpl implements QuestionService{
                 .todayTotal(questionRepository.countbyTodayDate(LocalDateTime.now().withHour(0).withMinute(0).withSecond(0), LocalDateTime.now()))
                 .noSolvedTotal(questionRepository.countByStatus(QuestionStatus.ING))
                 .solvedTotal(questionRepository.countByStatus(QuestionStatus.END))
-                .questionList(questionRepository.findTop8ByStatusOrderByCreateTimeAsc(QuestionStatus.ING)
+                .questionList(questionRepository.findTop5ByStatusOrderByCreateTimeAsc(QuestionStatus.ING)
                                 .stream()
                                 .map(Question::entityToQuestionListDto)
                                 .collect(Collectors.toList()))

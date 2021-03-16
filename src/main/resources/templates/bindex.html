@@ -1,22 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:replace="~{fragments/layout :: layout(title='index',  main=~{::main},js=~{::#customJS})}" lang="en">
+      th:replace="~{fragments/layout :: layout(title='index', css=~{::#css}, main=~{::main},js=~{::#customJS})}" lang="en">
 
 <head>
-
+<th:block id="css">
+    <link rel="stylesheet" th:href="@{/css/bindex.css}" }>
+</th:block>
 </head>
 
 <body>
-<main class="d-flex flex-row mb-3">
-    <!-- left -->
-    <div class="d-flex justify-content-center" style="flex-basis: 25%">left</div>
+<main class="d-flex flex-row mb-3 justify-content-center">
     <!-- center -->
-    <div id="index-center" class="d-flex flex-column" style="flex-basis: 50%"></div>
-    <!--right-->
-    <div class="d-flex justify-content-center" style="flex-basis: 25%">right</div>
+    <div id="index-center">
+        <!-- center-top -->
+        <div class="d-flex justify-content-center">
+            <div class="d-flex flex-column m-5">
+                <div class="center_top_txt mb-3">전체 글 수</div>
+                <div class="center_bottom_txt text-center" th:text="${question.total}"></div>
+            </div>
+            <div class="d-flex flex-column m-5">
+                <div class="center_top_txt mb-3">오늘 올라온 글 수</div>
+                <div class="center_bottom_txt text-center" th:text="${question.todayTotal}"></div>
+            </div>
+            <div class="d-flex flex-column m-5">
+                <div class="center_top_txt mb-3">미해결 글 수</div>
+                <div class="center_bottom_txt text-center" th:text="${question.noSolvedTotal}"></div>
+            </div>
+            <div class="d-flex flex-column m-5">
+                <div class="center_top_txt mb-3">해결된 글 수</div>
+                <div class="center_bottom_txt text-center" th:text="${question.solvedTotal}"></div>
+            </div>
+        </div>
+        <!-- center-center -->
+        <table class="table animation fade-in shadow" style="border-radius: 10px">
+            <thead class="table-primary">
+            <tr>
+                <th style="text-align: center">상태</th>
+                <th style="text-align: center">태그</th>
+                <th style="text-align: center; width: 40%">제목</th>
+                <th style="text-align: center">작성자</th>
+            </tr>
+            </thead>
+            <tbody class="list-wrapper">
+            <tr th:each="item, idx : ${question.questionList}" class="hover-shadow" th:onclick="'selectQuestion(' + ${item.questionId} + ')'">
+                <td style="text-align: center"><div th:replace="fragments/components :: questionStatus(${item.status})"></div></td>
+                <td
+                        th:text="${item.tagName}"
+                        th:style="'text-shadow: 1px 1px 10px ' + ${item.tagColor} + '; text-align: center'"
+                ></td>
+                <td style="text-align: center"><span th:text="${item.title}"></span><span th:text="' [' + ${item.answerCnt} + ']'" style="color: red"></span></td>
+                <td style="text-align: center" th:text="${item.username}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div></div>
+        <!-- center-bottom -->
+        <div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
 </main>
 
 <th:block id="customJS">
+    <script>
+        function selectQuestion(url){
+            location.href = '/question/' + url;
+        }
+    </script>
 </th:block>
 </body>
 

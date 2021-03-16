@@ -33,6 +33,6 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, Quest
 
     long countByStatus(QuestionStatus status);
 
-    List<Question> findTop8ByStatusOrderByCreateTimeAsc(QuestionStatus status);
+    List<Question> findTop5ByStatusOrderByCreateTimeAsc(QuestionStatus status);
 
 }
