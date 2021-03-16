@@ -5,10 +5,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
+import team.univ.magic_conch.follow.dto.BestFollowerDTO;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -76,6 +79,36 @@ class FollowServiceTest {
                 .containsOnly("test");
         Assertions.assertThat(resultByUserTo.size())
                 .isEqualTo(10);
+    }
+
+    @Test
+    public void 팔로우베스트5() throws Exception {
+        //given
+        List<User> users = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            User user = User.builder().username("test" + i).build();
+            userRepository.save(user);
+            users.add(user);
+        }
+        for (int i = 0; i < users.size() - 1; i++) {
+            for (int j = i + 1; j < users.size(); j++) {
+                followRepository.save(new Follow(users.get(i), users.get(j)));
+            }
+        }
+        //when
+        List<BestFollowerDTO> result = followService.findBestFollower();
+
+        //then
+        Assertions.assertThat(result)
+                .usingRecursiveComparison()
+                .ignoringFields("profileImg")
+                .isEqualTo(
+                        Arrays.asList(
+                        new BestFollowerDTO("test4",null, 4L),
+                        new BestFollowerDTO("test3", null, 3L),
+                        new BestFollowerDTO("test2", null, 2L),
+                        new BestFollowerDTO("test1", null, 1L)
+                ));
     }
 
 }

@@ -10,12 +10,14 @@ import team.univ.magic_conch.follow.Follow;
 import team.univ.magic_conch.follow.FollowRepository;
 import team.univ.magic_conch.question.dto.QuestionDetailDTO;
 import team.univ.magic_conch.question.dto.QuestionListDTO;
+import team.univ.magic_conch.question.dto.QuestionMainDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.tag.Tag;
 import team.univ.magic_conch.tag.TagRepository;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -172,5 +174,35 @@ class QuestionServiceImplTest {
                 .ignoringCollectionOrder()
                 .isEqualTo(expect);
     }
-    
+
+    @Test
+    public void 메인화면() throws Exception {
+        //given
+        User user = User.builder().username("test").build();
+        Tag tag = Tag.builder().name("자바").build();
+        userRepository.save(user);
+        tagRepository.save(tag);
+        for (int i = 0; i < 10; i++) {
+            Question question = Question.builder()
+                    .title("title" + i)
+                    .content("content" + i)
+                    .user(user)
+                    .tag(tag)
+                    .build();
+            questionRepository.save(question);
+            if (i > 7) {
+                question.changeStatus(QuestionStatus.END);
+                question.changeCreateTime(LocalDateTime.now().minusDays(1));
+            }
+        }
+        //when
+        QuestionMainDTO result = questionService.questionMain();
+        //then
+        Assertions.assertThat(result.getTotal()).isEqualTo(10);
+        Assertions.assertThat(result.getTodayTotal()).isEqualTo(8);
+        Assertions.assertThat(result.getNoSolvedTotal()).isEqualTo(8);
+        Assertions.assertThat(result.getSolvedTotal()).isEqualTo(2);
+        Assertions.assertThat(result.getQuestionList().size()).isEqualTo(8);
+    }
+
 }

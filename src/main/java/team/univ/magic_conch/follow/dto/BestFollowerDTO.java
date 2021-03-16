@@ -6,12 +6,12 @@ import lombok.Getter;
 public class BestFollowerDTO {
 
     private String username;
-    private String profiileImg;
+    private String profileImg;
     private long followCnt;
 
-    public BestFollowerDTO(String username, String profiileImg, long followCnt) {
+    public BestFollowerDTO(String username, String profileImg, long followCnt) {
         this.username = username;
-        this.profiileImg = profiileImg;
+        this.profileImg = profileImg;
         this.followCnt = followCnt;
     }
 

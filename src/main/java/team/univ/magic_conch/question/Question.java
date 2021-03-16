@@ -83,6 +83,8 @@ public class Question {
 
     public void changeStatus(QuestionStatus status) { this.status = status; }
 
+    public void changeCreateTime(LocalDateTime createTime) { this.createTime = createTime; }
+
     public void changeBundle(Bundle bundle) {
         if(this.bundle != bundle){
             this.bundle = bundle;

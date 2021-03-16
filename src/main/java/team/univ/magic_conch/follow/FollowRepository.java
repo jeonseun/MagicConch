@@ -14,7 +14,7 @@ public interface FollowRepository extends JpaRepository<Follow, Long> {
     List<Follow> findAllByUserTo(User user);
     Optional<Follow> findByUserFromAndUserTo(User userFrom, User userTo);
 
-    @Query("select new team.univ.magic_conch.user.dto.BestFollowerDTO(f.userTo.username, f.userTo.profileImg, count(f)) From Follow f group by f.userTo order by count(f) desc")
-    List<BestFollowerDTO> findTop5BestFollow();
+    @Query("select new team.univ.magic_conch.follow.dto.BestFollowerDTO(f.userTo.username, f.userTo.profileImg, count(f)) From Follow f group by f.userTo order by count(f) desc")
+    List<BestFollowerDTO> findAllBestFollower();
 
 }

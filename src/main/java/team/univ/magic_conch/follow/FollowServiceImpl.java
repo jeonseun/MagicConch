@@ -7,6 +7,7 @@ import team.univ.magic_conch.follow.dto.BestFollowerDTO;
 import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.dto.UserSimpleDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,6 +57,11 @@ public class FollowServiceImpl implements FollowService{
 
     @Override
     public List<BestFollowerDTO> findBestFollower() {
-        return null;
+        List<BestFollowerDTO> follower = followRepository.findAllBestFollower();
+        List<BestFollowerDTO> result = new ArrayList<>();
+        for (int i = 0; i < Math.min(follower.size(), 5) ; i++) {
+            result.add(follower.get(i));
+        }
+        return result;
     }
 }
