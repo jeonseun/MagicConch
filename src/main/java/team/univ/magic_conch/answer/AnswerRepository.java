@@ -20,6 +20,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Long> {
     @EntityGraph(attributePaths = {"user"}, type = EntityGraph.EntityGraphType.LOAD)
     List<Answer> findAllByQuestionIdOrderByAdoptedDesc(Long questionId);
 
-    @Query("select new team.univ.magic_conch.answer.dto.BestAdoptedDTO(a.user.username, a.user.profileImg,count(a.adopted)) From Answer a group by a.user order by count(a.adopted) desc")
+    @Query("select new team.univ.magic_conch.answer.dto.BestAdoptedDTO(a.user.username, a.user.profileImg,count(a.adopted)) From Answer a where a.adopted = true group by a.user order by count(a.adopted) desc")
     List<BestAdoptedDTO> findAllBestAdopted();
 }
