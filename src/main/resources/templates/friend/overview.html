@@ -24,7 +24,7 @@
             <h3>나를 팔로우한 사람 목록</h3>
             <ul style="list-style: none" class="row row-cols-xl-4 shadow rounded-3 p-5">
                 <li th:each="follower : ${followers}" class="d-flex hover-zoom hover-shadow p-1 rounded-3 mb-2">
-                    <a th:href="@{|/user/info?username=${follower.username}|}">
+                    <a th:href="@{|/user/overview?username=${follower.username}|}">
                         <img class="rounded-circle mx-5" th:src="${follower.profileImg}" width="50px" height="50px">
                         <span class="font-weight-bold" th:text="${follower.username}"></span>
                     </a>
