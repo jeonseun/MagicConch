@@ -118,7 +118,7 @@ public class QuestionServiceImpl implements QuestionService{
     public List<Question> getMyLatestQuestion(User user, int count) {
         List<Question> findQuestions = questionRepository.findByUserOrderByCreateTimeDesc(user);
         List<Question> questions = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < Math.min(findQuestions.size(), count); i++) {
             questions.add(findQuestions.get(i));
         }
         return questions;
