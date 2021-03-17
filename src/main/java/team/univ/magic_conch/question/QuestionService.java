@@ -8,6 +8,7 @@ import team.univ.magic_conch.question.dto.QuestionListDTO;
 import team.univ.magic_conch.question.dto.QuestionMainDTO;
 import team.univ.magic_conch.question.dto.QuestionSearchDTO;
 import team.univ.magic_conch.question.form.QuestionForm;
+import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.util.List;
@@ -80,4 +81,11 @@ public interface QuestionService {
      * 전체, 오늘 올라온, 미해결, 해결 글 수, 답변을 기다리는 글, 인기글, 팔로우 수
      */
     public QuestionMainDTO questionMain();
+
+    /**
+     * 내가 작성한 질문중 최신 count개만 가져옴
+     * @param user
+     * @return Question Entity List
+     */
+    List<Question> getMyLatestQuestion(User user, int count);
 }

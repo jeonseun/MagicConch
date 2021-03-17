@@ -14,7 +14,7 @@
     <!-- left -->
     <div id="index-left">
         <div class="sideMenu">
-            <div class="accordion" id="questions">
+            <div class="accordion mb-3" id="questions">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button"
@@ -28,16 +28,25 @@
 
                     </h2>
                     <div id="collapseOne"
-                            class="accordion-collapse collapse show"
-                            aria-labelledby="headingOne"
-                            data-mdb-parent="#questions">
+                         class="accordion-collapse collapse show"
+                         aria-labelledby="headingOne"
+                         data-mdb-parent="#questions">
                         <div class="accordion-body">
+                            <ul class="list-group side-menu">
+                                <li th:each="question : ${questions}" class="list-group-item">
+                                    <a th:href="@{|/question/${question.questionId}|}" class="d-flex">
+                                        <i class="fas fa-chevron-circle-right" style="flex-basis: 10%"></i>
+                                        <span th:text="${question.title}" style="flex-basis: 80%"></span>
+                                        <span th:replace="fragments/components :: questionStatus(${question.status})"></span>
+                                    </a>
+                                </li>
 
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="accordion" id="bundles">
+            <div class="accordion mb-3" id="bundles">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button"
@@ -55,31 +64,16 @@
                          aria-labelledby="headingOne"
                          data-mdb-parent="#bundles">
                         <div class="accordion-body">
-
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="accordion" id="teams">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button"
-                                type="button"
-                                data-mdb-toggle="collapse"
-                                data-mdb-target="#collapseThree"
-                                aria-expanded="true"
-                                aria-controls="collapseThree">
-                            나의 팀
-                        </button>
-
-                    </h2>
-                    <div id="collapseThree"
-                         class="accordion-collapse collapse show"
-                         aria-labelledby="headingOne"
-                         data-mdb-parent="#teams">
-                        <div class="accordion-body">
-
+                            <ul class="list-group side-menu">
+                                <li th:each="bundle : ${bundles}"  class="list-group-item">
+                                    <a th:href="@{|/bundle?bundleId=${bundle.bundleId}|}" class="d-flex">
+                                        <img class="me-2" th:src="@{${bundle.tagImage}}" width="25px" height="25px" style="flex-basis: 10%">
+                                        <span th:text="${bundle.name}" style="flex-basis: 65%"></span>
+                                    <h3 th:replace="fragments/components :: accessLevelBadge(${bundle.accessLevel})"
+                                        style="flex-basis: 20%"></h3>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>

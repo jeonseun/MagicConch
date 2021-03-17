@@ -51,4 +51,8 @@ public class BundleServiceImpl implements BundleService {
         return bundleRepository.findAllByTeam(team);
     }
 
+    @Override
+    public List<Bundle> getMyBundle(String username) {
+        return bundleRepository.findAllByUserUsername(username);
+    }
 }

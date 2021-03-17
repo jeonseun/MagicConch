@@ -59,7 +59,6 @@ public class BundleController {
     }
 
     // 번들 상세보기 화면
-    // TODO 해당 번들에 질문을 올린 사용자 수 체킹 구현
     @GetMapping("/bundle")
     public String showBundleDetails(@RequestParam Long bundleId, Model model,
                                     @PageableDefault Pageable pageable) {

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import team.univ.magic_conch.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -35,4 +36,5 @@ public interface QuestionRepository extends JpaRepository<Question, Long>, Quest
 
     List<Question> findTop5ByStatusOrderByCreateTimeAsc(QuestionStatus status);
 
+    List<Question> findByUserOrderByCreateTimeDesc(User user);
 }

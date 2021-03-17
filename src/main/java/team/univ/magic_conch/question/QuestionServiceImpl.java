@@ -12,10 +12,12 @@ import team.univ.magic_conch.bundle.dto.BundleDropBoxDTO;
 import team.univ.magic_conch.question.dto.*;
 import team.univ.magic_conch.question.form.QuestionForm;
 import team.univ.magic_conch.tag.TagRepository;
+import team.univ.magic_conch.user.User;
 import team.univ.magic_conch.user.UserRepository;
 import team.univ.magic_conch.utils.page.PageResultDTO;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
@@ -110,5 +112,15 @@ public class QuestionServiceImpl implements QuestionService{
                 .build();
 
         return questionMainDTO;
+    }
+
+    @Override
+    public List<Question> getMyLatestQuestion(User user, int count) {
+        List<Question> findQuestions = questionRepository.findByUserOrderByCreateTimeDesc(user);
+        List<Question> questions = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            questions.add(findQuestions.get(i));
+        }
+        return questions;
     }
 }

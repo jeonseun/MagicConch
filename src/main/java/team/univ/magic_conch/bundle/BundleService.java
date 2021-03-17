@@ -49,4 +49,11 @@ public interface BundleService {
      * @return Bundle Entity List
      */
     List<Bundle> getLinkedTeam(Team team);
+
+    /**
+     * 자신이 생성한 모든 번들 가져오기
+     * @param username
+     * @return Bundle Entity List
+     */
+    List<Bundle> getMyBundle(String username);
 }
