@@ -76,12 +76,14 @@
                     <tbody class="list-wrapper">
                     <tr align="center" valign="middle" th:each="item, idx : ${answer}">
                         <td th:text="${idx.count}"></td>
-                        <td style="text-align: center" class="d-flex">
-                            <img th:src="${item.profileImg}"
-                                 class="rounded-circle"
-                                 height="35px"
-                                 width="35px">
-                            <div class="d-flex align-items-center ms-1" th:text="${item.username}"></div>
+                        <td style="text-align: center">
+                            <a th:href="'/user/overview?username=' + ${item.username}" class="d-flex">
+                                <img th:src="${item.profileImg}"
+                                     class="rounded-circle"
+                                     height="35px"
+                                     width="35px">
+                                <div class="d-flex align-items-center ms-2" th:text="${item.username}"></div>
+                            </a>
                         </td>
                         <td style="text-align: center" th:text="${item.adoptedCnt}"></td>
                     </tr>
@@ -103,12 +105,14 @@
                     <tbody class="list-wrapper">
                     <tr align="center" valign="middle" th:each="item, idx : ${follow}">
                         <td th:text="${idx.count}"></td>
-                        <td style="text-align: center" class="d-flex">
-                            <img th:src="${item.profileImg}"
-                                 class="rounded-circle"
-                                 height="35px"
-                                 width="35px">
-                            <div class="d-flex align-items-center ms-1" th:text="${item.username}"></div>
+                        <td style="text-align: center">
+                            <a th:href="'/user/overview?username=' + ${item.username}" class="d-flex">
+                                <img th:src="${item.profileImg}"
+                                     class="rounded-circle"
+                                     height="35px"
+                                     width="35px">
+                                <div class="d-flex align-items-center ms-2" th:text="${item.username}"></div>
+                            </a>
                         </td>
                         <td style="text-align: center" th:text="${item.followCnt}"></td>
                     </tr>

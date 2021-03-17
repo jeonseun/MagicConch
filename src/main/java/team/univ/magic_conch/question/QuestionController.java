@@ -250,15 +250,6 @@ public class QuestionController {
         return questionService.questionFollow(myname, new QuestionSearchDTO(1, null, null, null));
     }
 
-    @GetMapping("/question/test")
-    @ResponseBody
-    public String getQuestionByBundleId(HttpSession httpSession, Pageable pageable) {
-        Long bundleId = (Long) httpSession.getAttribute("bundleId");
-        System.out.println(pageable);
-
-        return "test";
-    }
-
     /**
      * 해당 사용자의 질문 목록 페이지
      * @return

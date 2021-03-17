@@ -121,6 +121,7 @@ public class Question {
                 .createTime(getCreateTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .lastModifyTime(getLastModifyTime().format(DateTimeFormatter.ofPattern("yyyy-MM-dd")))
                 .username(getUser().getUsername())
+                .profileImg(getUser().getProfileImg())
                 .tagName(getTag().getName())
                 .tagColor(getTag().getColor())
                 .tagImg(getTag().getImage())

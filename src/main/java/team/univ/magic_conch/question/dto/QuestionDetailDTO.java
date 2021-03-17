@@ -17,6 +17,7 @@ public class QuestionDetailDTO {
     private String createTime;
     private String lastModifyTime;
     private String username;
+    private String profileImg;
     private String tagName;
     private String tagColor;
     private String tagImg;
