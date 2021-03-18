@@ -14,15 +14,15 @@ spring:
   datasource:
 #    driver-class-name: org.h2.Driver
 #    url: jdbc:h2:tcp://localhost/~/magic_conch
-    username: root
-    password: 1234
+    username: # <DB ID>
+    password: # <DB PASSWORD>
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:13306/spring
+    url: jdbc:mysql://localhost: #<port>/<db name>
 
   jpa:
     hibernate:
-      ddl-auto: create
-    show-sql: true
+      ddl-auto: update
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
@@ -30,6 +30,8 @@ spring:
 custom:
   file:
     profile-path: /image/profile
-    profile-location: C:/Users/HaJooHyun/Desktop/img/profile
+    # 변경
+    profile-location: # <url>
     tag-image-path: /image/tag
-    tag-image-location: C:/Users/HaJooHyun/Desktop/img/tag
+    # 변경
+    tag-image-location: # <url>

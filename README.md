@@ -63,6 +63,14 @@ java -jar <.jar path>/magic_conch-1.0.0.jar
 
 ![질문보기페이지](https://user-images.githubusercontent.com/50051656/111439774-0d463780-8749-11eb-9827-487f5bc9f6b0.gif)
 
+### 질문 CRUD
+
+![질문CRUD](https://user-images.githubusercontent.com/50051656/111645611-3a2b4500-8844-11eb-8fb3-eda1a3e4adcc.gif)
+
+### 답변 CRUD
+
+![답변CRUD](https://user-images.githubusercontent.com/50051656/111645609-3992ae80-8844-11eb-9c6e-667b55e906c8.gif)
+
 ### 팔로우 질문리스트
 
 ![팔로우질문리스트페이지](https://user-images.githubusercontent.com/50051656/111439778-0e776480-8749-11eb-9b31-52acbde60cbd.gif)
