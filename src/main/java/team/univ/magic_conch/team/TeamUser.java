@@ -12,6 +12,7 @@ import javax.persistence.*;
 public class TeamUser {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "team_user_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
