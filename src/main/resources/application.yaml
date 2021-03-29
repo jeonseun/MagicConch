@@ -12,12 +12,17 @@ spring:
       filter:
         enabled: true
   datasource:
-#    driver-class-name: org.h2.Driver
-#    url: jdbc:h2:tcp://localhost/~/magic_conch
+    #    driver-class-name: org.h2.Driver
+    #    url: jdbc:h2:tcp://localhost/~/magic_conch
     username: # <DB ID>
     password: # <DB PASSWORD>
     driver-class-name: com.mysql.cj.jdbc.Driver
+    # 아래 주석 해제시 schema.sql, data.sql을 애플리케이션 실행시 자동 실행함
+    #    schema: classpath*:schema.sql
+    #    data: classpath*:data.sql
+    #    initialization-mode: always
     url: jdbc:mysql://localhost: #<port>/<db name>
+
 
   jpa:
     hibernate:
