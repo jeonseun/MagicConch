@@ -1,6 +1,10 @@
 # Magic Conch (코딩 질문 웹사이트)
 ## Overivew
 * 프로그래밍을 하면서 생기는 궁금증, 질문등을 공유할 수 있는 웹 서비스를 제작함
+* 자기가 질문하는 부분에 맞는 태그를 선택하여 질문을 하면 다른 사람들은 질문을 답을 할 수 있고 질문자는 궁금증을 해소하는데 도움을 준 답글에 채택을 할 수 있다
+* 번들(질문 모음 저장소)을 만들어서 같은 카테고리 내에 있는 질문들에 대해서 저장하고 이전에 했던 질문들에 대해서 모아서 보며 다시 공부할 수 있게 도움을 준다
+* 번들은 혼자만 올릴 수 있는게 아니라 팀을 꾸려 초대 받은 팀원들도 같이 올릴 수 있으며 같은 스터디내에 팀원들과 모르는 내용에 대해서 소통할 수 있다
+* 관심있는 사용자에 팔로우를 할 수 있고 다른 질문들에 비해 빠르게 팔로우 사용자들의 질문에 대해서 보고 답할 수 있다
 * 스프링 프레임워크 (스프링 부트) 를 활용하여 제작하였으며 기본적인 사용자 인증과 파일 업로드 게시물 업로드 그리고 페이징이 적용된 게시판 구현에 많은 부분을 할애 함
 
 <br>
@@ -30,6 +34,35 @@ custom:
     tag-image-location: <Tag Image save location>
 ```
 
+### DB 데이터 생성
+
+#### 1. ddl-auto를 create로 하는 방법
+```
+/src/main/resources 내에 있는 applicatioin.yaml 수정
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+      
+프로젝트 실행시 자동으로 테이블 생성
+```
+#### 2. ddl-auto를 none으로 하는 방법
+```
+/src/main/resources 내에 있는 applicatioin.yaml 수정
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
+      
+이 경우에는 자동으로 테이블을 생성해주지 않기 때문에 작성된 .sql 파일을 이용하여 생성
+
+mysql -u <DB ID> -p
+mysql> source <절대경로/schema.sql>
+mysql> source <절대경로/data.sql>
+
+테이블과 데이터를 생성 후 프로젝트 실행
+```
+
 ### Build and Run (커맨드 라인 실행)
 ```
 Build (jar 패키징, gradlew 이용)
@@ -38,7 +71,7 @@ Build (jar 패키징, gradlew 이용)
 Run (java 명령어로 실행)
 java -jar <.jar path>/magic_conch-1.0.0.jar
 
-'통상적인 .jar path는 프로젝트 내의 build/libs/임'
+'통상적인 .jar path는 프로젝트 내의 build/libs/'
 ```
 
 ## Preview
